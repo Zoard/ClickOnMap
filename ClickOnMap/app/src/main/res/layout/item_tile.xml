@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    card_view:cardElevation="10dp"
+    card_view:cardCornerRadius="0dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/tile_border" />
+
+        <RelativeLayout
+            android:id="@+id/tile_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+                <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+                    android:id="@+id/tile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:textAlignment="center"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:id="@+id/tile_img"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
+
+                <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+                    android:id="@+id/tile_contribution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tile_img"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp" />
+
+
+        </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.zoardgeocze.clickonmap.MenuActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/menu_image"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/menu_img"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <com.example.zoardgeocze.clickonmap.Design.AvenirLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click On Map"
+            android:textSize="45sp"
+            android:textColor="#FFFFFF"
+            android:id="@+id/menu_title"
+            android:layout_above="@+id/menu_recycler"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="29dp" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/clickonmap_logo"
+            android:layout_above="@+id/menu_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="13dp"
+            android:clickable="true"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/menu_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/menu_image"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"/>
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

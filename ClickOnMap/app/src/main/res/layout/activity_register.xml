@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/register_img"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <ImageButton
+        android:id="@+id/register_back_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/back_btn"
+        android:layout_margin="20dp"
+        android:onClick="backToLogin"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/username_icon"
+        android:layout_marginStart="7dp"
+        android:id="@+id/register_user_icon"
+        android:layout_below="@+id/register_title"
+        android:layout_alignParentStart="true" />
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirLightTextView
+        android:id="@+id/register_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/register_back_btn"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="40dp"
+        android:text="Cadastro"
+        android:textSize="35dp"
+        android:textColor="#FFFFFF"/>
+
+    <ImageView
+        android:id="@+id/register_email_icon"
+        android:layout_width="30dp"
+        android:layout_height="23dp"
+        android:background="@drawable/email_icon"
+        android:layout_below="@+id/register_user_name"
+        android:layout_alignStart="@+id/register_user_icon"
+        android:layout_marginTop="7dp" />
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookEditText
+        android:id="@+id/register_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/register_title"
+        android:hint="Nome"
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="40dp"
+        android:inputType="text"/>
+
+    <ImageView
+        android:id="@+id/register_password_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/password_icon"
+        android:layout_below="@+id/register_user_email"
+        android:layout_alignStart="@+id/register_email_icon" />
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookEditText
+        android:id="@+id/register_user_email"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/register_user_name"
+        android:hint="Email"
+        android:textColorHint="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="40dp"
+        android:inputType="textEmailAddress"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/password_icon"
+        android:layout_below="@+id/register_password"
+        android:layout_alignStart="@+id/register_password_icon" />
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookEditText
+        android:id="@+id/register_password"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/register_user_email"
+        android:hint="Senha"
+        android:textColorHint="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="40dp"
+        android:inputType="textPassword"/>
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookEditText
+        android:id="@+id/register_password_confirmation"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/register_password"
+        android:hint="Confirmação de Senha"
+        android:textColorHint="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="40dp"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/register_btn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/register_password_confirmation"
+        android:background="@drawable/register_btn"
+        android:onClick="registerUser"
+        android:layout_marginBottom="20dp"/>
+
+
+</RelativeLayout>
