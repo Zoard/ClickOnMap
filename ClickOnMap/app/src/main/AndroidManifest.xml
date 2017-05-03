@@ -29,6 +29,26 @@
             android:name=".AddSystemActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
+
+        <service
+            android:exported="false"
+            android:name=".FCM.ClickOnMapFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:exported="false"
+            android:name=".FCM.FirebaseIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
+
+
+
+
 
 </manifest>
