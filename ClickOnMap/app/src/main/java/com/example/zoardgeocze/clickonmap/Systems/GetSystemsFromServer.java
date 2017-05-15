@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Helper.ServerFunctions;
@@ -34,7 +35,11 @@ public class GetSystemsFromServer extends AsyncTask<String,String,String> {
     }
 
     public Context getContext() {
-        return context;
+        return this.context;
+    }
+
+    public List<VGISystem> getVgiSystems() {
+        return this.vgiSystems;
     }
 
     @Override
@@ -55,13 +60,16 @@ public class GetSystemsFromServer extends AsyncTask<String,String,String> {
         JSONObject jsonObject = serverFunctions.Systems(this.TIMEOUT_CONNECTION,this.TIMEOUT_SOCKET);
 
         try {
+            /*JSONArray result = jsonObject.getJSONArray(KEY_SUCCESS);
+            JSONObject res = result.getJSONObject(0);
+            String success = res.getString("1");
+            if (Integer.parseInt(success) == 1) {*/
 
-            String res = jsonObject.getString(KEY_SUCCESS);
-            if (Integer.parseInt(res) == 1) {
-
-                JSONArray devices = jsonObject.getJSONArray("aparelhos");
+                //JSONArray devices = jsonObject.getJSONArray("aparelhos");
                 JSONArray systems = jsonObject.getJSONArray("sistemas");
-                JSONArray mobSystems = jsonObject.getJSONArray("sistemasmoveis");
+                //JSONArray mobSystems = jsonObject.getJSONArray("sistemasmoveis");
+
+                Log.i("GET_SYSTEM_SERVER", String.valueOf(systems.length()));
 
                 for(int i = 0; i < systems.length(); i++) {
 
@@ -76,8 +84,13 @@ public class GetSystemsFromServer extends AsyncTask<String,String,String> {
 
                     VGISystem vgiSystem = new VGISystem(adress,name,description,latX,latY,lngX,lngY);
                     this.vgiSystems.add(vgiSystem);
+                    if(this.vgiSystems.isEmpty()) {
+                        Log.i("GET_SYSTEM_SERVER", "ESTA VAZIO");
+                    } else {
+                        Log.i("GET_SYSTEM_SERVER", "ESTA CHEIO");
+                    }
                 }
-            }
+            //}
 
         } catch(Exception e) {
             e.printStackTrace();

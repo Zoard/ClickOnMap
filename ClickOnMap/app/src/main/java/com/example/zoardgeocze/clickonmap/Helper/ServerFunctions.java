@@ -22,11 +22,10 @@ public class ServerFunctions {
         this.jsonParser = new JSONParser();
     }
 
-    public JSONObject Systems(int timeConnection, int timeSocket)
-    {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
+    public JSONObject Systems(int timeConnection, int timeSocket) {
+        List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("tag", SYSTEMS));
-        JSONObject json = jsonParser.getJSONFromUrl(URL, params, timeConnection, timeSocket);
+        JSONObject json = this.jsonParser.getJSONFromUrl(URL, params, timeConnection, timeSocket);
         return json;
     }
 }
