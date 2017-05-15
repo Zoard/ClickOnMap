@@ -15,7 +15,10 @@ public class VGISystem implements Serializable {
     private String color;
     private List<String> category;
     private int contributions;
-
+    private double latX;
+    private double latY;
+    private double lngX;
+    private double lngY;
 
     public VGISystem(String adress, String name, String description, String color, List<String> category, int contributions) {
         this.adress = adress;
@@ -24,6 +27,16 @@ public class VGISystem implements Serializable {
         this.color = color;
         this.category = category;
         this.contributions = contributions;
+    }
+
+    public VGISystem(String adress, String name, String description, double latX, double latY, double lngX, double lngY) {
+        this.adress = adress;
+        this.name = name;
+        this.description = description;
+        this.latX = latX;
+        this.latY = latY;
+        this.lngX = lngX;
+        this.lngY = lngY;
     }
 
     public String getAdress() {
@@ -72,5 +85,37 @@ public class VGISystem implements Serializable {
 
     public void setCategory(List<String> category) {
         this.category = category;
+    }
+
+    public double getLatX() {
+        return latX;
+    }
+
+    public void setLatX(double latX) {
+        this.latX = latX;
+    }
+
+    public double getLatY() {
+        return latY;
+    }
+
+    public void setLatY(double latY) {
+        this.latY = latY;
+    }
+
+    public double getLngX() {
+        return lngX;
+    }
+
+    public void setLngX(double lngX) {
+        this.lngX = lngX;
+    }
+
+    public double getLngY() {
+        return lngY;
+    }
+
+    public void setLngY(double lngY) {
+        this.lngY = lngY;
     }
 }
