@@ -60,10 +60,8 @@ public class GetSystemsFromServer extends AsyncTask<String,String,String> {
         JSONObject jsonObject = serverFunctions.Systems(this.TIMEOUT_CONNECTION,this.TIMEOUT_SOCKET);
 
         try {
-            /*JSONArray result = jsonObject.getJSONArray(KEY_SUCCESS);
-            JSONObject res = result.getJSONObject(0);
-            String success = res.getString("1");
-            if (Integer.parseInt(success) == 1) {*/
+            String res = jsonObject.getString(KEY_SUCCESS);
+            if (Integer.parseInt(res) == 1) {
 
                 //JSONArray devices = jsonObject.getJSONArray("aparelhos");
                 JSONArray systems = jsonObject.getJSONArray("sistemas");
@@ -90,7 +88,7 @@ public class GetSystemsFromServer extends AsyncTask<String,String,String> {
                         Log.i("GET_SYSTEM_SERVER", "ESTA CHEIO");
                     }
                 }
-            //}
+            }
 
         } catch(Exception e) {
             e.printStackTrace();
