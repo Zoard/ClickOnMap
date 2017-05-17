@@ -1,4 +1,4 @@
-package com.example.zoardgeocze.clickonmap.Systems;
+package com.example.zoardgeocze.clickonmap.Server;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -75,12 +75,13 @@ public class GetSystemsFromServer extends AsyncTask<String,String,String> {
                     String adress = system.getString("ip");
                     String name = system.getString("nome");
                     String description = system.getString("descricao");
+                    int contributions = system.getInt("colaboracoes");
                     double latX = system.getDouble("latX");
                     double latY = system.getDouble("latY");
                     double lngX = system.getDouble("longX");
                     double lngY = system.getDouble("longY");
 
-                    VGISystem vgiSystem = new VGISystem(adress,name,description,latX,latY,lngX,lngY);
+                    VGISystem vgiSystem = new VGISystem(adress,name,description,contributions,latX,latY,lngX,lngY);
                     this.vgiSystems.add(vgiSystem);
                     if(this.vgiSystems.isEmpty()) {
                         Log.i("GET_SYSTEM_SERVER", "ESTA VAZIO");

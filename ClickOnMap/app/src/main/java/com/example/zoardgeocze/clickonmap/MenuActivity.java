@@ -1,21 +1,18 @@
 package com.example.zoardgeocze.clickonmap;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Adapter.MenuAdapter;
 import com.example.zoardgeocze.clickonmap.Model.AddTile;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
-import com.example.zoardgeocze.clickonmap.Systems.GetSystemsFromServer;
+import com.example.zoardgeocze.clickonmap.Server.GetSystemsFromServer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +31,10 @@ public class MenuActivity extends AppCompatActivity {
 
         //Demonstração do Aplicativo para possíveis sistemas colaborativos
         //App Demo for possible colaborative Systems
-        //List<String> category = new ArrayList<>();
-        //category.add("Segurança");
-
         /*
+
+        List<String> category = new ArrayList<>();
+        category.add("Segurança");
 
         VGISystem vgiSystem = new VGISystem("192.168.1.1","Cidadão Viçosa", "Sistema Colaborativo para melhorar condição da cidade de Viçosa","#FFFFFF",category,20);
         VGISystem vgiSystem_2 = new VGISystem("192.168.0.1","Gota D'Água", "Sistema Colaborativo para diminuir o desperdício de Água","#FFFFFF",category,35);
@@ -45,26 +42,18 @@ public class MenuActivity extends AppCompatActivity {
 
         vgiSystems.add(vgiSystem);
         vgiSystems.add(vgiSystem_2);
-        vgiSystems.add(vgiSystem_3);*/
+        vgiSystems.add(vgiSystem_3);
+
+        */
 
         final GetSystemsFromServer serverSystems = new GetSystemsFromServer(this);
-        /*new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                serverSystems.execute();
-            }
-        });*/
         serverSystems.execute();
-
-        //VGISystem vgiSystem = new VGISystem("192.168.1.1","Cidadão Viçosa", "Sistema Colaborativo para melhorar condição da cidade de Viçosa","#FFFFFF",category,20);
 
         List<VGISystem> vgiSystems = serverSystems.getVgiSystems();
 
         if(vgiSystems.isEmpty()) {
-            Log.i("VERIFICA_LISTA","ESTA VAZIO");
+            Log.i("verifica_lista","Esta Vazio");
         }
-
-        //Log.i("VERIFICA_BANCO",vgiSystems.get(0).getAdress());
 
         AddTile addSystems = new AddTile("+",vgiSystems);
 

@@ -2,6 +2,7 @@ package com.example.zoardgeocze.clickonmap.FCM;
 
 import android.util.Log;
 
+import com.example.zoardgeocze.clickonmap.Server.SendFirebaseKeyToServer;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -31,6 +32,12 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        // Add custom implementation, as needed.
+        /*SendFirebaseKeyToServer sendKey = new SendFirebaseKeyToServer(getBaseContext(),token);
+        try {
+            sendKey.wait();
+            sendKey.execute();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
     }
 }

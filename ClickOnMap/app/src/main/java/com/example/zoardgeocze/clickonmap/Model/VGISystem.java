@@ -29,10 +29,11 @@ public class VGISystem implements Serializable {
         this.contributions = contributions;
     }
 
-    public VGISystem(String adress, String name, String description, double latX, double latY, double lngX, double lngY) {
+    public VGISystem(String adress, String name, String description, int contributions, double latX, double latY, double lngX, double lngY) {
         this.adress = adress;
         this.name = name;
         this.description = description;
+        this.contributions = contributions;
         this.latX = latX;
         this.latY = latY;
         this.lngX = lngX;
