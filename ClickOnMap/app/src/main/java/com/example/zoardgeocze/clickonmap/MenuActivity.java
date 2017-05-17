@@ -34,8 +34,10 @@ public class MenuActivity extends AppCompatActivity {
 
         //Demonstração do Aplicativo para possíveis sistemas colaborativos
         //App Demo for possible colaborative Systems
-        /*List<String> category = new ArrayList<>();
-        category.add("Segurança");
+        //List<String> category = new ArrayList<>();
+        //category.add("Segurança");
+
+        /*
 
         VGISystem vgiSystem = new VGISystem("192.168.1.1","Cidadão Viçosa", "Sistema Colaborativo para melhorar condição da cidade de Viçosa","#FFFFFF",category,20);
         VGISystem vgiSystem_2 = new VGISystem("192.168.0.1","Gota D'Água", "Sistema Colaborativo para diminuir o desperdício de Água","#FFFFFF",category,35);
@@ -46,13 +48,15 @@ public class MenuActivity extends AppCompatActivity {
         vgiSystems.add(vgiSystem_3);*/
 
         final GetSystemsFromServer serverSystems = new GetSystemsFromServer(this);
-        new Handler().post(new Runnable() {
+        /*new Handler().post(new Runnable() {
             @Override
             public void run() {
                 serverSystems.execute();
             }
-        });
-        //serverSystems.execute();
+        });*/
+        serverSystems.execute();
+
+        //VGISystem vgiSystem = new VGISystem("192.168.1.1","Cidadão Viçosa", "Sistema Colaborativo para melhorar condição da cidade de Viçosa","#FFFFFF",category,20);
 
         List<VGISystem> vgiSystems = serverSystems.getVgiSystems();
 

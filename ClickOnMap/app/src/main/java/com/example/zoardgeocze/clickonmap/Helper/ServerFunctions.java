@@ -16,7 +16,7 @@ public class ServerFunctions {
 
     private JSONParser jsonParser;
     private static String SYSTEMS = "systems";
-    private static String URL = "https://ufvmaps.fornut.com.br/android_index.php";
+    private static String URL = "https://ufvmaps.fornut.com.br/clickonmap/android_index.php";
 
     public ServerFunctions() {
         this.jsonParser = new JSONParser();
