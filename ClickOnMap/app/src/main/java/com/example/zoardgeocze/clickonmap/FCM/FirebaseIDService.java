@@ -3,6 +3,7 @@ package com.example.zoardgeocze.clickonmap.FCM;
 import android.util.Log;
 
 import com.example.zoardgeocze.clickonmap.Server.SendFirebaseKeyToServer;
+import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -31,7 +32,10 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
      *
      * @param token The new token.
      */
+    //Enviando por enquanto pro BD Local
     private void sendRegistrationToServer(String token) {
+        SingletonFacadeController sfc = SingletonFacadeController.getInstance();
+        sfc.registerFirebaseKey(token);
         /*SendFirebaseKeyToServer sendKey = new SendFirebaseKeyToServer(getBaseContext(),token);
         try {
             sendKey.wait();
