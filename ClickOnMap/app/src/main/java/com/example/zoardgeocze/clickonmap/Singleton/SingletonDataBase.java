@@ -1,5 +1,6 @@
 package com.example.zoardgeocze.clickonmap.Singleton;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -20,15 +21,15 @@ public class SingletonDataBase {
 
     private final String[] SCRIPT_DATA_BASE_CREATE = new String[]{
             "CREATE TABLE device (" +
-                    "firebaseKey TEXT PRIMARY KEY," +
+                    "firebaseKey TEXT PRIMARY KEY" +
                     ");", // FIM CREATE TABLE
 
             "CREATE TABLE deviceSystem (" +
                     "deviceKey TEXT NOT NULL," +
                     "systemAdress TEXT NOT NULL," +
                     "PRIMARY KEY  (deviceKey,systemAdress)," +
-                    "CONSTRAINT fk_deviceSystem_key FOREIGN KEY (deviceKey) REFERENCES device (firebaseKey)," +
-                    ");", // FIM CREATE TABLE
+                    "CONSTRAINT fk_deviceSystem_key FOREIGN KEY (deviceKey) REFERENCES device (firebaseKey)" +
+                    ");", // FIM CREATE TABLE*/
 
             "CREATE TABLE userSystem (" +
                     "systemAdress TEXT PRIMARY KEY," +

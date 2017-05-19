@@ -1,6 +1,7 @@
 package com.example.zoardgeocze.clickonmap.Singleton;
 
 import android.content.ContentValues;
+import android.content.Context;
 
 /**
  * Created by ZoardGeocze on 17/05/2017.
@@ -14,7 +15,7 @@ public class SingletonFacadeController {
         return INSTANCE;
     }
 
-    public boolean registerFirebaseKey(String firebaseKey) {
+    public boolean registerFirebaseKey(Context context, String firebaseKey) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 

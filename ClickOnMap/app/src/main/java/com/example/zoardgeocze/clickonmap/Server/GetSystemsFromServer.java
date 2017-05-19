@@ -108,6 +108,11 @@ public class GetSystemsFromServer extends AsyncTask<String,String,String> {
     @Override
     protected void onPostExecute(String file_url) {
         pDialog.dismiss();
+        try {
+            this.finalize();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.zoardgeocze.clickonmap;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,11 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.zoardgeocze.clickonmap.Adapter.MenuAdapter;
+import com.example.zoardgeocze.clickonmap.FCM.FirebaseIDService;
 import com.example.zoardgeocze.clickonmap.Model.AddTile;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Server.GetSystemsFromServer;
+import com.example.zoardgeocze.clickonmap.Singleton.SingletonDataBase;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +33,12 @@ public class MenuActivity extends AppCompatActivity {
 
         this.menuRecycler = (RecyclerView) findViewById(R.id.menu_recycler);
 
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
         //Demonstração do Aplicativo para possíveis sistemas colaborativos
         //App Demo for possible colaborative Systems
         /*
+        List<VGISystem> vgiSystems = new ArrayList<>();
 
         List<String> category = new ArrayList<>();
         category.add("Segurança");
@@ -43,9 +50,7 @@ public class MenuActivity extends AppCompatActivity {
         vgiSystems.add(vgiSystem);
         vgiSystems.add(vgiSystem_2);
         vgiSystems.add(vgiSystem_3);
-
         */
-
         final GetSystemsFromServer serverSystems = new GetSystemsFromServer(this);
         serverSystems.execute();
 
