@@ -16,12 +16,15 @@ import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Server.GetSystemsFromServer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonDataBase;
+import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuActivity extends AppCompatActivity {
+
+    private SingletonFacadeController generalController;
 
     private List<Tile> menuTiles = new ArrayList<>();
     private RecyclerView menuRecycler;
@@ -33,7 +36,7 @@ public class MenuActivity extends AppCompatActivity {
 
         this.menuRecycler = (RecyclerView) findViewById(R.id.menu_recycler);
 
-        SingletonDataBase db = SingletonDataBase.getInstance();
+        this.generalController = SingletonFacadeController.getInstance();
 
         //Demonstração do Aplicativo para possíveis sistemas colaborativos
         //App Demo for possible colaborative Systems

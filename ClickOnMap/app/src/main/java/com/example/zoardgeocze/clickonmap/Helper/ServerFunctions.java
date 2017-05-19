@@ -39,7 +39,7 @@ public class ServerFunctions {
         params.add(new BasicNameValuePair("campos", column));
         params.add(new BasicNameValuePair("valores", value));
 
-        JSONObject json = jsonParser.getJSONFromUrl(URL, params, timeConnection, timeSocket);
+        JSONObject json = this.jsonParser.getJSONFromUrl(URL, params, timeConnection, timeSocket);
         return json;
     }
 }

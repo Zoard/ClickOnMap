@@ -48,8 +48,15 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
      */
     //Enviando por enquanto pro BD Local
     private void sendRegistrationToServer(String refreshedToken) {
-        /*SendFirebaseKeyToServer sendKey = new SendFirebaseKeyToServer(getBaseContext(),token);
-        try {
+        final SendFirebaseKeyToServer sendKey = new SendFirebaseKeyToServer(getBaseContext(),refreshedToken);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sendKey.execute();
+            }
+        }).start();
+        //sendKey.execute();
+        /*try {
             sendKey.wait();
             sendKey.execute();
         } catch (InterruptedException e) {
