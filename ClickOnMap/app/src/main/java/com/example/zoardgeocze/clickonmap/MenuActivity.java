@@ -13,6 +13,7 @@ import com.example.zoardgeocze.clickonmap.FCM.FirebaseIDService;
 import com.example.zoardgeocze.clickonmap.Model.AddTile;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
+import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Server.GetSystemsFromServer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonDataBase;
@@ -81,6 +82,9 @@ public class MenuActivity extends AppCompatActivity {
         if(resultCode == 1) {
             Bundle bundle = data.getExtras();
             VGISystem vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
+            User user = (User) bundle.getSerializable("user");
+
+            this.generalController.registerUserSystem(this,vgiSystem,user);
 
             SystemTile systemTile = new SystemTile(vgiSystem.getName(),vgiSystem);
 

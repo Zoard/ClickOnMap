@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
+import com.example.zoardgeocze.clickonmap.Model.User;
+import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +29,20 @@ public class SingletonFacadeController {
         return INSTANCE;
     }
 
-    //Implmentar os Tiles
+    //Implementar os Tiles
     private void daoMenuTiles() {
         this.menuTiles = new ArrayList<>();
         SingletonDataBase db = SingletonDataBase.getInstance();
         //Cursor c = db.search("");
+    }
+
+    public boolean registerUserSystem(Context context, VGISystem vgiSystem, User user) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+
+
+        return true;
     }
 
     public boolean registerFirebaseKey(Context context, String firebaseKey) {
