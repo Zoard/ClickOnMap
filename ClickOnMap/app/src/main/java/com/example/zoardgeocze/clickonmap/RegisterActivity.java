@@ -1,5 +1,6 @@
 package com.example.zoardgeocze.clickonmap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void registerUser(View view) {
+        Intent intent = getIntent();
+        setResult(1,intent);
         finish();
     }
 }

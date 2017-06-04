@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.zoardgeocze.clickonmap.LoginActivity;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
@@ -50,13 +51,15 @@ class AddSystemViewHolder extends RecyclerView.ViewHolder implements View.OnClic
 
         Log.i("ON_CLICK_addSystemVH",String.valueOf(this.vgiSystem.getContributions()));
 
-        Intent data = new Intent();
+        Intent data = new Intent(this.context,LoginActivity.class);
+        data.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("vgiSystem",vgiSystem);
         data.putExtras(bundle);
 
-        ((Activity)this.context).setResult(1,data);
+        this.context.startActivity(data);
+        //((Activity)this.context).setResult(1,data);
         ((Activity)this.context).finish();
     }
 }

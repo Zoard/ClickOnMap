@@ -28,7 +28,8 @@ public class SingletonDataBase {
                     "deviceKey TEXT NOT NULL," +
                     "systemAdress TEXT NOT NULL," +
                     "PRIMARY KEY  (deviceKey,systemAdress)," +
-                    "CONSTRAINT fk_deviceSystem_key FOREIGN KEY (deviceKey) REFERENCES device (firebaseKey)" +
+                    "CONSTRAINT fk_deviceSystem_key FOREIGN KEY (deviceKey) REFERENCES device (firebaseKey)," +
+                    "CONSTRAINT fk_deviceSystem_key FOREIGN KEY (systemAdress) REFERENCES userSystem (systemAdress)" +
                     ");", // FIM CREATE TABLE*/
 
             "CREATE TABLE userSystem (" +

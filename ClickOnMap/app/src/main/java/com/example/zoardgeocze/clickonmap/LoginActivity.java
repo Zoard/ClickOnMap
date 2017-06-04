@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
+import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 
 
 /**
@@ -17,7 +18,8 @@ import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private SystemTile systemTile;
+    private VGISystem vgiSystem;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,11 +31,11 @@ public class LoginActivity extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.login_password);
 
         Intent intent = this.getIntent();
-        Bundle bundle = intent.getExtras();
+        this.bundle = intent.getExtras();
 
-        systemTile = (SystemTile) bundle.getSerializable("tile");
+        this.vgiSystem = (VGISystem) this.bundle.getSerializable("vgiSystem");
 
-        title.setText(systemTile.getSystem().getName());
+        title.setText(this.vgiSystem.getName());
 
     }
 
@@ -47,6 +49,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public void frontToRegister(View view) {
         Intent intent = new Intent(getBaseContext(),RegisterActivity.class);
+        intent.putExtras(this.bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
         startActivity(intent);
+        finish();
     }
+
 }

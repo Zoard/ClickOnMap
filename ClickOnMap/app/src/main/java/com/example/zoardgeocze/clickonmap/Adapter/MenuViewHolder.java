@@ -64,7 +64,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     }
 
     //Trata o evento de Clique dos Tiles, passando informações dos Sistemas VGI para a Tela de Login ou Tela do Sistema
-    //Treats the Tile's click event, passing information of the VGI Systems to the Login Screen or System Screen
+    //Treats the Tile's Click event, passing information of the VGI Systems to the Login Screen or System Screen
     @Override
     public void onClick(View view) {
 

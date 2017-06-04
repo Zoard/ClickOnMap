@@ -35,13 +35,13 @@
             android:id="@+id/add_system_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sistemas de Informação Geográfica      Disponíveis"
+            android:text="Click On Map's Disponíveis"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
             android:layout_marginLeft="20dp"
-            android:layout_marginBottom="18dp"
-            android:layout_above="@+id/add_system_recycler"
-            android:layout_alignParentEnd="true" />
+            android:layout_below="@+id/add_system_back_btn"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="46dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/add_system_recycler"
