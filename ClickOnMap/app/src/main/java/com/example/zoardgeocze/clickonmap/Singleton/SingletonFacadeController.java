@@ -40,7 +40,17 @@ public class SingletonFacadeController {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
+        ContentValues newUserSystem = new ContentValues();
 
+        newUserSystem.put("systemAdress",vgiSystem.getAdress());
+        newUserSystem.put("systemName",vgiSystem.getName());
+        newUserSystem.put("userLogin",user.getName());
+        newUserSystem.put("dtCadastro",user.getRegisterDate());
+        newUserSystem.put("hasSession","Y");
+
+        db.insert("userSystem",newUserSystem);
+
+        //db.close();
 
         return true;
     }
@@ -57,6 +67,30 @@ public class SingletonFacadeController {
         db.insert("device",newKey);
 
         db.close();
+
+        return true;
+    }
+
+    public boolean registerDeviceSystem(Context context, VGISystem vgiSystem) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        Cursor c = db.search("device", new String[] {"firebaseKey"},"","firebaseKey");
+
+        ContentValues newDeviceSystem = new ContentValues();
+
+        while(c.moveToNext()) {
+            int key = c.getColumnIndex("firebaseKey");
+            String firebaseKey = c.getString(key);
+            newDeviceSystem.put("deviceKey",firebaseKey);
+            newDeviceSystem.put("systemAdress",vgiSystem.getAdress());
+        }
+
+        c.close();
+
+        db.insert("deviceSystem",newDeviceSystem);
+
+        //db.close();
 
         return true;
     }

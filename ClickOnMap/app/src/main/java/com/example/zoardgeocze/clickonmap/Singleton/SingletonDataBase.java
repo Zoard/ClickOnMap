@@ -33,11 +33,12 @@ public class SingletonDataBase {
                     ");", // FIM CREATE TABLE*/
 
             "CREATE TABLE userSystem (" +
-                    "systemAdress TEXT PRIMARY KEY," +
+                    "systemAdress TEXT NOT NULL," +
                     "systemName TEXT NOT NULL," +
                     "userLogin TEXT NOT NULL," +
                     "dtCadastro TEXT NOT NULL," +
-                    "hasSession TEXT NOT NULL" +
+                    "hasSession TEXT NOT NULL," +
+                    "PRIMARY KEY  (systemAdress,systemName)" +
                     ");" // FIM CREATE TABLE
 
     };

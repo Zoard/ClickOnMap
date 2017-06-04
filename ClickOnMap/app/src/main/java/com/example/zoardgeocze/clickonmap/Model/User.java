@@ -14,11 +14,12 @@ public class User implements Serializable {
     private Character type;
     private String registerDate;
 
-    public User(String login, String name, String password) {
+    public User(String login, String name, String password, String registerDate) {
         this.login = login;
         this.name = name;
         this.password = password;
         this.type = 'C';
+        this.registerDate = registerDate;
     }
 
     public String getLogin() {

@@ -39,22 +39,7 @@ public class MenuActivity extends AppCompatActivity {
 
         this.generalController = SingletonFacadeController.getInstance();
 
-        //Demonstração do Aplicativo para possíveis sistemas colaborativos
-        //App Demo for possible colaborative Systems
-        /*
-        List<VGISystem> vgiSystems = new ArrayList<>();
 
-        List<String> category = new ArrayList<>();
-        category.add("Segurança");
-
-        VGISystem vgiSystem = new VGISystem("192.168.1.1","Cidadão Viçosa", "Sistema Colaborativo para melhorar condição da cidade de Viçosa","#FFFFFF",category,20);
-        VGISystem vgiSystem_2 = new VGISystem("192.168.0.1","Gota D'Água", "Sistema Colaborativo para diminuir o desperdício de Água","#FFFFFF",category,35);
-        VGISystem vgiSystem_3 = new VGISystem("192.168.0.0","Cidade Linda", "Sistema Colaborativo para melhorias da cidade de São Paulo","#FFFFFF",category,101);
-
-        vgiSystems.add(vgiSystem);
-        vgiSystems.add(vgiSystem_2);
-        vgiSystems.add(vgiSystem_3);
-        */
         final GetSystemsFromServer serverSystems = new GetSystemsFromServer(this);
         serverSystems.execute();
 
@@ -85,6 +70,7 @@ public class MenuActivity extends AppCompatActivity {
             User user = (User) bundle.getSerializable("user");
 
             this.generalController.registerUserSystem(this,vgiSystem,user);
+            this.generalController.registerDeviceSystem(this,vgiSystem);
 
             SystemTile systemTile = new SystemTile(vgiSystem.getName(),vgiSystem);
 

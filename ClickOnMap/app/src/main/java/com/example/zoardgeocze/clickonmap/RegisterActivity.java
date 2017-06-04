@@ -11,6 +11,9 @@ import android.widget.Toast;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 /**
  * Created by ZoardGeocze on 28/04/17.
  */
@@ -49,15 +52,18 @@ public class RegisterActivity extends AppCompatActivity {
     //Falta implementar verificação para saber se Usuário já Existe no Sistema
     public void registerUser(View view) {
 
-        String userName = String.valueOf(this.registerUserName);
-        String userEmail = String.valueOf(this.registerUserEmail);
-        String userPass = String.valueOf(this.registerPassword);
-        String userPassConfirm = String.valueOf(this.registerPasswordConfirmation);
+        String userName = String.valueOf(this.registerUserName.getText());
+        String userEmail = String.valueOf(this.registerUserEmail.getText());
+        String userPass = String.valueOf(this.registerPassword.getText());
+        String userPassConfirm = String.valueOf(this.registerPasswordConfirmation.getText());
 
         if(!userName.equals("") && !userEmail.equals("") && !userPass.equals("") && !userPassConfirm.equals("")) {
             if(userPass.equals(userPassConfirm)) {
 
-                this.user = new User(userEmail,userName,userPass);
+                Date date = new Date();
+                Timestamp timestamp = new Timestamp(date.getTime());
+
+                this.user = new User(userEmail,userName,userPass,String.valueOf(timestamp));
 
                 Intent intent = getIntent();
 
