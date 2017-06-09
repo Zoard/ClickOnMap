@@ -50,9 +50,26 @@ public class LoginActivity extends AppCompatActivity {
     public void frontToRegister(View view) {
         Intent intent = new Intent(getBaseContext(),RegisterActivity.class);
         intent.putExtras(this.bundle);
-        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
-        startActivity(intent);
-        finish();
+        //intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+        startActivityForResult(intent,10);
+        //finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == 1){
+            //setResult(1,data);
+            Intent it = new Intent(getBaseContext(),MenuActivity.class);
+            it.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+            it.putExtras(data.getExtras());
+
+            //data.setClass(getBaseContext(),MenuActivity.class);
+            //data.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+            startActivity(it);
+            finish();
+        }
+    }
 }

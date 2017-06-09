@@ -62,10 +62,38 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent data = getIntent();
+
+        if(data != null) {
+            Log.d("cadastro", "tem intent");
+            Bundle bundle = data.getExtras();
+
+            if(bundle != null) {
+                Log.d("cadastro", "tem bundle");
+                VGISystem vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
+                User user = (User) bundle.getSerializable("user");
+
+                Log.d("cadastro", vgiSystem.getName() + " - " + user.getName());
+
+                this.generalController.registerUserSystem(this, vgiSystem, user);
+                this.generalController.registerDeviceSystem(this, vgiSystem);
+
+                SystemTile systemTile = new SystemTile(vgiSystem.getName(), vgiSystem);
+
+                this.menuTiles.add(0, systemTile);
+            }
+        }
+
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 1) {
-            Bundle bundle = data.getExtras();
+            Log.d("gambiarra", "cheguei onActivityResult()");
+            /*Bundle bundle = data.getExtras();
             VGISystem vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
             User user = (User) bundle.getSerializable("user");
 
@@ -76,10 +104,11 @@ public class MenuActivity extends AppCompatActivity {
 
             this.menuTiles.add(0,systemTile);
 
-            //Toast.makeText(this,String.valueOf(vgiSystem.getContributions()),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,String.valueOf(vgiSystem.getContributions()),Toast.LENGTH_SHORT).show();*/
 
         }
     }
+
 
     @Override
     protected void onResume() {

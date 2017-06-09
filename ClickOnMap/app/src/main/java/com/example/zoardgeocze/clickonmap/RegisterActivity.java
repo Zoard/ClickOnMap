@@ -67,7 +67,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 Intent intent = getIntent();
 
-                Bundle bundle = new Bundle();
+                //Bundle bundle = new Bundle();
+                Bundle bundle = intent.getExtras();
                 bundle.putSerializable("user",this.user);
 
                 intent.putExtras(bundle);
