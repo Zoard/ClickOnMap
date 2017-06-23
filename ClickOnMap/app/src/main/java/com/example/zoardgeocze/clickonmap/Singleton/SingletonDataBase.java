@@ -20,26 +20,61 @@ public class SingletonDataBase {
     private static SingletonDataBase INSTANCE = new SingletonDataBase();
 
     private final String[] SCRIPT_DATA_BASE_CREATE = new String[]{
-            "CREATE TABLE device (" +
+            "CREATE TABLE Device (" +
                     "firebaseKey TEXT PRIMARY KEY" +
                     ");", // FIM CREATE TABLE
 
-            "CREATE TABLE deviceSystem (" +
-                    "deviceKey TEXT NOT NULL," +
+            "CREATE TABLE VGISystems (" +
+                    "systemAdress TEXT PRIMARY KEY," +
+                    "systemName TEXT NOT NULL," +
+                    "userEmail TEXT NOT NULL," +
+                    "dtCadastro TEXT NOT NULL," +
+                    "numColaborations INTEGER," +
+                    "color TEXT,"+
+                    "hasSession TEXT NOT NULL" +
+                    ");", // FIM CREATE TABLE
+
+            "CREATE TABLE Users (" +
+                    "userEmail TEXT NOT NULL," +
                     "systemAdress TEXT NOT NULL," +
-                    "PRIMARY KEY  (deviceKey,systemAdress)," +
-                    "CONSTRAINT fk_deviceSystem_key FOREIGN KEY (deviceKey) REFERENCES device (firebaseKey)," +
-                    "CONSTRAINT fk_deviceSystem_key FOREIGN KEY (systemAdress) REFERENCES userSystem (systemAdress)" +
+                    "userName TEXT NOT NULL," +
+                    "userPassword TEXT NOT NULL," +
+                    "PRIMARY KEY  (userEmail,systemAdress)," +
+                    "CONSTRAINT fk_User_key FOREIGN KEY (systemAdress) REFERENCES VGISystems (systemAdress)" +
                     ");", // FIM CREATE TABLE*/
 
-            "CREATE TABLE userSystem (" +
+            "CREATE TABLE PendingNotifications (" +
+                    "idNotifications INTEGER NOT NULL," +
+                    "userEmail TEXT NOT NULL," +
+                    "PRIMARY KEY  (idNotifications,userEmail)," +
+                    "CONSTRAINT fk_PendingNotifications_key FOREIGN KEY (userEmail) REFERENCES Users (userEmail)" +
+                    ");", // FIM CREATE TABLE*/
+
+            "CREATE TABLE Categories (" +
+                    "idCategory INTEGER NOT NULL," +
                     "systemAdress TEXT NOT NULL," +
-                    "systemName TEXT NOT NULL," +
-                    "userLogin TEXT NOT NULL," +
-                    "dtCadastro TEXT NOT NULL," +
-                    "hasSession TEXT NOT NULL," +
-                    "PRIMARY KEY  (systemAdress,systemName)" +
-                    ");" // FIM CREATE TABLE
+                    "categoryDescription TEXT NOT NULL," +
+                    "PRIMARY KEY  (idCategory,systemAdress)," +
+                    "CONSTRAINT fk_Categories_key FOREIGN KEY (systemAdress) REFERENCES VGISystems (systemAdress)" +
+                    ");", // FIM CREATE TABLE*/
+
+            "CREATE TABLE CategoriesTypes (" +
+                    "idCategoryType INTEGER NOT NULL," +
+                    "idCategory INTEGER NOT NULL," +
+                    "PRIMARY KEY  (idCategoryType,idCategory)," +
+                    "CONSTRAINT fk_CategoriesTypes_key FOREIGN KEY (idCategory) REFERENCES Categories (idCategory)" +
+                    ");", // FIM CREATE TABLE*/
+
+            "CREATE TABLE PendingColaborations (" +
+                    "idColaborations INTEGER NOT NULL," +
+                    "systemAdress TEXT NOT NULL," +
+                    "idCategory INTEGER NOT NULL," +
+                    "idCategoryType INTEGER NOT NULL," +
+                    "PRIMARY KEY  (idColaborations,systemAdress,idCategory,idCategoryType)," +
+                    "CONSTRAINT fk_PendingColaborations_key FOREIGN KEY (systemAdress) REFERENCES VGISystems (systemAdress)," +
+                    "CONSTRAINT fk_PendingColaborations_key FOREIGN KEY (idCategory) REFERENCES Categories (idCategory)," +
+                    "CONSTRAINT fk_PendingColaborations_key FOREIGN KEY (idCategoryType) REFERENCES CategoriesTypes (idCategoryType)" +
+                    ");" // FIM CREATE TABLE*/
 
     };
 
