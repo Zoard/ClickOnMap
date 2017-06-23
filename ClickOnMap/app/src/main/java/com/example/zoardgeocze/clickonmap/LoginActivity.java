@@ -19,6 +19,7 @@ import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 public class LoginActivity extends AppCompatActivity {
 
     private VGISystem vgiSystem;
+    private Intent intent;
     private Bundle bundle;
 
     @Override
@@ -30,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText user = (EditText) findViewById(R.id.login_user);
         EditText password = (EditText) findViewById(R.id.login_password);
 
-        Intent intent = this.getIntent();
+        this.intent = this.getIntent();
         this.bundle = intent.getExtras();
 
         this.vgiSystem = (VGISystem) this.bundle.getSerializable("vgiSystem");
@@ -50,25 +51,18 @@ public class LoginActivity extends AppCompatActivity {
     public void frontToRegister(View view) {
         Intent intent = new Intent(getBaseContext(),RegisterActivity.class);
         intent.putExtras(this.bundle);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
-        startActivityForResult(intent,10);
-        //finish();
+        startActivityForResult(intent,1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 1){
-            //setResult(1,data);
-            Intent it = new Intent(getBaseContext(),MenuActivity.class);
-            it.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-            it.putExtras(data.getExtras());
-
-            //data.setClass(getBaseContext(),MenuActivity.class);
-            //data.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-            startActivity(it);
+        if(resultCode == 0) {
+            //Não faz nada aqui
+        }
+        else if(resultCode == 1) {
+            Bundle bundle = data.getExtras();
+            this.intent.putExtras(bundle);
+            setResult(1,this.intent);
             finish();
         }
     }
