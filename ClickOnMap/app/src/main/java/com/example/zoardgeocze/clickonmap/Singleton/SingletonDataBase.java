@@ -21,59 +21,75 @@ public class SingletonDataBase {
 
     private final String[] SCRIPT_DATA_BASE_CREATE = new String[]{
             "CREATE TABLE Device (" +
-                    "firebaseKey TEXT PRIMARY KEY" +
+                    "fcmKey TEXT NOT NULL," +
+                    "creationDate TEXT NOT NULL," +
+                    "PRIMARY KEY (fcmKey)" +
                     ");", // FIM CREATE TABLE
 
-            "CREATE TABLE VGISystems (" +
-                    "systemAdress TEXT PRIMARY KEY," +
-                    "systemName TEXT NOT NULL," +
-                    "userEmail TEXT NOT NULL," +
-                    "dtCadastro TEXT NOT NULL," +
-                    "numColaborations INTEGER," +
-                    "color TEXT,"+
-                    "hasSession TEXT NOT NULL" +
+            "CREATE TABLE VGISystem (" +
+                    "adress TEXT NOT NULL," +
+                    "name TEXT NOT NULL," +
+                    "color TEXT," +
+                    "collaborations INTEGER," +
+                    "userId TEXT NOT NULL," +
+                    "hasSession TEXT NOT NULL,"+
+                    "systemDescription TEXT NOT NULL," +
+                    "PRIMARY KEY (adress)" +
                     ");", // FIM CREATE TABLE
 
-            "CREATE TABLE Users (" +
-                    "userEmail TEXT NOT NULL," +
+            "CREATE TABLE User (" +
+                    "userId INTEGER NOT NULL," +
                     "systemAdress TEXT NOT NULL," +
-                    "userName TEXT NOT NULL," +
-                    "userPassword TEXT NOT NULL," +
-                    "PRIMARY KEY  (userEmail,systemAdress)," +
-                    "CONSTRAINT fk_User_key FOREIGN KEY (systemAdress) REFERENCES VGISystems (systemAdress)" +
+                    "name TEXT NOT NULL," +
+                    "password TEXT NOT NULL," +
+                    "email TEXT NOT NULL," +
+                    "PRIMARY KEY (userId, systemAdress)," +
+                    "CONSTRAINT systemAdress FOREIGN KEY (systemAdress) REFERENCES SystemVGI (adress) ON DELETE CASCADE ON UPDATE CASCADE," +
+                    "CONSTRAINT candidateKeyUser UNIQUE (systemAdress, name)" +
                     ");", // FIM CREATE TABLE*/
 
-            "CREATE TABLE PendingNotifications (" +
-                    "idNotifications INTEGER NOT NULL," +
-                    "userEmail TEXT NOT NULL," +
-                    "PRIMARY KEY  (idNotifications,userEmail)," +
-                    "CONSTRAINT fk_PendingNotifications_key FOREIGN KEY (userEmail) REFERENCES Users (userEmail)" +
+            "CREATE TABLE Notification (" +
+                    "notificationId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "userId INTEGER NOT NULL," +
+                    "userSystemAdress TEXT NOT NULL," +
+                    "description TEXT NOT NULL," +
+                    "CONSTRAINT user_userId_userSystemAdress FOREIGN KEY (userId, userSystemAdress) REFERENCES User (userId, systemAdress) ON DELETE CASCADE ON UPDATE CASCADE" +
                     ");", // FIM CREATE TABLE*/
 
-            "CREATE TABLE Categories (" +
-                    "idCategory INTEGER NOT NULL," +
-                    "systemAdress TEXT NOT NULL," +
-                    "categoryDescription TEXT NOT NULL," +
-                    "PRIMARY KEY  (idCategory,systemAdress)," +
-                    "CONSTRAINT fk_Categories_key FOREIGN KEY (systemAdress) REFERENCES VGISystems (systemAdress)" +
+            "CREATE TABLE EventCategory (" +
+                    "categoryId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "serverAdress TEXT NOT NULL," +
+                    "eventCategoryId INTEGER NOT NULL," +
+                    "eventCategoryDescription TEXT," +
+                    "CONSTRAINT serverAdress FOREIGN KEY (serverAdress) REFERENCES SystemVGI (adress) ON DELETE CASCADE ON UPDATE CASCADE," +
+                    "CONSTRAINT candidateKeyEventCategory UNIQUE (serverAdress, eventCategoryId)" +
                     ");", // FIM CREATE TABLE*/
 
-            "CREATE TABLE CategoriesTypes (" +
-                    "idCategoryType INTEGER NOT NULL," +
-                    "idCategory INTEGER NOT NULL," +
-                    "PRIMARY KEY  (idCategoryType,idCategory)," +
-                    "CONSTRAINT fk_CategoriesTypes_key FOREIGN KEY (idCategory) REFERENCES Categories (idCategory)" +
+            "CREATE TABLE EventType (" +
+                    "typeId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "categoryId INTEGER NOT NULL," +
+                    "eventTypeId INTEGER NOT NULL," +
+                    "eventTypeDescription TEXT," +
+                    "CONSTRAINT categoryId FOREIGN KEY (categoryId) REFERENCES EventCategory (categoryId) ON DELETE CASCADE ON UPDATE CASCADE," +
+                    "CONSTRAINT candidateKeyEventType UNIQUE (categoryId, eventTypeId)" +
                     ");", // FIM CREATE TABLE*/
 
-            "CREATE TABLE PendingColaborations (" +
-                    "idColaborations INTEGER NOT NULL," +
-                    "systemAdress TEXT NOT NULL," +
-                    "idCategory INTEGER NOT NULL," +
-                    "idCategoryType INTEGER NOT NULL," +
-                    "PRIMARY KEY  (idColaborations,systemAdress,idCategory,idCategoryType)," +
-                    "CONSTRAINT fk_PendingColaborations_key FOREIGN KEY (systemAdress) REFERENCES VGISystems (systemAdress)," +
-                    "CONSTRAINT fk_PendingColaborations_key FOREIGN KEY (idCategory) REFERENCES Categories (idCategory)," +
-                    "CONSTRAINT fk_PendingColaborations_key FOREIGN KEY (idCategoryType) REFERENCES CategoriesTypes (idCategoryType)" +
+            "CREATE TABLE PendingCollaborations (" +
+                    "collaborationsId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "eventCategory_categoryId INTEGER NOT NULL," +
+                    "eventType_typeId INTEGER NOT NULL," +
+                    "user_userId INTEGER NOT NULL," +
+                    "user_systemAdress TEXT NOT NULL," +
+                    "title TEXT NOT NULL," +
+                    "description TEXT NOT NULL," +
+                    "collaborationDate TEXT NOT NULL," +
+                    "picture TEXT," +
+                    "video TEXT," +
+                    "latitude REAL NOT NULL," +
+                    "longitude REAL NOT NULL," +
+                    "CONSTRAINT eventCategory_categoryId FOREIGN KEY (eventCategory_categoryId) REFERENCES EventCategory (categoryId) ON DELETE NO ACTION ON UPDATE NO ACTION," +
+                    "CONSTRAINT eventType_typeId FOREIGN KEY (eventType_typeId) REFERENCES EventType (typeId) ON DELETE NO ACTION ON UPDATE NO ACTION," +
+                    "CONSTRAINT user_userId_systemAdress FOREIGN KEY (user_userId, user_systemAdress) REFERENCES User (userId, systemAdress) ON DELETE CASCADE ON UPDATE CASCADE" +
                     ");" // FIM CREATE TABLE*/
 
     };
