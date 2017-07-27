@@ -26,23 +26,28 @@ public class SingletonDataBase {
                     "PRIMARY KEY (fcmKey)" +
                     ");", // FIM CREATE TABLE
 
-            "CREATE TABLE VGISystem (" +
+            "CREATE TABLE SystemVGI (" +
                     "adress TEXT NOT NULL," +
                     "name TEXT NOT NULL," +
                     "color TEXT," +
                     "collaborations INTEGER," +
                     "userId TEXT NOT NULL," +
+                    "latX REAL NOT NULL," +
+                    "latY REAL NOT NULL," +
+                    "lngX REAL NOT NULL," +
+                    "lngY REAL NOT NULL," +
                     "hasSession TEXT NOT NULL,"+
                     "systemDescription TEXT NOT NULL," +
                     "PRIMARY KEY (adress)" +
                     ");", // FIM CREATE TABLE
 
             "CREATE TABLE User (" +
-                    "userId INTEGER NOT NULL," +
+                    "userId TEXT NOT NULL," +
                     "systemAdress TEXT NOT NULL," +
                     "name TEXT NOT NULL," +
                     "password TEXT NOT NULL," +
                     "email TEXT NOT NULL," +
+                    "registerDate TEXT NOT NULL," +
                     "PRIMARY KEY (userId, systemAdress)," +
                     "CONSTRAINT systemAdress FOREIGN KEY (systemAdress) REFERENCES SystemVGI (adress) ON DELETE CASCADE ON UPDATE CASCADE," +
                     "CONSTRAINT candidateKeyUser UNIQUE (systemAdress, name)" +
@@ -50,7 +55,7 @@ public class SingletonDataBase {
 
             "CREATE TABLE Notification (" +
                     "notificationId INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "userId INTEGER NOT NULL," +
+                    "userId TEXT NOT NULL," +
                     "userSystemAdress TEXT NOT NULL," +
                     "description TEXT NOT NULL," +
                     "CONSTRAINT user_userId_userSystemAdress FOREIGN KEY (userId, userSystemAdress) REFERENCES User (userId, systemAdress) ON DELETE CASCADE ON UPDATE CASCADE" +
@@ -78,7 +83,7 @@ public class SingletonDataBase {
                     "collaborationsId INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "eventCategory_categoryId INTEGER NOT NULL," +
                     "eventType_typeId INTEGER NOT NULL," +
-                    "user_userId INTEGER NOT NULL," +
+                    "user_userId TEXT NOT NULL," +
                     "user_systemAdress TEXT NOT NULL," +
                     "title TEXT NOT NULL," +
                     "description TEXT NOT NULL," +

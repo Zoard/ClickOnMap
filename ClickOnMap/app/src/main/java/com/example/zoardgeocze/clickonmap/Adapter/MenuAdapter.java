@@ -58,7 +58,7 @@ public class MenuAdapter extends RecyclerView.Adapter {
             holder.setTile(tile);
             holder.setAddTile(false);
             holder.tileName.setText(tile.getName());
-            holder.tileContributions.setText(String.valueOf(tile.getSystem().getContributions()) + " Colaborações");
+            holder.tileContributions.setText(String.valueOf(tile.getSystem().getCollaborations()) + " Colaborações");
 
             //Adicionar Algum Ícone Específico do Sistema VGI
             //Add Some Specified Icon from the VGI System

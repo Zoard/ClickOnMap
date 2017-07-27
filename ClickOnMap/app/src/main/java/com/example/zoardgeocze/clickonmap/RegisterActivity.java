@@ -63,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Date date = new Date();
                 Timestamp timestamp = new Timestamp(date.getTime());
 
-                this.user = new User(userEmail,userName,userPass,String.valueOf(timestamp));
+                this.user = new User(userEmail,userEmail,userName,userPass,String.valueOf(timestamp));
 
                 Intent intent = getIntent();
 

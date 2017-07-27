@@ -84,13 +84,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         } else {
             Log.i("SYSTEM_TILE_CLICK","SYSTEM_TILE_CLICK");
 
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("tile",this.tile);
-
-            Intent intent = new Intent(this.context, LoginActivity.class);
-            intent.putExtras(bundle);
-
-            this.context.startActivity(intent);
+            //TODO: Implementar login do usuário no sistema, verificando a sessão do sistema
 
         }
     }

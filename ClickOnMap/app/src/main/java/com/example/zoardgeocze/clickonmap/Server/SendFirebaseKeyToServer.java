@@ -24,17 +24,19 @@ public class SendFirebaseKeyToServer extends AsyncTask<String, String, String> {
 
     private static String KEY_SUCCESS = "success";
     private static String TABLE = "aparelhos";
-    private static String COLUMN = "chaveFCM";
+    private static String COLUMN = "chaveFCM,creationDate";
     //public Handler handler = new Handler();
     public int TIMEOUT_CONNECTION = 20000;
     public int TIMEOUT_SOCKET = 20000;
     private ProgressDialog pDialog;
     private Context context;
     private String firebaseKey;
+    private String creationDate;
 
-    public SendFirebaseKeyToServer(Context context, String firebaseKey) {
+    public SendFirebaseKeyToServer(Context context, String firebaseKey, String creationDate) {
         this.context = context;
         this.firebaseKey = firebaseKey;
+        this.creationDate = creationDate;
     }
 
     public Context getContext() {
@@ -49,7 +51,7 @@ public class SendFirebaseKeyToServer extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params) {
         ServerFunctions serverFunctions = new ServerFunctions();
-        JSONObject jsonObject = serverFunctions.Insert(this.TABLE, this.COLUMN, this.firebaseKey, this.TIMEOUT_CONNECTION,this.TIMEOUT_SOCKET);
+        JSONObject jsonObject = serverFunctions.Insert(this.TABLE, this.COLUMN, this.firebaseKey + "," + this.creationDate, this.TIMEOUT_CONNECTION,this.TIMEOUT_SOCKET);
 
         try {
             String res = jsonObject.getString(KEY_SUCCESS);

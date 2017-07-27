@@ -14,26 +14,39 @@ public class VGISystem implements Serializable {
     private String description;
     private String color;
     private List<String> category;
-    private int contributions;
+    private int collaborations;
     private double latX;
     private double latY;
     private double lngX;
     private double lngY;
 
-    public VGISystem(String adress, String name, String description, String color, List<String> category, int contributions) {
+    public VGISystem() {
+        this.adress = "";
+        this.name = "";
+        this.description = "";
+        this.color = "";
+        this.collaborations = 0;
+        this.latX = 0.0;
+        this.latY = 0.0;
+        this.lngX = 0.0;
+        this.lngY = 0.0;
+    }
+
+    public VGISystem(String adress, String name, String description, String color, List<String> category, int collaborations) {
         this.adress = adress;
         this.name = name;
         this.description = description;
         this.color = color;
         this.category = category;
-        this.contributions = contributions;
+        this.collaborations = collaborations;
     }
 
-    public VGISystem(String adress, String name, String description, int contributions, double latX, double latY, double lngX, double lngY) {
+    public VGISystem(String adress, String name, String description, int collaborations, double latX, double latY, double lngX, double lngY) {
         this.adress = adress;
         this.name = name;
         this.description = description;
-        this.contributions = contributions;
+        this.color = "";
+        this.collaborations = collaborations;
         this.latX = latX;
         this.latY = latY;
         this.lngX = lngX;
@@ -64,12 +77,12 @@ public class VGISystem implements Serializable {
         this.description = description;
     }
 
-    public int getContributions() {
-        return contributions;
+    public int getCollaborations() {
+        return collaborations;
     }
 
-    public void setContributions(int contributions) {
-        this.contributions = contributions;
+    public void setCollaborations(int collaborations) {
+        this.collaborations = collaborations;
     }
 
     public String getColor() {

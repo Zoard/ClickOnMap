@@ -49,7 +49,7 @@ class AddSystemViewHolder extends RecyclerView.ViewHolder implements View.OnClic
     @Override
     public void onClick(View view) {
 
-        Log.i("ON_CLICK_addSystemVH",String.valueOf(this.vgiSystem.getContributions()));
+        Log.i("ON_CLICK_addSystemVH",String.valueOf(this.vgiSystem.getCollaborations()));
 
         Intent data = new Intent(this.context,LoginActivity.class);
         data.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);

@@ -39,7 +39,6 @@ public class MenuActivity extends AppCompatActivity {
 
         this.generalController = SingletonFacadeController.getInstance();
 
-
         final GetSystemsFromServer serverSystems = new GetSystemsFromServer(this);
         serverSystems.execute();
 
@@ -49,9 +48,13 @@ public class MenuActivity extends AppCompatActivity {
             Log.i("verifica_lista","Esta Vazio");
         }
 
-        AddTile addSystems = new AddTile("+",vgiSystems);
+        for (SystemTile systemTile:this.generalController.getMenuTiles()) {
+            this.menuTiles.add(systemTile);
+        }
 
-        this.menuTiles.add(0,addSystems);
+        AddTile addSystems = new AddTile("+",vgiSystems);
+        this.menuTiles.add(addSystems);
+
 
         Log.i("menuTileSize",String.valueOf(menuTiles.size()));
         this.menuRecycler.setAdapter(new MenuAdapter(menuTiles,this));
@@ -69,8 +72,7 @@ public class MenuActivity extends AppCompatActivity {
             VGISystem vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
             User user = (User) bundle.getSerializable("user");
 
-            this.generalController.registerUserSystem(this,vgiSystem,user);
-            this.generalController.registerDeviceSystem(this,vgiSystem);
+            this.generalController.registerUser(this,vgiSystem,user);
 
             SystemTile systemTile = new SystemTile(vgiSystem.getName(),vgiSystem);
 

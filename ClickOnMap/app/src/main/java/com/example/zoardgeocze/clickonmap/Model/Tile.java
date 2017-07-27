@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Created by ZoardGeocze on 27/04/17.
  */
 
+//TODO: Transformar essa classe em abstrata
 public class Tile implements Serializable {
 
     private String name;

@@ -8,6 +8,9 @@ import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Created by ZoardGeocze on 03/05/2017.
  */
@@ -27,15 +30,21 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
         //this.token = refreshedToken;
         Log.i(TAG, "Refreshed token: " + refreshedToken);
 
-        sendRegistrationToDataBase(refreshedToken);
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String formattedDate = df.format(c.getTime());
+
+        sendRegistrationToDataBase(refreshedToken,formattedDate);
 
         // TODO: Implement this method to send any registration to your app's servers.
-        sendRegistrationToServer(refreshedToken);
+        sendRegistrationToServer(refreshedToken,formattedDate);
     }
 
-    public void sendRegistrationToDataBase(String token) {
+    public void sendRegistrationToDataBase(String token,String formattedDate) {
+
         SingletonFacadeController sfc = SingletonFacadeController.getInstance();
-        sfc.registerFirebaseKey(getBaseContext(),token);
+        sfc.registerFirebaseKey(getBaseContext(),token,formattedDate);
     }
 
     /**
@@ -47,8 +56,8 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
      *
      */
     //Enviando por enquanto pro BD Local
-    private void sendRegistrationToServer(String refreshedToken) {
-        final SendFirebaseKeyToServer sendKey = new SendFirebaseKeyToServer(getBaseContext(),refreshedToken);
+    private void sendRegistrationToServer(String refreshedToken,String formattedDate) {
+        final SendFirebaseKeyToServer sendKey = new SendFirebaseKeyToServer(getBaseContext(),refreshedToken, formattedDate);
         new Thread(new Runnable() {
             @Override
             public void run() {
