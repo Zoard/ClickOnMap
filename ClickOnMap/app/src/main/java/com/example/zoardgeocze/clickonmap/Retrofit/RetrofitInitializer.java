@@ -1,5 +1,7 @@
 package com.example.zoardgeocze.clickonmap.Retrofit;
 
+import com.example.zoardgeocze.clickonmap.Services.FirebaseService;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -9,13 +11,17 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class RetrofitInitializer {
 
+    private static final String BASE_URL = "http://ufvmaps.fornut.com.br/clickonmap/";
     private final Retrofit retrofit;
 
-    public RetrofitInitializer(Retrofit retrofit) {
+    public RetrofitInitializer() {
         this.retrofit = new Retrofit
                 .Builder()
-                .baseUrl("http://ufvmaps.fornut.com.br/clickonmap/android_index.php")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }
+
+    public FirebaseService getFirebaseService() {return retrofit.create(FirebaseService.class);}
+
 }

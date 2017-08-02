@@ -3,6 +3,7 @@ package com.example.zoardgeocze.clickonmap.FCM;
 import android.os.Handler;
 import android.util.Log;
 
+import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
 import com.example.zoardgeocze.clickonmap.Server.SendFirebaseKeyToServer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -10,6 +11,10 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by ZoardGeocze on 03/05/2017.
@@ -55,9 +60,26 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
      *
      *
      */
-    //Enviando por enquanto pro BD Local
-    private void sendRegistrationToServer(String refreshedToken,String formattedDate) {
-        final SendFirebaseKeyToServer sendKey = new SendFirebaseKeyToServer(getBaseContext(),refreshedToken, formattedDate);
+    //Enviando pro SERVER através do Retrofit
+    private void sendRegistrationToServer(String refreshedToken, String formattedDate) {
+
+        Call<String> call = new RetrofitInitializer().getFirebaseService().sendFirebaseKeyToServer("send", refreshedToken, formattedDate);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.i("onResponse: ", call.toString());
+                Log.i("onResponse: ", response.body().toString());
+                Log.i("onResponse: ", response.message());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.i("onFailure: ", "DEU ERRADO!");
+            }
+        });
+
+        //Metodo Antigo
+        /*final SendFirebaseKeyToServer sendKey = new SendFirebaseKeyToServer(getBaseContext(),refreshedToken, formattedDate);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -65,7 +87,7 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
             }
         }).start();
         //sendKey.execute();
-        /*try {
+        try {
             sendKey.wait();
             sendKey.execute();
         } catch (InterruptedException e) {
