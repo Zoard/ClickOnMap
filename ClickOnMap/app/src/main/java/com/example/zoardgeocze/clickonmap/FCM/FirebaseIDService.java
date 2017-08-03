@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
-import com.example.zoardgeocze.clickonmap.Server.SendFirebaseKeyToServer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
@@ -22,11 +21,6 @@ import retrofit2.Response;
 
 public class FirebaseIDService extends FirebaseInstanceIdService {
     private static final String TAG = "FirebaseIDService";
-    //private String token = "";
-
-    /*public String getToken() {
-        return token;
-    }*/
 
     @Override
     public void onTokenRefresh() {
@@ -77,21 +71,5 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
                 Log.i("onFailure: ", "DEU ERRADO!");
             }
         });
-
-        //Metodo Antigo
-        /*final SendFirebaseKeyToServer sendKey = new SendFirebaseKeyToServer(getBaseContext(),refreshedToken, formattedDate);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                sendKey.execute();
-            }
-        }).start();
-        //sendKey.execute();
-        try {
-            sendKey.wait();
-            sendKey.execute();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
     }
 }

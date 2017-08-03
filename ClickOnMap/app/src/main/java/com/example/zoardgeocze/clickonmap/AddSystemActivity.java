@@ -74,6 +74,8 @@ public class AddSystemActivity extends AppCompatActivity {
 
                 if(!vgiSystems.isEmpty()) {
                     loadAvailableVGISystems();
+                } else {
+                    Toast.makeText(getBaseContext(),"Nenhum sistema VGI disponível",Toast.LENGTH_SHORT).show();
                 }
 
                 if (mProgressDialog.isShowing()){
@@ -86,11 +88,12 @@ public class AddSystemActivity extends AppCompatActivity {
             public void onFailure(Call<VGISystemSync> call, Throwable t) {
                 Log.i("onFailure_VGISYSTEM: ", t.getMessage());
 
+                Toast.makeText(getBaseContext(),"Sem conexão",Toast.LENGTH_SHORT).show();
+
                 if (mProgressDialog.isShowing()) {
                     mProgressDialog.dismiss();
                 }
 
-                Toast.makeText(getBaseContext(),"Nenhum sistema VGI disponível",Toast.LENGTH_SHORT).show();
             }
         });
 
