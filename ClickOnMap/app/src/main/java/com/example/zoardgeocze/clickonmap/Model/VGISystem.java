@@ -1,5 +1,7 @@
 package com.example.zoardgeocze.clickonmap.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import java.util.List;
  * Created by ZoardGeocze on 29/04/17.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class VGISystem implements Serializable {
 
     private String adress;

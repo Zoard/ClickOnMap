@@ -68,7 +68,7 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.i("onResponse: ", call.toString());
-                Log.i("onResponse: ", response.body().toString());
+                Log.i("onResponse: ", response.body());
                 Log.i("onResponse: ", response.message());
             }
 

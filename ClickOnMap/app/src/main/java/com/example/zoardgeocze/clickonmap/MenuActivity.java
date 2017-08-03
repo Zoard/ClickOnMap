@@ -9,12 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.zoardgeocze.clickonmap.Adapter.MenuAdapter;
+import com.example.zoardgeocze.clickonmap.DTO.VGISystemSync;
 import com.example.zoardgeocze.clickonmap.FCM.FirebaseIDService;
 import com.example.zoardgeocze.clickonmap.Model.AddTile;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
+import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
 import com.example.zoardgeocze.clickonmap.Server.GetSystemsFromServer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonDataBase;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
@@ -23,11 +25,21 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * Created by ZoardGeocze on 03/05/2017.
+ */
+
 public class MenuActivity extends AppCompatActivity {
 
     private SingletonFacadeController generalController;
 
     private List<Tile> menuTiles = new ArrayList<>();
+    //private List<VGISystem> vgiSystems = new ArrayList<>();
+
     private RecyclerView menuRecycler;
 
     @Override
@@ -39,7 +51,9 @@ public class MenuActivity extends AppCompatActivity {
 
         this.generalController = SingletonFacadeController.getInstance();
 
-        final GetSystemsFromServer serverSystems = new GetSystemsFromServer(this);
+        getSystemsFromServer(); //Pega os sistemas no Server Utilizando Retrofit
+
+        final GetSystemsFromServer serverSystems = new GetSystemsFromServer(this); // Pega os sistemas no server Utilizando método antigo
         serverSystems.execute();
 
         List<VGISystem> vgiSystems = serverSystems.getVgiSystems();
@@ -61,6 +75,25 @@ public class MenuActivity extends AppCompatActivity {
 
         RecyclerView.LayoutManager layout = new GridLayoutManager(this,2);
         this.menuRecycler.setLayoutManager(layout);
+
+    }
+
+    private void getSystemsFromServer() {
+
+        Call<VGISystemSync> call = new RetrofitInitializer().getSystemService().getVGISystemList("getVGISystem");
+        call.enqueue(new Callback<VGISystemSync>() {
+            @Override
+            public void onResponse(Call<VGISystemSync> call, Response<VGISystemSync> response) {
+                VGISystemSync vgiSystemSync = response.body();
+                List<VGISystem> vgiSystems = vgiSystemSync.getVgiSystems();
+                Log.i("onResponse_VGISYSTEM: ", String.valueOf(vgiSystems.size()));
+            }
+
+            @Override
+            public void onFailure(Call<VGISystemSync> call, Throwable t) {
+                Log.i("onFailure_VGISYSTEM: ", t.getMessage());
+            }
+        });
 
     }
 
