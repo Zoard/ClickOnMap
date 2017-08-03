@@ -1,23 +1,27 @@
 package com.example.zoardgeocze.clickonmap;
 
-import android.content.Intent;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Adapter.AddSystemAdapter;
-import com.example.zoardgeocze.clickonmap.Model.AddTile;
-import com.example.zoardgeocze.clickonmap.Model.Tile;
+import com.example.zoardgeocze.clickonmap.DTO.VGISystemSync;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
+import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
+import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by ZoardGeocze on 29/04/17.
@@ -25,27 +29,77 @@ import java.util.List;
 
 public class AddSystemActivity extends AppCompatActivity {
 
-    //TODO: Verificar se sistema já existe no menu
+    private SingletonFacadeController generalController;
+
+    private List<VGISystem> vgiSystems = new ArrayList<>();
+    private RecyclerView addSystemRecycler;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_system);
 
-        RecyclerView addSystemRecycler = (RecyclerView) findViewById(R.id.add_system_recycler);
+        this.addSystemRecycler = (RecyclerView) findViewById(R.id.add_system_recycler);
 
-        List<VGISystem> vgiSystems = new ArrayList<>();
+        this.generalController = SingletonFacadeController.getInstance();
 
-        Intent intent = this.getIntent();
-        Bundle bundle = intent.getExtras();
+        getSystemsFromServer();
 
-        AddTile addTile = (AddTile) bundle.getSerializable("tile");
+    }
 
-        vgiSystems = addTile.getVgiSystems();
+    private void getSystemsFromServer() {
 
-        addSystemRecycler.setAdapter(new AddSystemAdapter(vgiSystems,this));
+        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Carregando Sistemas VGI...");
+        mProgressDialog.show();
 
+        Call<VGISystemSync> call = new RetrofitInitializer().getSystemService().getVGISystemList("getVGISystem");
+        call.enqueue(new Callback<VGISystemSync>() {
+            @Override
+            public void onResponse(Call<VGISystemSync> call, Response<VGISystemSync> response) {
+
+                VGISystemSync vgiSystemSync = response.body();
+
+                if(vgiSystemSync != null) {
+                    for (VGISystem vs : vgiSystemSync.getVgiSystems()) {
+                        if(generalController.searchVGISystem(vs)) {
+                            vgiSystems.add(vs);
+                        }
+                    }
+                }
+
+
+                Log.i("onResponse_VGISYSTEM: ", String.valueOf(vgiSystems.size()));
+
+                if(!vgiSystems.isEmpty()) {
+                    loadAvailableVGISystems();
+                }
+
+                if (mProgressDialog.isShowing()){
+                    mProgressDialog.dismiss();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<VGISystemSync> call, Throwable t) {
+                Log.i("onFailure_VGISYSTEM: ", t.getMessage());
+
+                if (mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+
+                Toast.makeText(getBaseContext(),"Nenhum sistema VGI disponível",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void loadAvailableVGISystems() {
+        this.addSystemRecycler.setAdapter(new AddSystemAdapter(this.vgiSystems,this));
         RecyclerView.LayoutManager layout = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        addSystemRecycler.setLayoutManager(layout);
+        this.addSystemRecycler.setLayoutManager(layout);
     }
 
     public void backToMenu(View view) {

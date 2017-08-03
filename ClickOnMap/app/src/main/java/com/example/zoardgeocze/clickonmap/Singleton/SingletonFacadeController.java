@@ -54,7 +54,7 @@ public class SingletonFacadeController {
             vgiSystem.setLngX(c.getDouble(c.getColumnIndex("lngX")));
             vgiSystem.setLngY(c.getDouble(c.getColumnIndex("lngY")));
 
-            SystemTile systemTile = new SystemTile(vgiSystem.getName(),vgiSystem);
+            SystemTile systemTile = new SystemTile(vgiSystem);
 
             this.menuTiles.add(0,systemTile);
 
@@ -88,17 +88,27 @@ public class SingletonFacadeController {
 
     }
 
+    public boolean searchVGISystem(VGISystem vgiSystem) {
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        Cursor c = db.search("SystemVGI",new String[]{"adress"},"adress = '" + vgiSystem.getAdress() + "'","");
+        if (!(c.getCount() > 0)) {
+            c.close();
+            return true;
+        } else {
+            c.close();
+            return false;
+        }
+    }
+
 
     public boolean registerUser(Context context, VGISystem vgiSystem, User user) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
-        Cursor c = db.search("SystemVGI",new String[]{"adress"},"adress = '" + vgiSystem.getAdress() + "'","");
-        if (!(c.getCount() > 0)) {
+        if (searchVGISystem(vgiSystem)) {
             registerSystemVGI(vgiSystem,user);
         }
-
-        c.close();
 
         ContentValues newUser = new ContentValues();
 

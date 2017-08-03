@@ -73,11 +73,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         if(this.addTile) {
             Log.i("ADD_TILE_CLICK","ADD_TILE_CLICK");
 
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("tile",this.tile);
-
             Intent intent = new Intent(this.context, AddSystemActivity.class);
-            intent.putExtras(bundle);
 
             ((Activity)this.context).startActivityForResult(intent,1);
 

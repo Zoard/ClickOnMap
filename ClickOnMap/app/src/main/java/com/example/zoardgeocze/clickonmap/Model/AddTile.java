@@ -8,19 +8,18 @@ import java.util.List;
  */
 
 public class AddTile extends Tile implements Serializable {
+    private String name;
 
-    private List<VGISystem> vgiSystems;
-
-    public AddTile(String name, List<VGISystem> vgiSystems) {
-        super(name);
-        this.vgiSystems = vgiSystems;
+    public AddTile(String name) {
+        this.name = name;
     }
 
-    public List<VGISystem> getVgiSystems() {
-        return vgiSystems;
+    public String getName() {
+        return name;
     }
 
-    public void setVgiSystems(List<VGISystem> vgiSystems) {
-        this.vgiSystems = vgiSystems;
+    public void setName(String name) {
+        this.name = name;
     }
+
 }

@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.zoardgeocze.clickonmap.DTO.VGISystemSync;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.R;
 
 import java.util.List;
+
+import retrofit2.Callback;
 
 /**
  * Created by ZoardGeocze on 29/04/17.

@@ -10,12 +10,7 @@ public class SystemTile extends Tile implements Serializable {
 
     private VGISystem system;
 
-    public SystemTile(String name) {
-        super(name);
-    }
-
-    public SystemTile(String name, VGISystem system) {
-        super(name);
+    public SystemTile(VGISystem system) {
         this.system = system;
     }
 
