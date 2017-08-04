@@ -38,6 +38,17 @@ public class LoginActivity extends AppCompatActivity {
 
         title.setText(this.vgiSystem.getName());
 
+        com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView btn = (com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView)
+                findViewById(R.id.login_register_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(),RegisterActivity.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent,1);
+            }
+        });
+
     }
 
     public void backToMenu(View view) {

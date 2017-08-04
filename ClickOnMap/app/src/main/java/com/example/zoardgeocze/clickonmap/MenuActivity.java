@@ -13,6 +13,7 @@ import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
+import com.example.zoardgeocze.clickonmap.Singleton.SingletonDataBase;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class MenuActivity extends AppCompatActivity {
         this.menuTiles.add(addSystems);
 
         Log.i("menuTileSize",String.valueOf(menuTiles.size()));
+        Log.d("Teste", "Nasci");
 
         this.menuRecycler.setAdapter(new MenuAdapter(menuTiles,this));
 
@@ -55,6 +57,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private void getSystemsFromDataBase() {
         this.generalController = SingletonFacadeController.getInstance();
+        Log.d("Teste", "GeneralController: " + this.generalController);
 
         for (SystemTile systemTile:this.generalController.getMenuTiles()) {
             this.menuTiles.add(systemTile);
@@ -85,5 +88,13 @@ public class MenuActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         this.menuRecycler.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("Teste", "Matei");
+        //SingletonDataBase.getInstance().close();
+        this.generalController.closeSingleton();
     }
 }

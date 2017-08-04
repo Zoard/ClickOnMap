@@ -3,6 +3,7 @@ package com.example.zoardgeocze.clickonmap.Singleton;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.User;
@@ -17,17 +18,20 @@ import java.util.List;
  * Created by ZoardGeocze on 17/05/2017.
  */
 
-public class SingletonFacadeController {
+public final class SingletonFacadeController {
 
-    private static SingletonFacadeController INSTANCE = new SingletonFacadeController();
+    private static SingletonFacadeController INSTANCE;
 
     private List<SystemTile> menuTiles;
 
     private SingletonFacadeController() {
+        Log.d("Teste", "Criou Controlador Fachada");
         this.daoMenuTiles();
     }
 
     public static SingletonFacadeController getInstance() {
+        if(INSTANCE == null)
+           INSTANCE = new SingletonFacadeController();
         return INSTANCE;
     }
 
@@ -39,6 +43,7 @@ public class SingletonFacadeController {
 
         Cursor c = db.search("SystemVGI",new String[]{"adress","name","color",
                             "collaborations","systemDescription","latX","latY","lngX","lngY"},"","");
+        Log.d("Teste", "Cont tiles: " + c.getCount());
 
         while (c.moveToNext()) {
 
@@ -138,9 +143,15 @@ public class SingletonFacadeController {
 
         db.insert("Device",newKey);
 
-        db.close();
+       // db.close();
 
         return true;
+    }
+
+    public void closeSingleton(){
+        INSTANCE = null;
+        System.gc();
+        Log.d("Teste", "Matei singleton");
     }
 
 

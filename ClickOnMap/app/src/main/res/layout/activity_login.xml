@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/login_img"
     android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    tools:context="com.example.zoardgeocze.clickonmap.LoginActivity">
 
     <ImageButton
         android:id="@+id/login_back_btn"
@@ -108,7 +109,8 @@
         android:layout_marginLeft="10dp"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:onClick="frontToRegister" />
+         />
+    <!--android:onClick="frontToRegister"-->
 
     <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
         android:id="@+id/login_or_text"
