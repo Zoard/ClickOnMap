@@ -94,7 +94,6 @@ public class MenuActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("Teste", "Matei");
-        //SingletonDataBase.getInstance().close();
         this.generalController.closeSingleton();
     }
 }

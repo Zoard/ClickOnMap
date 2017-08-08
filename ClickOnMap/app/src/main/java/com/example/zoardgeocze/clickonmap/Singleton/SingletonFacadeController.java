@@ -143,14 +143,12 @@ public final class SingletonFacadeController {
 
         db.insert("Device",newKey);
 
-       // db.close();
-
         return true;
     }
 
+    //Atribui valor nulo ao objeto para que o mesmo seja criado na próxima entrada
     public void closeSingleton(){
         INSTANCE = null;
-        System.gc();
         Log.d("Teste", "Matei singleton");
     }
 
