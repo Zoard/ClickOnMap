@@ -38,9 +38,14 @@ public class LoginActivity extends AppCompatActivity {
 
         title.setText(this.vgiSystem.getName());
 
-        com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView btn = (com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView)
+        frontToRegister();
+
+    }
+
+    private void frontToRegister() {
+        com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView loginToRegisterButton = (com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView)
                 findViewById(R.id.login_register_btn);
-        btn.setOnClickListener(new View.OnClickListener() {
+        loginToRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(),RegisterActivity.class);
@@ -48,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(intent,1);
             }
         });
-
     }
 
     public void backToMenu(View view) {
@@ -57,12 +61,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void verifyUser(View view) {
         finish();
-    }
-
-    public void frontToRegister(View view) {
-        Intent intent = new Intent(getBaseContext(),RegisterActivity.class);
-        intent.putExtras(this.bundle);
-        startActivityForResult(intent,1);
     }
 
     @Override

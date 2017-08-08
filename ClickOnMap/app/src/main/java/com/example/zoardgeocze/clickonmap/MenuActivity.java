@@ -13,7 +13,6 @@ import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
-import com.example.zoardgeocze.clickonmap.Singleton.SingletonDataBase;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 
 import java.util.ArrayList;

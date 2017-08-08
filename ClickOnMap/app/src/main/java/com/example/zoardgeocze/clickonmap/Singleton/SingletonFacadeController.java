@@ -9,9 +9,7 @@ import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -146,7 +144,8 @@ public final class SingletonFacadeController {
         return true;
     }
 
-    //Atribui valor nulo ao objeto para que o mesmo seja criado na próxima entrada
+    //Atribui valor NULO ao objeto para que o mesmo seja criado na próxima entrada
+    //Attributes NULL value to the SingletonFacadeController object
     public void closeSingleton(){
         INSTANCE = null;
         Log.d("Teste", "Matei singleton");

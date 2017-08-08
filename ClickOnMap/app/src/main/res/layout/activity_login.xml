@@ -108,9 +108,8 @@
         android:textColor="#FFFFFF"
         android:layout_marginLeft="10dp"
         android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-         />
-    <!--android:onClick="frontToRegister"-->
+        android:foreground="?android:attr/selectableItemBackground" />
+
 
     <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
         android:id="@+id/login_or_text"
