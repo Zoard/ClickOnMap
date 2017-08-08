@@ -117,8 +117,9 @@
         android:layout_height="60dp"
         android:layout_below="@+id/register_password_confirmation"
         android:background="@drawable/register_btn"
-        android:onClick="registerUser"
+
         android:layout_marginBottom="20dp"/>
+    <!--android:onClick="registerUser"-->
 
 
 </RelativeLayout>

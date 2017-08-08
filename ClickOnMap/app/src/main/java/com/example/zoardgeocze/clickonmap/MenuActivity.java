@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Adapter.MenuAdapter;
 import com.example.zoardgeocze.clickonmap.Model.AddTile;
@@ -66,7 +67,10 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 1) {
+        if (resultCode == 0) {
+            Toast.makeText(this,"Não foi possível realizar seu cadastro no sistema.\n Tente novamente.", Toast.LENGTH_SHORT).show();
+        }
+        else if(resultCode == 1) {
             Bundle bundle = data.getExtras();
             VGISystem vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
             User user = (User) bundle.getSerializable("user");

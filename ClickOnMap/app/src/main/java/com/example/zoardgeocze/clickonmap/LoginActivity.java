@@ -66,8 +66,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == 0) {
-            //Não faz nada aqui
-
+            setResult(0,this.intent);
+            finish();
         }
         else if(resultCode == 1) {
             Bundle bundle = data.getExtras();

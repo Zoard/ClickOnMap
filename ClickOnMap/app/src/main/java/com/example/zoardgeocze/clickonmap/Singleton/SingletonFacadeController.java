@@ -144,6 +144,22 @@ public final class SingletonFacadeController {
         return true;
     }
 
+    public String getFirebaseKey() {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        Cursor c = db.search("Device", new String[]{"fcmKey"}, "", "");
+        String firebaseKey = "";
+
+        while (c.moveToNext()) {
+            firebaseKey = c.getString(c.getColumnIndex("fcmKey"));
+        }
+
+        c.close();
+
+        return firebaseKey;
+    }
+
     //Atribui valor NULO ao objeto para que o mesmo seja criado na próxima entrada
     //Attributes NULL value to the SingletonFacadeController object
     public void closeSingleton(){
