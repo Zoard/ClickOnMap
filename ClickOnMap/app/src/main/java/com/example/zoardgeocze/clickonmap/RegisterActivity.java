@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
+import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 
@@ -97,6 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
                         vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
                         String firebaseKey = generalController.getFirebaseKey();
 
+                        //sendUserToServer();
                         sendMobileSystemToServer(firebaseKey);
 
                     } else {
@@ -126,6 +128,35 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(),"Não foi possível fazer cadastro no sistema. Tente novamente.",Toast.LENGTH_SHORT).show();
         }
     }
+
+    //TODO: Terminar a implementação na parte do servidor
+    /*private void sendUserToServer() {
+        final ProgressDialog mProgressDialog = new ProgressDialog(RegisterActivity.this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Cadastrando usuário no sistema...");
+        mProgressDialog.show();
+
+        Call<String> call = new RetrofitClientInitializer(this.vgiSystem.getAdress()).getUserService().sendUserToServer("send",this.user);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.i("Register_User_Server: ", response.body());
+
+                if (mProgressDialog.isShowing()){
+                    mProgressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.i("Register_User_Server:", t.getMessage());
+
+                if (mProgressDialog.isShowing()){
+                    mProgressDialog.dismiss();
+                }
+            }
+        });
+    }*/
 
     //Envia para o server central a chave do firebase junto com o endereço do sistema para futuras notificações
     private void sendMobileSystemToServer(String firebaseKey) {
