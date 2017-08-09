@@ -41,7 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText registerPasswordConfirmation;
     private Button registerButton;
 
-    private boolean sendMobileSystemVerifier = false;
+    private Intent intent;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
         this.registerPassword = (EditText) findViewById(R.id.register_password);
         this.registerPasswordConfirmation = (EditText) findViewById(R.id.register_password_confirmation);
 
+        this.intent = getIntent();
+
         registerUser();
 
     }
@@ -68,6 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //TODO: Falta implementar verificação para saber se Usuário já Existe no Sistema
+    //Botao para registrar o usuário
     public void registerUser() {
 
         this.registerButton = (Button) findViewById(R.id.register_btn);
@@ -82,29 +86,18 @@ public class RegisterActivity extends AppCompatActivity {
                 if(!userName.equals("") && !userEmail.equals("") && !userPass.equals("") && !userPassConfirm.equals("")) {
                     if(userPass.equals(userPassConfirm)) {
 
+                        Date date = new Date();
+                        Timestamp timestamp = new Timestamp(date.getTime());
+
+                        user = new User(userEmail,userEmail,userName,userPass,String.valueOf(timestamp));
+
                         Intent intent = getIntent();
                         Bundle bundle = intent.getExtras();
 
                         vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
                         String firebaseKey = generalController.getFirebaseKey();
 
-                        if(sendMobileSystemToServer(firebaseKey)) {
-                            Date date = new Date();
-                            Timestamp timestamp = new Timestamp(date.getTime());
-
-                            user = new User(userEmail,userEmail,userName,userPass,String.valueOf(timestamp));
-
-                            bundle.putSerializable("user",user);
-
-                            intent.putExtras(bundle);
-
-                            setResult(1,intent);
-                            finish();
-                        } else {
-                            Toast.makeText(getBaseContext(),"Entrou antes de requisitar no sistema.",Toast.LENGTH_SHORT).show();
-                            setResult(0,intent);
-                            finish();
-                        }
+                        sendMobileSystemToServer(firebaseKey);
 
                     } else {
                         Toast.makeText(getBaseContext(),"Senhas são diferentes.",Toast.LENGTH_SHORT).show();
@@ -117,41 +110,61 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private boolean sendMobileSystemToServer(String firebaseKey) {
+    //Confirma o registro do usuário no sistema
+    private void registerConfirmation(boolean verifier) {
+
+        if(verifier) {
+
+            bundle = intent.getExtras();
+            bundle.putSerializable("user",user);
+            intent.putExtras(bundle);
+
+            setResult(1,intent);
+            finish();
+
+        } else {
+            Toast.makeText(getBaseContext(),"Não Aceito.",Toast.LENGTH_SHORT).show();
+            setResult(0,intent);
+            finish();
+        }
+    }
+
+    //Envia para o server central a chave do firebase junto com o endereço do sistema para futuras notificações
+    private void sendMobileSystemToServer(String firebaseKey) {
         if (!firebaseKey.equals("")) {
 
-            /*final ProgressDialog mProgressDialog = new ProgressDialog(this);
+            final ProgressDialog mProgressDialog = new ProgressDialog(RegisterActivity.this);
             mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Carregando Sistemas VGI...");
-            mProgressDialog.show();*/
+            mProgressDialog.setMessage("Cadastrando no sistema...");
+            mProgressDialog.show();
 
             Call<String> call = new RetrofitInitializer()
                     .getSystemService()
-                    .sendMobileSystemToServer("sendMobileSystem",firebaseKey,this.vgiSystem.getAdress());
+                    .sendMobileSystemToServer("sendMobileSystem",this.vgiSystem.getAdress(),firebaseKey);
 
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
                     Log.i("SendMobileSystem", response.body());
-                    sendMobileSystemVerifier = true;
 
-                    /*if (mProgressDialog.isShowing()){
+                    registerConfirmation(true);
+
+                    if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
-                    }*/
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
                     Log.i("SendMobileSystem", t.getMessage());
-                    sendMobileSystemVerifier = false;
 
-                    /*if (mProgressDialog.isShowing()) {
+                    registerConfirmation(false);
+
+                    if (mProgressDialog.isShowing()) {
                         mProgressDialog.dismiss();
-                    }*/
+                    }
                 }
             });
         }
-
-        return sendMobileSystemVerifier;
     }
 }
