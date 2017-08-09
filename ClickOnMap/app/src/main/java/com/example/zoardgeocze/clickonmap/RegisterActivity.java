@@ -123,9 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
             finish();
 
         } else {
-            Toast.makeText(getBaseContext(),"Não Aceito.",Toast.LENGTH_SHORT).show();
-            setResult(0,intent);
-            finish();
+            Toast.makeText(getBaseContext(),"Não foi possível fazer cadastro no sistema. Tente novamente.",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -141,7 +139,6 @@ public class RegisterActivity extends AppCompatActivity {
             Call<String> call = new RetrofitInitializer()
                     .getSystemService()
                     .sendMobileSystemToServer("sendMobileSystem",this.vgiSystem.getAdress(),firebaseKey);
-
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
