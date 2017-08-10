@@ -5,10 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Adapter.MenuAdapter;
+import com.example.zoardgeocze.clickonmap.Helper.CallbackItemTouch;
+import com.example.zoardgeocze.clickonmap.Helper.ItemTouchHelperCallback;
 import com.example.zoardgeocze.clickonmap.Model.AddTile;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
@@ -24,7 +27,7 @@ import java.util.List;
  * Created by ZoardGeocze on 03/05/2017.
  */
 
-public class MenuActivity extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity implements CallbackItemTouch{
 
     private SingletonFacadeController generalController;
 
@@ -48,10 +51,12 @@ public class MenuActivity extends AppCompatActivity {
         Log.d("Teste", "Nasci");
 
         this.menuRecycler.setAdapter(new MenuAdapter(menuTiles,this));
-
         RecyclerView.LayoutManager layout = new GridLayoutManager(this,2);
-
         this.menuRecycler.setLayoutManager(layout);
+
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(this);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(this.menuRecycler);
 
     }
 
@@ -98,5 +103,11 @@ public class MenuActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d("Teste", "Matei");
         this.generalController.closeSingleton();
+    }
+
+    @Override
+    public void itemTouchOnMove(int oldPosition, int newPosition) {
+        this.menuTiles.add(newPosition,this.menuTiles.remove(oldPosition));
+        this.menuRecycler.getAdapter().notifyItemMoved(oldPosition,newPosition);
     }
 }

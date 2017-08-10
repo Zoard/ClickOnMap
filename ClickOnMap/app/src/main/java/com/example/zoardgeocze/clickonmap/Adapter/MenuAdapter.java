@@ -2,11 +2,9 @@ package com.example.zoardgeocze.clickonmap.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Model.AddTile;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
@@ -66,11 +64,11 @@ public class MenuAdapter extends RecyclerView.Adapter {
 
         }
 
-
     }
 
     @Override
     public int getItemCount() {
         return tiles.size();
     }
+
 }
