@@ -110,4 +110,11 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
         this.menuTiles.add(newPosition,this.menuTiles.remove(oldPosition));
         this.menuRecycler.getAdapter().notifyItemMoved(oldPosition,newPosition);
     }
+
+    @Override
+    public void onItemDismiss(int position) {
+        //TODO:Implementar talvez um Modal aqui confirmando a exclusão
+        this.menuTiles.remove(position);
+        this.menuRecycler.getAdapter().notifyDataSetChanged();
+    }
 }
