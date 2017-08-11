@@ -7,11 +7,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Adapter.MenuAdapter;
 import com.example.zoardgeocze.clickonmap.Helper.CallbackItemTouch;
 import com.example.zoardgeocze.clickonmap.Helper.ItemTouchHelperCallback;
+import com.example.zoardgeocze.clickonmap.Helper.RecyclerItemClickListener;
 import com.example.zoardgeocze.clickonmap.Model.AddTile;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
@@ -34,6 +38,7 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
     private List<Tile> menuTiles = new ArrayList<>();
 
     private RecyclerView menuRecycler;
+    private ImageView deleteIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
         setContentView(R.layout.activity_menu);
 
         this.menuRecycler = (RecyclerView) findViewById(R.id.menu_recycler);
+        this.deleteIcon = (ImageView) findViewById(R.id.delete_item);
 
         getSystemsFromDataBase();//Verifica existência de sistemas VGI no banco local
 
@@ -53,6 +59,48 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
         this.menuRecycler.setAdapter(new MenuAdapter(menuTiles,this));
         RecyclerView.LayoutManager layout = new GridLayoutManager(this,2);
         this.menuRecycler.setLayoutManager(layout);
+
+        //TODO: Implementar a deleção do Tile aqui
+        /*this.menuRecycler.addOnItemTouchListener(new RecyclerItemClickListener(this, this.menuRecycler, new RecyclerItemClickListener.ClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+
+            @Override
+            public void onLongItemClick(View view, final int position) {
+
+                deleteIcon.setVisibility(view.VISIBLE);
+
+                menuRecycler.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        int y = ItemTouchHelperCallback.y;
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_MOVE:
+                                if (y < -50) {
+                                    //deleteIcon.setImageDrawable(getDrawable(R.drawable.delete_icon));
+                                } else {
+                                    deleteIcon.setImageDrawable(getDrawable(R.drawable.delete_icon));
+                                }
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                if (y < -50) {
+                                    menuTiles.remove(position);
+                                    menuRecycler.getAdapter().notifyDataSetChanged();
+                                    deleteIcon.setImageDrawable(getDrawable(R.drawable.delete_icon));
+                                    deleteIcon.setVisibility(View.GONE);
+                                    return true;
+                                }
+                                deleteIcon.setVisibility(View.GONE);
+                            case MotionEvent.ACTION_CANCEL:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+            }
+        }));*/
 
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(this);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
@@ -73,7 +121,7 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 0) {
-            Toast.makeText(this,"Não foi possível realizar seu cadastro no sistema.\n Tente novamente.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Não foi possível realizar seu cadastro no sistema. Tente novamente.", Toast.LENGTH_SHORT).show();
         }
         else if(resultCode == 1) {
             Bundle bundle = data.getExtras();

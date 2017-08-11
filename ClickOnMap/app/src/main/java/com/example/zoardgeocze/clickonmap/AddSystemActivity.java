@@ -3,6 +3,7 @@ package com.example.zoardgeocze.clickonmap;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +34,7 @@ public class AddSystemActivity extends AppCompatActivity {
 
     private List<VGISystem> vgiSystems = new ArrayList<>();
     private RecyclerView addSystemRecycler;
+    private SwipeRefreshLayout swipeSystemList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +47,17 @@ public class AddSystemActivity extends AppCompatActivity {
 
         getSystemsFromServer();
 
+        this.swipeSystemList = (SwipeRefreshLayout) findViewById(R.id.swipe_system_list);
+        this.swipeSystemList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getSystemsFromServerRefresh();
+            }
+        });
+
+
     }
+
 
     private void getSystemsFromServer() {
 
@@ -94,6 +106,48 @@ public class AddSystemActivity extends AppCompatActivity {
                     mProgressDialog.dismiss();
                 }
 
+            }
+        });
+
+    }
+
+    private void getSystemsFromServerRefresh() {
+
+        Call<VGISystemSync> call = new RetrofitInitializer().getSystemService().getVGISystemList("getVGISystem");
+        call.enqueue(new Callback<VGISystemSync>() {
+            @Override
+            public void onResponse(Call<VGISystemSync> call, Response<VGISystemSync> response) {
+
+                VGISystemSync vgiSystemSync = response.body();
+
+                if(vgiSystemSync != null) {
+                    for (VGISystem vs : vgiSystemSync.getVgiSystems()) {
+                        if(generalController.searchVGISystem(vs)) {
+                            vgiSystems.add(vs);
+                        }
+                    }
+                }
+
+
+                Log.i("onResponse_VGISYSTEM: ", String.valueOf(vgiSystems.size()));
+
+                if(!vgiSystems.isEmpty()) {
+                    loadAvailableVGISystems();
+                } else {
+                    Toast.makeText(getBaseContext(),"Nenhum sistema VGI disponível",Toast.LENGTH_SHORT).show();
+                }
+
+                swipeSystemList.setRefreshing(false);
+
+            }
+
+            @Override
+            public void onFailure(Call<VGISystemSync> call, Throwable t) {
+                Log.i("onFailure_VGISYSTEM: ", t.getMessage());
+
+                Toast.makeText(getBaseContext(),"Sem conexão",Toast.LENGTH_SHORT).show();
+
+                swipeSystemList.setRefreshing(false);
             }
         });
 
