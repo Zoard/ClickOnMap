@@ -1,6 +1,5 @@
-package com.example.zoardgeocze.clickonmap.FCM;
+package com.example.zoardgeocze.clickonmap.fcm;
 
-import android.os.Handler;
 import android.util.Log;
 
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
@@ -49,7 +48,7 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
     /**
      * Persist token to third-party servers.
      *
-     * Modify this method to associate the user's FCM InstanceID token with any server-side account
+     * Modify this method to associate the user's fcm InstanceID token with any server-side account
      * maintained by your application.
      *
      *

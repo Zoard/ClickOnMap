@@ -1,8 +1,6 @@
-package com.example.zoardgeocze.clickonmap.FCM;
+package com.example.zoardgeocze.clickonmap.fcm;
 
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -15,12 +13,12 @@ import java.util.Map;
  */
 
 public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService {
-    private static final String TAG = "FCM Service";
+    private static final String TAG = "fcm Service";
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // TODO: Handle FCM messages here.
+        // TODO: Handle fcm messages here. Fazer com que o sistema mude de endereço no banco local.
         // If the application is in the foreground handle both data and notification messages here.
-        // Also if you intend on generating your own notifications as a result of a received FCM
+        // Also if you intend on generating your own notifications as a result of a received fcm
         // message, here is where that should be initiated.
         Log.i(TAG, "From: " + remoteMessage.getFrom());
 

@@ -12,7 +12,7 @@ import retrofit2.http.POST;
 public interface FirebaseService {
 
     @FormUrlEncoded
-    @POST("FCM/")
+    @POST("fcm/")
     Call<String> sendFirebaseKeyToServer(@Field("tag") String tag, @Field("firebaseKey") String firebaseKey, @Field("creationDate") String creationDate);
 
 

@@ -127,8 +127,8 @@ public final class SingletonFacadeController {
         return true;
     }
 
-    //Registra a chave FCM quando o usuário instala o aplicativo
-    //Register the FCM Key when the user installs the app
+    //Registra a chave fcm quando o usuário instala o aplicativo
+    //Register the fcm Key when the user installs the app
     public boolean registerFirebaseKey(Context context, String firebaseKey, String creationDate) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
