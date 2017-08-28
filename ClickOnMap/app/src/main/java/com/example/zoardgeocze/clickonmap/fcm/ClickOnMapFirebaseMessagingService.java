@@ -2,10 +2,12 @@ package com.example.zoardgeocze.clickonmap.fcm;
 
 import android.util.Log;
 
+import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -13,7 +15,11 @@ import java.util.Map;
  */
 
 public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService {
+
     private static final String TAG = "fcm Service";
+
+    private SingletonFacadeController generalController;
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // TODO: Handle fcm messages here. Fazer com que o sistema mude de endereço no banco local.
@@ -27,24 +33,47 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
 
             Map<String, String> data = remoteMessage.getData();
             if(data.size() > 0){
-                //String msg = data.get("msg");
                 String msg = "";
-                // Decodificando a msg
+                // Decodificando a msg e o corpo
                 try {
-                    msg = new String(data.get("msg").getBytes(), "UTF-8");
+                    msg = new String(data.get("message").getBytes(), "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
 
                 Log.i(TAG, "Msg: " + msg);
 
+                if(msg.equals("change_adress")) {
+
+                    String oldAdress = data.get("oldAdress");
+                    String newAdress = data.get("newAdress");
+
+                    changeSystemAdress(oldAdress,newAdress);
+
+                } else if(msg.equals("delete_system")) {
+
+                    String adress = data.get("oldAdress");
+
+                    deleteSystem(adress);
+
+                }
+
                 String horario = data.get("horario");
 
                 Log.i(TAG, "Horario: " + horario);
-
             }
         }
 
         Log.i(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
+    }
+
+    private void changeSystemAdress(String oldAdress, String newAdress) {
+        this.generalController = SingletonFacadeController.getInstance();
+        this.generalController.updateVGISystemAdress(oldAdress,newAdress);
+    }
+
+    private void deleteSystem(String adress) {
+        this.generalController = SingletonFacadeController.getInstance();
+        this.generalController.deleteVGISystem(adress);
     }
 }

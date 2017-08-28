@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.example.zoardgeocze.clickonmap.MenuActivity;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
@@ -123,6 +124,28 @@ public final class SingletonFacadeController {
         newUser.put("registerDate",user.getRegisterDate());
 
         db.insert("User",newUser);
+
+        return true;
+    }
+
+    public boolean updateVGISystemAdress(String oldAdress, String newAdress) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        ContentValues updateSystem = new ContentValues();
+
+        updateSystem.put("adress",newAdress);
+
+        db.update("SystemVGI",updateSystem,"adress = '" + oldAdress + "'");
+
+        return true;
+    }
+
+    public boolean deleteVGISystem(String adress) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        db.delete("SystemVGI","adress = '" + adress + "'");
 
         return true;
     }

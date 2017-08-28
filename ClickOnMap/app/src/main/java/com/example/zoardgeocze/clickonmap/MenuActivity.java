@@ -40,6 +40,14 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
     private RecyclerView menuRecycler;
     private ImageView deleteIcon;
 
+    public List<Tile> getMenuTiles() {
+        return menuTiles;
+    }
+
+    public void setMenuTiles(List<Tile> menuTiles) {
+        this.menuTiles = menuTiles;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
