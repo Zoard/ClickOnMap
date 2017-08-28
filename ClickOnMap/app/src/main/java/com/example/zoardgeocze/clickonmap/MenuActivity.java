@@ -40,6 +40,8 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
     private RecyclerView menuRecycler;
     private ImageView deleteIcon;
 
+    //TODO: Implementar um Observer para o Tile
+
     public List<Tile> getMenuTiles() {
         return menuTiles;
     }

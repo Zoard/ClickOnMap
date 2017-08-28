@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.AddSystemActivity;
 import com.example.zoardgeocze.clickonmap.LoginActivity;
+import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.R;
 
@@ -79,6 +80,14 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
         } else {
             Log.i("SYSTEM_TILE_CLICK","SYSTEM_TILE_CLICK");
+
+
+            //Testando se este Tile aqui está sendo modificado
+            if(this.tile instanceof SystemTile) {
+                SystemTile systemTile = (SystemTile) tile;
+                Toast.makeText(this.context,"Endereço do Tile é: " + systemTile.getSystem().getAdress(),Toast.LENGTH_SHORT).show();
+            }
+
 
             //TODO: Implementar login do usuário no sistema, verificando a sessão do sistema
 
