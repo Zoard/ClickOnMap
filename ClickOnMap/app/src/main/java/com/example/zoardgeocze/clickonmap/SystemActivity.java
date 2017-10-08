@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
@@ -21,7 +22,11 @@ public class SystemActivity extends AppCompatActivity {
     private Intent intent;
     private Bundle bundle;
 
-    private TextView title;
+    private TextView systemName;
+    private TextView systemDescription;
+    private TextView latitudeValue;
+    private TextView longitudeValue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +37,37 @@ public class SystemActivity extends AppCompatActivity {
         this.bundle = this.intent.getExtras();
         this.vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
 
-        this.title = (TextView) findViewById(R.id.system_name);
-        this.title.setText(this.vgiSystem.getName());
+        this.systemName = (TextView) findViewById(R.id.system_name);
+        this.systemName.setText(this.vgiSystem.getName());
+
+        this.systemDescription = (TextView) findViewById(R.id.system_description);
+        this.systemDescription.setText(this.vgiSystem.getDescription());
+
+    }
+
+    public void goToMap(View view) {
+
+    }
+
+    public void goToOptions(View view) {
+
+    }
+
+    public void collaborate(View view) {
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
