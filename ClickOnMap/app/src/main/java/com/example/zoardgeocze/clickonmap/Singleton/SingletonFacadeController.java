@@ -183,6 +183,22 @@ public final class SingletonFacadeController {
         return firebaseKey;
     }
 
+    public String hasSession(String adress) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+        Cursor c = db.search("SystemVGI", new String[]{"hasSession"},"adress = '" + adress + "'","");
+        String systemAdress = "N";
+
+        while (c.moveToNext()) {
+            systemAdress = c.getString(c.getColumnIndex("hasSession"));
+        }
+
+        c.close();
+
+        return systemAdress;
+
+    }
+
     //Atribui valor NULO ao objeto para que o mesmo seja criado na próxima entrada
     //Attributes NULL value to the SingletonFacadeController object
     public void closeSingleton(){

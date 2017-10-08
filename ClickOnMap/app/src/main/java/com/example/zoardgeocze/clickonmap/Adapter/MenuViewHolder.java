@@ -1,6 +1,7 @@
 package com.example.zoardgeocze.clickonmap.Adapter;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -22,6 +23,8 @@ import com.example.zoardgeocze.clickonmap.LoginActivity;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.R;
+import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.SystemActivity;
 
 import org.w3c.dom.Text;
 
@@ -31,6 +34,8 @@ import org.w3c.dom.Text;
  */
 
 public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    private SingletonFacadeController generalController;
 
     final TextView tileName;
     final RelativeLayout tileLayout;
@@ -52,6 +57,8 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public MenuViewHolder(View itemView, Context context) {
 
         super(itemView);
+
+        this.generalController = SingletonFacadeController.getInstance();
 
         tileName = (TextView) itemView.findViewById(R.id.tile_name);
         tileLayout = (RelativeLayout) itemView.findViewById(R.id.tile_main);
@@ -81,13 +88,23 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         } else {
             Log.i("SYSTEM_TILE_CLICK","SYSTEM_TILE_CLICK");
 
-
             //Testando se este Tile aqui está sendo modificado
             if(this.tile instanceof SystemTile) {
                 SystemTile systemTile = (SystemTile) tile;
                 Toast.makeText(this.context,"Endereço do Tile é: " + systemTile.getSystem().getAdress(),Toast.LENGTH_SHORT).show();
-            }
+                String hasSession = this.generalController.hasSession(systemTile.getSystem().getAdress());
 
+                if(hasSession.equals("Y")) {
+                    Intent intent = new Intent(this.context, SystemActivity.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("vgiSystem",systemTile.getSystem());
+
+                    intent.putExtras(bundle);
+
+                    ((Activity)this.context).startActivity(intent);
+                }
+            }
 
             //TODO: Implementar login do usuário no sistema, verificando a sessão do sistema
 
