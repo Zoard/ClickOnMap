@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.zoardgeocze.clickonmap.SystemActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/colab_image"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/system_img"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/close_colab_btn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/close_btn"
+            android:clickable="true"
+            android:onClick="goToOptions" />
+
+
+        <com.example.zoardgeocze.clickonmap.Design.AvenirLightTextView
+            android:id="@+id/colab_system_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="100dp"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+        <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+            android:id="@+id/colab_description_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/colab_image"
+            android:text="Descrição"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="#8E8E92"
+            android:textSize="18sp"/>
+
+        <FrameLayout
+            android:id="@+id/text_box"
+            android:layout_width="match_parent"
+            android:layout_height="115dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/tile_border"
+            android:layout_below="@+id/colab_description_title" />
+
+        <com.example.zoardgeocze.clickonmap.Design.AvenirBookEditText
+            android:id="@+id/colab_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/text_box"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:backgroundTint="@android:color/transparent"
+            android:maxLines="5"
+            android:maxLength="200"/>
+
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

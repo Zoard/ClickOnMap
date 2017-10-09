@@ -62,7 +62,8 @@ public class SystemActivity extends AppCompatActivity {
     }
 
     public void collaborate(View view) {
-
+        Intent intent = new Intent(this, ColabActivity.class);
+        startActivity(intent);
     }
 
     @Override
