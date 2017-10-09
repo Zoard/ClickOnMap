@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
+import com.example.zoardgeocze.clickonmap.Services.Locationer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 
 /**
@@ -17,6 +18,8 @@ import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 public class SystemActivity extends AppCompatActivity {
 
     private SingletonFacadeController generalController;
+
+    private Locationer location;
 
     private VGISystem vgiSystem;
     private Intent intent;
@@ -43,6 +46,11 @@ public class SystemActivity extends AppCompatActivity {
         this.systemDescription = (TextView) findViewById(R.id.system_description);
         this.systemDescription.setText(this.vgiSystem.getDescription());
 
+        this.latitudeValue = (TextView) findViewById(R.id.latitude_value);
+        this.longitudeValue = (TextView) findViewById(R.id.longitude_value);
+
+        this.location = new Locationer(this,this.latitudeValue,this.longitudeValue);
+
     }
 
     public void goToMap(View view) {
@@ -55,6 +63,12 @@ public class SystemActivity extends AppCompatActivity {
 
     public void collaborate(View view) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        this.location.getClient().disconnect();
+        super.onDestroy();
     }
 }
 
