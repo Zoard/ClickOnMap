@@ -1,81 +1,234 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.zoardgeocze.clickonmap.SystemActivity">
+    tools:context="com.example.zoardgeocze.clickonmap.SystemActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/colab_image"
+        android:layout_width="fill_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/system_img"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/close_colab_btn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/close_btn"
+        android:clickable="true"
+        android:onClick="closeColab" />
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirLightTextView
+        android:id="@+id/colab_system_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="80dp"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
+
+    <ScrollView
+        android:id="@+id/colab_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/colab_image">
 
-        <ImageView
-            android:id="@+id/colab_image"
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:adjustViewBounds="true"
-            android:cropToPadding="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/system_img"
-            tools:ignore="ContentDescription" />
-
-        <ImageButton
-            android:id="@+id/close_colab_btn"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/close_btn"
-            android:clickable="true"
-            android:onClick="goToOptions" />
-
-
-        <com.example.zoardgeocze.clickonmap.Design.AvenirLightTextView
-            android:id="@+id/colab_system_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="100dp"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp" />
-
-        <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
-            android:id="@+id/colab_description_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/colab_image"
-            android:text="Descrição"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="15dp"
-            android:textColor="#8E8E92"
-            android:textSize="18sp"/>
-
-        <FrameLayout
-            android:id="@+id/text_box"
+        <RelativeLayout
+            android:id="@+id/colab_form_layout"
             android:layout_width="match_parent"
-            android:layout_height="115dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:background="@drawable/tile_border"
-            android:layout_below="@+id/colab_description_title" />
+            android:layout_height="wrap_content">
 
-        <com.example.zoardgeocze.clickonmap.Design.AvenirBookEditText
-            android:id="@+id/colab_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/text_box"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:backgroundTint="@android:color/transparent"
-            android:maxLines="5"
-            android:maxLength="200"/>
+            <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+                android:id="@+id/colab_title_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Título"
+                android:textSize="18sp"
+                android:textColor="#8E8E92"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"/>
 
+            <FrameLayout
+                android:id="@+id/text_box_1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/tile_border"
+                android:layout_below="@+id/colab_title_title"/>
 
-    </RelativeLayout>
+            <com.example.zoardgeocze.clickonmap.Design.AvenirBookEditText
+                android:id="@+id/colab_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/text_box_1"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:backgroundTint="@android:color/transparent"
+                android:maxLines="1"
+                android:maxLength="30"
+                android:hint="Ex: Buraco na Rua (Max. 30)"
+                android:textIsSelectable="true"/>
 
+            <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+                android:id="@+id/colab_description_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_box_1"
+                android:text="Descrição"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#8E8E92"
+                android:textSize="18sp"/>
 
-</android.support.design.widget.CoordinatorLayout>
+            <FrameLayout
+                android:id="@+id/text_box_2"
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/tile_border"
+                android:layout_below="@+id/colab_description_title"/>
+
+            <com.example.zoardgeocze.clickonmap.Design.AvenirBookEditText
+                android:id="@+id/colab_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/text_box_2"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:backgroundTint="@android:color/transparent"
+                android:maxLines="5"
+                android:maxLength="200"
+                android:textIsSelectable="true"
+                android:hint="Ex: Buraco grande na Rua dos Passos, cuidado ao passar de carro. (Max. 200)"
+                />
+
+            <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+                android:id="@+id/colab_category_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_box_2"
+                android:text="Categoria"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#8E8E92"
+                android:textSize="18sp"/>
+
+            <FrameLayout
+                android:id="@+id/category_box_1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/tile_border"
+                android:layout_below="@+id/colab_category_title"/>
+
+            <Spinner
+                android:id="@+id/colab_category"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_below="@+id/colab_category_title"
+                android:layout_alignTop="@+id/category_box_1">
+            </Spinner>
+
+            <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+                android:id="@+id/colab_subcategory_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/colab_category"
+                android:text="Subcategoria"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#8E8E92"
+                android:textSize="18sp"/>
+
+            <FrameLayout
+                android:id="@+id/category_box_2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/tile_border"
+                android:layout_below="@+id/colab_subcategory_title"/>
+
+            <Spinner
+                android:id="@+id/colab_subcategory"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_below="@+id/colab_subcategory_title"
+                android:layout_alignTop="@+id/category_box_2">
+            </Spinner>
+
+            <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+                android:id="@+id/colab_midia_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/category_box_2"
+                android:text="Mídia"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#8E8E92"
+                android:textSize="18sp"/>
+
+            <ImageButton
+                android:id="@+id/colab_photo_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/photo"
+                android:layout_below="@+id/colab_midia_title"
+                android:layout_marginStart="60dp"
+                android:clickable="true"
+                android:onClick="takePicture"
+                android:contentDescription="Tirar Foto"/>
+
+            <ImageButton
+                android:id="@+id/colab_video_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/video"
+                android:layout_below="@+id/colab_midia_title"
+                android:clickable="true"
+                android:onClick="takeVideo"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="Fazer Vídeo"/>
+
+            <ImageButton
+                android:id="@+id/colab_audio_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/speaker"
+                android:layout_below="@+id/colab_midia_title"
+                android:clickable="true"
+                android:onClick="takeAudio"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="Mandar Áudio"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="60dp"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
