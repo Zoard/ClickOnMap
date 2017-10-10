@@ -34,7 +34,7 @@
         android:id="@+id/colab_system_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="80dp"
         android:textColor="#FFFFFF"
         android:textSize="30sp" />
@@ -54,7 +54,7 @@
                 android:id="@+id/colab_title_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Título"
+                android:text="Título*"
                 android:textSize="18sp"
                 android:textColor="#8E8E92"
                 android:layout_marginLeft="20dp"
@@ -80,7 +80,7 @@
                 android:backgroundTint="@android:color/transparent"
                 android:maxLines="1"
                 android:maxLength="30"
-                android:hint="Ex: Buraco na Rua (Max. 30)"
+                android:hint="Ex: Buraco na Rua (Máx. 30)"
                 android:textIsSelectable="true"/>
 
             <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
@@ -115,7 +115,7 @@
                 android:maxLines="5"
                 android:maxLength="200"
                 android:textIsSelectable="true"
-                android:hint="Ex: Buraco grande na Rua dos Passos, cuidado ao passar de carro. (Max. 200)"
+                android:hint="Ex: Buraco grande na Rua dos Passos, cuidado ao passar de carro. (Máx. 200)"
                 />
 
             <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_box_2"
-                android:text="Categoria"
+                android:text="Categoria*"
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginBottom="10dp"
@@ -226,6 +226,16 @@
                 android:contentDescription="Mandar Áudio"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="60dp"/>
+
+            <Button
+                android:id="@+id/colab_btn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/colab_video_btn"
+                android:background="@drawable/colaborate_btn"
+                android:onClick="sendColaboration"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="30dp"/>
 
         </RelativeLayout>
 

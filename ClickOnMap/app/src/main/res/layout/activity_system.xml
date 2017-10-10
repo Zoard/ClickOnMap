@@ -46,22 +46,21 @@
             android:id="@+id/system_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="100dp"
             android:textColor="#FFFFFF"
-            android:textSize="30sp" />
+            android:textSize="30sp"/>
 
         <Button
             android:id="@+id/collaboration_btn"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/collaboration_btn"
+            android:background="@drawable/clickonmap_logo"
             android:layout_below="@+id/system_map_btn"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginTop="48dp"
-            android:onClick="collaborate"
-            />
+            android:onClick="collaborate" />
 
         <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
             android:id="@+id/system_description"

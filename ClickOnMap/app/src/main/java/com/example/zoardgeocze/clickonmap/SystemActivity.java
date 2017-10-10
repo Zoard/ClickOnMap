@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Services.Locationer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by ZoardGeocze on 08/10/17.
@@ -62,9 +64,25 @@ public class SystemActivity extends AppCompatActivity {
     }
 
     public void collaborate(View view) {
-        Intent intent = new Intent(this, ColabActivity.class);
-        intent.putExtras(this.bundle);
-        startActivity(intent);
+
+        String latText = this.latitudeValue.getText().toString();
+        String lngText = this.longitudeValue.getText().toString();
+
+        if(!latText.equals("") && !lngText.equals("")) {
+
+            Intent intent = new Intent(this, ColabActivity.class);
+
+            Double lat = Double.valueOf(latText);
+            Double lng = Double.valueOf(lngText);
+
+            intent.putExtra("latitude",lat);
+            intent.putExtra("longitude",lng);
+            intent.putExtras(this.bundle);
+
+            startActivity(intent);
+        } else {
+            Toast.makeText(this,"Coordenadas não encontradas.\nAguardando localização do aparelho.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
