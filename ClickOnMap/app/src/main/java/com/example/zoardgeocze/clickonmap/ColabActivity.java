@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
@@ -33,7 +34,8 @@ import java.util.Locale;
 
 public class ColabActivity extends AppCompatActivity {
 
-    public static final int REQUEST_TAKE_PHOTO = 1;
+    public static final int REQUEST_TAKE_PHOTO = 100;
+    public static final int REQUEST_VIDEO_CAPTURE = 101;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
@@ -67,6 +69,7 @@ public class ColabActivity extends AppCompatActivity {
 
     private Uri myPhoto;
     private String currentPhotoPath;
+    private String currentVideoPath;
 
     private static String ID;
     private static Context myContext;
@@ -139,12 +142,37 @@ public class ColabActivity extends AppCompatActivity {
             }
         }
 
-        //this.photoBtn.setBackground(getDrawable(R.drawable.photo_on));
     }
 
-
+    //Filma uma cena pedindo resposta da câmera
     public void takeVideo(View view) {
-        //this.videoBtn.setBackground(getDrawable(R.drawable.video_on));
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+
+            // Create the File where the video should go
+            File videoFile = null;
+            try {
+                videoFile = createVideoFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.i("CAMERA_COLAB", "EXCEPTION");
+                ex.printStackTrace();
+            }
+            // Continue only if the File was successfully created
+            if (videoFile != null) {
+                Uri videoURI = FileProvider.getUriForFile(this,
+                        BuildConfig.APPLICATION_ID,
+                        videoFile);
+                Log.i("FILE_PROVIDER", videoURI.toString());
+                takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoURI);
+                takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
+                takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                takeVideoIntent.putExtra(MediaStore.EXTRA_FINISH_ON_COMPLETION, 0);
+                startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+            }
+
+
+        }
     }
 
     public void takeAudio(View view) {
@@ -153,39 +181,69 @@ public class ColabActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
-            //Bundle extras = data.getExtras();
-            //Bitmap imageBitmap = (Bitmap) extras.get("data");
-            this.photoBtn.setBackground(getDrawable(R.drawable.photo_on));
+        if (requestCode == REQUEST_TAKE_PHOTO) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this,"Imagem armazenada com sucesso ;)",Toast.LENGTH_SHORT).show();
+                this.photoBtn.setBackground(getDrawable(R.drawable.photo_on));
+            }
+            else if (resultCode == RESULT_CANCELED){
+                Toast.makeText(this,"Tirar foto cancelado",Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (requestCode == REQUEST_VIDEO_CAPTURE ) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, "Vídeo armazenado com sucesso ;)", Toast.LENGTH_SHORT).show();
+                this.videoBtn.setBackground(getDrawable(R.drawable.video_on));
+            }
+            else if (resultCode == RESULT_CANCELED){
+                Toast.makeText(this,"Filmagem cancelada",Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    //TODO: Aqui a colaboração deverá ser enviada para o Servidor do Sistema, caso contrário, colaboração é salva.
+    //TODO: Aqui a colaboração deverá ser enviada para o Servidor do Sistema, caso contrário, colaboração é salva localmente
     public void sendColaboration(View view) {
-
 
     }
 
+    //TODO: Separar essas funções criando uma Classe que realiza as tarefas de produção de Mídia
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US).format(new Date());
         String imageFileName = "IMG_" + timeStamp;
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsoluteFile();
-        Log.i("CURRENT_PHOTO", storageDir.toString());
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
         //File image = File.createTempFile(
         //        imageFileName,  /* prefix */
         //        ".jpg",         /* suffix */
         //        storageDir      /* directory */
         //);
-
         //File image = File.createTempFile(imageFileName,".jpg",storageDir);
+
         File image = new File(storageDir,imageFileName.concat(".jpg"));
 
         // Save a file: path for use with ACTION_VIEW intents
         this.currentPhotoPath = image.getAbsolutePath();
 
+        Log.i("CURRENT_PHOTO_PATH", this.currentPhotoPath);
 
         return image;
+    }
+
+    private File createVideoFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US).format(new Date());
+        String videoFileName = "VID_" + timeStamp;
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
+
+        File video = new File(storageDir,videoFileName.concat(".mp4"));
+
+        // Save a file: path for use with ACTION_VIEW intents
+        this.currentVideoPath = video.getAbsolutePath();
+
+        Log.i("CURRENT_VIDEO_PATH", this.currentVideoPath);
+
+        return video;
     }
 
 }

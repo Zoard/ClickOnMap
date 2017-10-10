@@ -32,6 +32,10 @@
         android:required="true" />
 
     <uses-feature
+        android:name="android.hardware.opengles.aep"
+        android:required="true" />
+
+    <uses-feature
         android:name="android.hardware.location.gps"
         android:required="true" />
 
