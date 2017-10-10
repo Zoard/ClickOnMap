@@ -144,9 +144,24 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
 
             this.menuTiles.add(0,systemTile);
 
+            /*
+            * FUNÇÃO TEMPORÁRIA - CRIADA PARA DE MONSTRAÇÃO DO GEOINFO
+            * */
+            populaCategoria(vgiSystem);
+
+
             //Toast.makeText(this,String.valueOf(vgiSystem.getContributions()),Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    //FUNÇÃO TEMPORÁRIA - Demo GEOINFO
+    private void populaCategoria(VGISystem vgiSystem) {
+        /*
+         * VARIÁVEIS TEMPORÁRIAS - CRIADA PARA DEMONSTRAÇÃO DO GEOINFO
+         * */
+        String[] subcategoria = new String[]{"Segurança","Usabilidade","Interface","Desenvolvimento", "GeoInfo"};
+        this.generalController.registerCategory(vgiSystem,subcategoria);
     }
 
 

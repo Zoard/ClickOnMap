@@ -16,7 +16,7 @@ public class VGISystem implements Serializable {
     private String name;
     private String description;
     private String color;
-    private List<String> category;
+    private List<String> category; //TODO: Verificar se uma tabela Hash aqui seria melhor
     private int collaborations;
     private double latX;
     private double latY;

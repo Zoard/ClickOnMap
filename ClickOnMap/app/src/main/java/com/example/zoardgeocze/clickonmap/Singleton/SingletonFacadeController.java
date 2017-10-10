@@ -35,6 +35,7 @@ public final class SingletonFacadeController {
     }
 
     //TODO: Implementar os Tiles
+    //TODO: Colocar as Categorias aqui quando o sistema carregar
     private void daoMenuTiles() {
         this.menuTiles = new ArrayList<>();
 
@@ -198,6 +199,81 @@ public final class SingletonFacadeController {
         return systemAdress;
 
     }
+
+    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public boolean registerCategory(VGISystem vgiSystem, String[] subcategorias) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        ContentValues newCategory = new ContentValues();
+
+        int eventCategoryID = 1;
+
+        newCategory.put("serverAdress",vgiSystem.getAdress());
+        newCategory.put("eventCategoryId", eventCategoryID);
+        newCategory.put("eventCategoryDescription","Teste");
+
+        db.insert("EventCategory",newCategory);
+
+        ContentValues newSubcategory;
+
+        for(int i = 0; i < subcategorias.length; i++) {
+
+            newSubcategory = new ContentValues();
+            newSubcategory.put("categoryId",eventCategoryID);
+            newSubcategory.put("eventTypeId",i+1);
+            newSubcategory.put("eventTypeDescription",subcategorias[i]);
+
+            db.insert("EventType",newSubcategory);
+        }
+
+        return true;
+
+    }
+
+    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public ArrayList<String> getCategoriesFromSystem(String systemAdress) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        ArrayList<String> categories = new ArrayList<>();
+
+        Cursor c = db.search("EventCategory",new String[]{"categoryId","eventCategoryDescription"},
+                            "serverAdress = '" + systemAdress + "'", "categoryId ASC");
+
+        while(c.moveToNext()) {
+            int categoryId = c.getInt(c.getColumnIndex("categoryId"));
+            String categoryName = c.getString(c.getColumnIndex("eventCategoryDescription"));
+            categories.add(categoryName);
+        }
+
+        return categories;
+
+    }
+
+    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public ArrayList<String> getSubcategoriesFromSystem(int categoryId) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        ArrayList<String> subcategories = new ArrayList<>();
+
+        Cursor c = db.search("EventType",new String[]{"typeId","eventTypeDescription"},
+                "categoryId = '" + categoryId + "'", "typeId ASC");
+
+        while(c.moveToNext()) {
+
+            int typeId = c.getInt(c.getColumnIndex("typeId"));
+            String subcategoryName = c.getString(c.getColumnIndex("eventTypeDescription"));
+            subcategories.add(subcategoryName);
+            Log.i("SUBCATEGORIES: ", String.valueOf(typeId) + " " + subcategoryName);
+
+        }
+
+        return subcategories;
+
+    }
+
 
     //Atribui valor NULO ao objeto para que o mesmo seja criado na próxima entrada
     //Attributes NULL value to the SingletonFacadeController object
