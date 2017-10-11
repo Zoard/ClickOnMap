@@ -113,7 +113,7 @@
                 android:backgroundTint="@android:color/transparent"
                 android:maxLines="5"
                 android:maxLength="200"
-                android:hint="Ex: Buraco grande na Rua dos Passos, cuidado ao passar de carro. (Máx. 200)"
+                android:hint="Ex: Cuidado ao passar (Máx. 200)"
                 />
 
             <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
