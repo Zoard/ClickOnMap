@@ -5,19 +5,16 @@
     <permission
         android:name="com.example.zoardgeocze.clickonmap.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
-
     <uses-permission android:name="com.example.zoardgeocze.clickonmap.permission.MAPS_RECEIVE" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.W"/>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -95,6 +92,10 @@
             android:name=".ColabActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBFPyIGBrDuug-PCQNKpNSKYBMj4M7pKCg" />
 
         <service
             android:name=".fcm.ClickOnMapFirebaseMessagingService"
