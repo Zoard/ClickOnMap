@@ -315,8 +315,9 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
             String titleText = this.title.getText().toString();
             String descriptionText = this.description.getText().toString();
             String timeStamp = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.US).format(new Date());
+            String userId = this.generalController.getUserId(this.vgiSystem.getAdress());
 
-            this.collaboration = new Collaboration(titleText,descriptionText, timeStamp, this.choosedCategoryId,
+            this.collaboration = new Collaboration(userId,titleText,descriptionText, timeStamp, this.choosedCategoryId,
                                                     this.choosedCategory, this.choosedSubcategoryId, this.choosedSubcategory,
                                                     this.currentPhotoPath, this.currentVideoPath,this.currentAudioPath,
                                                     this.latitude, this.longitude);

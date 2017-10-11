@@ -5,37 +5,32 @@
     <permission
         android:name="com.example.zoardgeocze.clickonmap.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="com.example.zoardgeocze.clickonmap.permission.MAPS_RECEIVE" />
 
+    <uses-permission android:name="com.example.zoardgeocze.clickonmap.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="false" />
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="true" />
-
     <uses-feature
         android:name="android.hardware.opengles.aep"
         android:required="true" />
-
     <uses-feature
         android:name="android.hardware.location.gps"
         android:required="true" />
-
     <uses-feature
         android:name="android.hardware.microphone"
         android:required="true" />
@@ -47,7 +42,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}"
@@ -55,8 +49,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths">
-            </meta-data>
+                android:resource="@xml/file_paths"></meta-data>
         </provider>
 
         <meta-data
@@ -112,6 +105,10 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".MapaActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

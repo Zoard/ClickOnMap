@@ -30,7 +30,7 @@ public class SingletonDataBase {
                     "name TEXT NOT NULL," +
                     "color TEXT," +
                     "collaborations INTEGER," +
-                    "userId INTEGER NOT NULL," +
+                    "userId TEXT NOT NULL," + //GEOINFO - MUDEI DE INTEGER PARA TEXT
                     "latX REAL NOT NULL," +
                     "latY REAL NOT NULL," +
                     "lngX REAL NOT NULL," +
@@ -41,7 +41,7 @@ public class SingletonDataBase {
                     ");", // FIM CREATE TABLE
 
             "CREATE TABLE User (" +
-                    "userId INTEGER NOT NULL," +
+                    "userId TEXT NOT NULL," + //GEOINFO - MUDEI DE INTEGER PARA TEXT
                     "systemAdress TEXT NOT NULL," +
                     "name TEXT NOT NULL," +
                     "password TEXT NOT NULL," +
@@ -54,7 +54,7 @@ public class SingletonDataBase {
 
             "CREATE TABLE Notification (" +
                     "notificationId INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "userId INTEGER NOT NULL," +
+                    "userId TEXT NOT NULL," + //GEOINFO - MUDEI DE INTEGER PARA TEXT
                     "userSystemAdress TEXT NOT NULL," +
                     "description TEXT NOT NULL," +
                     "CONSTRAINT user_userId_userSystemAdress FOREIGN KEY (userId, userSystemAdress) REFERENCES User (userId, systemAdress) ON DELETE CASCADE ON UPDATE CASCADE" +
@@ -84,7 +84,7 @@ public class SingletonDataBase {
                     "eventCategory_categoryName TEXT," + //Adicionado pro GEOINFO
                     "eventType_typeId INTEGER NOT NULL," +
                     "eventType_typeName TEXT," + //Adicionado pro GEOINFO
-                    "user_userId INTEGER NOT NULL," +
+                    "user_userId TEXT NOT NULL," + //GEOINFO - MUDEI DE INTEGER PARA TEXT
                     "user_systemAdress TEXT NOT NULL," +
                     "title TEXT NOT NULL," +
                     "description TEXT NOT NULL," +

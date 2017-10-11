@@ -57,6 +57,10 @@ public class SystemActivity extends AppCompatActivity {
 
     public void goToMap(View view) {
 
+        Intent mapIntent = new Intent(this, MapaActivity.class);
+        mapIntent.putExtras(this.bundle);
+        startActivity(mapIntent);
+
     }
 
     public void goToOptions(View view) {
@@ -70,16 +74,16 @@ public class SystemActivity extends AppCompatActivity {
 
         if(!latText.equals("") && !lngText.equals("")) {
 
-            Intent intent = new Intent(this, ColabActivity.class);
+            Intent colabIntent = new Intent(this, ColabActivity.class);
 
             Double lat = Double.valueOf(latText);
             Double lng = Double.valueOf(lngText);
 
-            intent.putExtra("latitude",lat);
-            intent.putExtra("longitude",lng);
-            intent.putExtras(this.bundle);
+            colabIntent.putExtra("latitude",lat);
+            colabIntent.putExtra("longitude",lng);
+            colabIntent.putExtras(this.bundle);
 
-            startActivity(intent);
+            startActivity(colabIntent);
         } else {
             Toast.makeText(this,"Coordenadas não encontradas.\nAguardando localização do aparelho.", Toast.LENGTH_SHORT).show();
         }

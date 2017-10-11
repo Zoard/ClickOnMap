@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class Collaboration implements Serializable {
 
+    private String userId;
     private String title;
     private String description;
     private String collaborationDate;
@@ -21,9 +22,10 @@ public class Collaboration implements Serializable {
     private Double latitude;
     private Double longitude;
 
-    public Collaboration(String title, String description, String collaborationDate,int categoryId, String categoryName,
-                         int subcategoryId, String subcategoryName,  String photo, String video, String audio,
+    public Collaboration(String userId, String title, String description, String collaborationDate,int categoryId, String categoryName,
+                         int subcategoryId, String subcategoryName, String photo, String video, String audio,
                          Double latitude, Double longitude) {
+        this.userId = userId;
         this.title = title;
         this.description = description;
         this.collaborationDate = collaborationDate;
@@ -36,6 +38,14 @@ public class Collaboration implements Serializable {
         this.audio = audio;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {

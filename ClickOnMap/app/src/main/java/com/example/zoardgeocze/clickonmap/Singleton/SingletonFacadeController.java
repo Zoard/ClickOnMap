@@ -202,6 +202,36 @@ public final class SingletonFacadeController {
     }
 
     //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public String getUserId(String systemAdress) {
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        Cursor c = db.search("SystemVGI", new String[]{"userId"},"adress = '" + systemAdress + "' AND hasSession = 'Y'","");
+
+        String userId = "";
+
+        while(c.moveToNext()) {
+            userId = c.getString(c.getColumnIndex("userId"));
+        }
+
+        return userId;
+    }
+
+    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public String getUserName(String userId) {
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        Cursor c = db.search("User", new String[]{"name"},"userId = '" + userId + "'","");
+
+        String userName = "";
+
+        while(c.moveToNext()) {
+            userName = c.getString(c.getColumnIndex("name"));
+        }
+
+        return userName;
+    }
+
+    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
     public boolean registerPendingCollaborations(Collaboration collaboration, String systemAdress) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
@@ -212,7 +242,7 @@ public final class SingletonFacadeController {
         newCollaboration.put("eventCategory_categoryName",collaboration.getCategoryName());
         newCollaboration.put("eventType_typeId",collaboration.getSubcategoryId());
         newCollaboration.put("eventType_typeName",collaboration.getSubcategoryName());
-        newCollaboration.put("user_userId","zoardag@gmail.com");//DE MODO MAIS ERRADO, IMPOSSÍVEL (APAGAR ISSO URGENTE DEPOIS!!)
+        newCollaboration.put("user_userId",collaboration.getUserId());
         newCollaboration.put("user_systemAdress", systemAdress);
         newCollaboration.put("title",collaboration.getTitle());
         newCollaboration.put("description",collaboration.getDescription());
@@ -225,6 +255,47 @@ public final class SingletonFacadeController {
         db.insert("PendingCollaborations",newCollaboration);
 
         return true;
+    }
+
+    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public List<Collaboration> getCollaborations(String systemAdress) {
+
+        List<Collaboration> collaborationList = new ArrayList<>();
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        Cursor c = db.search("PendingCollaborations",
+                new String[] {"eventCategory_categoryId", "eventCategory_categoryName", "eventType_typeId",
+                              "eventType_typeName","user_userId", "title","description","collaborationDate",
+                              "picture","video","latitude","longitude"},
+                "user_systemAdress = '" + systemAdress + "'","");
+
+        Collaboration collaboration;
+
+        while(c.moveToNext()) {
+
+            int categoryId = c.getInt(c.getColumnIndex("eventCategory_categoryId"));
+            String categoryName = c.getString(c.getColumnIndex("eventCategory_categoryName"));
+            int subcategoryId = c.getInt(c.getColumnIndex("eventType_typeId"));
+            String subcategoryName = c.getString(c.getColumnIndex("eventType_typeName"));
+            String userId = c.getString(c.getColumnIndex("user_userId"));
+            String title = c.getString(c.getColumnIndex("title"));
+            String description = c.getString(c.getColumnIndex("description"));
+            String date = c.getString(c.getColumnIndex("collaborationDate"));
+            String photoPath = c.getString(c.getColumnIndex("picture"));
+            String videoPath = c.getString(c.getColumnIndex("video"));
+            Double lat = c.getDouble(c.getColumnIndex("latitude"));
+            Double lng = c.getDouble(c.getColumnIndex("longitude"));
+
+            collaboration = new Collaboration(userId,title,description,date,categoryId,
+                            categoryName,subcategoryId,subcategoryName,photoPath,videoPath,"",lat,lng);
+
+            collaborationList.add(collaboration);
+
+        }
+
+        return collaborationList;
+
     }
 
     //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
