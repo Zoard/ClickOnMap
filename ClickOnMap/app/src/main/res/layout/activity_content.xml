@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.zoardgeocze.clickonmap.ContentActivity">
+
+    <ImageView
+        android:id="@+id/content_image"
+        android:layout_width="fill_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/system_img"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/content_back_btn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/back_btn"
+        android:clickable="true"
+        android:onClick="backToMap"/>
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirLightTextView
+        android:id="@+id/content_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="80dp"
+        android:textColor="#FFFFFF"
+        android:textSize="35sp"/>
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/content_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/content_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="#8E8E92"
+        android:textSize="15sp"/>
+
+    <ImageView
+        android:id="@+id/divisor_1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/content_description"
+        android:background="@drawable/line" />
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/content_category_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divisor_1"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:text="Categoria"
+        android:textColor="#8E8E92"
+        android:textSize="18sp"/>
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/content_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/content_category_title"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="15dp"
+        android:textSize="15sp"
+        android:textColor="#1D1D26" />
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/content_subcategory_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/content_category_title"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:text="Subcategoria"
+        android:textSize="18sp"
+        android:textColor="#8E8E92" />
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/content_subcategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/content_subcategory_title"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:textSize="15sp"
+        android:textColor="#1D1D26"/>
+
+    <ImageView
+        android:id="@+id/divisor_2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/content_subcategory_title"
+        android:background="@drawable/line" />
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/content_midia_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divisor_2"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="25dp"
+        android:layout_centerHorizontal="true"
+        android:text="Mídias"
+        android:textSize="18sp"
+        android:textColor="#8E8E92" />
+
+    <ImageButton
+        android:id="@+id/content_photo_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/content_midia_title"
+        android:layout_marginStart="60dp"
+        android:clickable="true"
+        android:onClick="getPicture"
+        android:contentDescription="Ver foto"/>
+
+    <ImageButton
+        android:id="@+id/content_video_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/content_midia_title"
+        android:clickable="true"
+        android:onClick="getVideo"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="Ver Vídeo"/>
+
+    <ImageButton
+        android:id="@+id/content_audio_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/content_midia_title"
+        android:clickable="true"
+        android:onClick="getAudio"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="Escutar Áudio"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="60dp"/>
+
+</RelativeLayout>

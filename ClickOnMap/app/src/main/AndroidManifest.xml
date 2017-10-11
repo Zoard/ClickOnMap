@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -49,7 +49,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
 
         <meta-data
@@ -107,6 +107,11 @@
 
         <activity
             android:name=".MapaActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".ContentActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
     </application>

@@ -1,11 +1,14 @@
 package com.example.zoardgeocze.clickonmap.fragments;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.view.View;
 import android.widget.Toast;
 
+import com.example.zoardgeocze.clickonmap.ContentActivity;
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
@@ -23,11 +26,14 @@ import java.util.List;
  * Created by ZoardGeocze on 10/10/17.
  */
 
-public class MapaFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapaFragment extends SupportMapFragment implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener, GoogleMap.InfoWindowAdapter, GoogleMap.OnMarkerClickListener {
 
     private SingletonFacadeController generalController;
 
     private GoogleMap map;
+
+    private Collaboration collaboration;
 
     private Bundle bundle;
 
@@ -36,13 +42,13 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
     private List<Collaboration> collaborations = new ArrayList<>();
 
 
-
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.bundle = getArguments();
         this.vgiSystem = (VGISystem) this.bundle.getSerializable("vgiSystem");
         this.generalController = SingletonFacadeController.getInstance();
+        this.collaboration = new Collaboration();
         getMapAsync(this);
     }
 
@@ -75,17 +81,45 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
             markerOptions.position(ll);
             String userName = this.generalController.getUserName(colab.getUserId());
             markerOptions.title(colab.getTitle());
-            markerOptions.snippet("Descrição: " + colab.getDescription() + "\n" +
-                                  "Categoria: " + colab.getCategoryName() + "Subcategoria: " + colab.getSubcategoryName() + "\n" +
-            "Usuário: " + userName);
-            this.map.addMarker(markerOptions);
+            markerOptions.snippet("Descrição: " + colab.getDescription());
+
+            Marker marker = this.map.addMarker(markerOptions);
+            marker.setTag(colab);
         }
+
+        this.map.setOnInfoWindowClickListener(this);
+        this.map.setInfoWindowAdapter(this);
+        this.map.setOnMarkerClickListener(this);
 
     }
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Toast.makeText(this.getContext(),marker.getTitle(),Toast.LENGTH_SHORT).show();
+
+        this.collaboration = (Collaboration) marker.getTag();
+
+        Intent intent = new Intent(this.getContext(), ContentActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("colab",this.collaboration);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public View getInfoWindow(Marker marker) {
+        return null;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+
+        return null;
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        return false;
     }
 }
 

@@ -22,7 +22,23 @@ public class Collaboration implements Serializable {
     private Double latitude;
     private Double longitude;
 
-    public Collaboration(String userId, String title, String description, String collaborationDate,int categoryId, String categoryName,
+    public Collaboration() {
+        this.userId = "";
+        this.title = "";
+        this.description = "";
+        this.collaborationDate = "";
+        this.categoryId = 0;
+        this.categoryName = "";
+        this.subcategoryId = 0;
+        this.subcategoryName = "";
+        this.photo = "";
+        this.video = "";
+        this.audio = "";
+        this.latitude = 0.0;
+        this.longitude = 0.0;
+    }
+
+    public Collaboration(String userId, String title, String description, String collaborationDate, int categoryId, String categoryName,
                          int subcategoryId, String subcategoryName, String photo, String video, String audio,
                          Double latitude, Double longitude) {
         this.userId = userId;
