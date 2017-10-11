@@ -70,6 +70,22 @@ public class SystemActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        String lastColab = this.generalController.getLastCollaboration(this.vgiSystem.getAdress());
+
+        this.lastCollaboration = (TextView) findViewById(R.id.system_last_colab);
+        this.lastCollaboration.setText(lastColab);
+
+        String mostColab = this.generalController.getMostCollaborator(this.vgiSystem.getAdress());
+
+        this.mostCollaborations = (TextView) findViewById(R.id.system_most_colab);
+        this.mostCollaborations.setText(mostColab);
+
+    }
+
     public void goToMap(View view) {
 
         Intent mapIntent = new Intent(this, MapaActivity.class);
