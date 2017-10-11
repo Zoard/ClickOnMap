@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,154 +7,246 @@
     android:layout_height="match_parent"
     tools:context="com.example.zoardgeocze.clickonmap.SystemActivity">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/menu_image"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/system_img"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/system_menu_btn"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/menu_icon"
+        android:clickable="true"
+        android:onClick="goToOptions" />
+
+    <ImageButton
+        android:id="@+id/system_map_btn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/map_icon"
+        android:clickable="true"
+        android:onClick="goToMap" />
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirLightTextView
+        android:id="@+id/system_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="100dp"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"/>
+
+    <Button
+        android:id="@+id/collaboration_btn"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/clickonmap_logo"
+        android:layout_below="@+id/system_map_btn"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="38dp"
+        android:onClick="collaborate" />
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/system_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/collaboration_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="#8E8E92"
+        android:textSize="15sp"/>
+
+    <ImageView
+        android:id="@+id/divisor_1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="2dp"
+        android:layout_below="@+id/system_description"
+        android:background="@drawable/line" />
 
-        <ImageView
-            android:id="@+id/menu_image"
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:adjustViewBounds="true"
-            android:cropToPadding="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/system_img"
-            tools:ignore="ContentDescription" />
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divisor_1"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:text="Notificação"
+        android:textColor="#8E8E92" />
 
-        <ImageButton
-            android:id="@+id/system_menu_btn"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/menu_icon"
-            android:clickable="true"
-            android:onClick="goToOptions" />
+    <android.support.v7.widget.SwitchCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/notification"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"/>
 
-        <ImageButton
-            android:id="@+id/system_map_btn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_margin="20dp"
-            android:background="@drawable/map_icon"
-            android:clickable="true"
-            android:onClick="goToMap" />
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/latitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notification"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:text="Latitude"
+        android:textSize="15sp"
+        android:textColor="#8E8E92" />
 
-        <com.example.zoardgeocze.clickonmap.Design.AvenirLightTextView
-            android:id="@+id/system_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="100dp"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp"/>
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/latitude_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/latitude"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:textSize="15sp"
+        android:textColor="#1D1D26" />
 
-        <Button
-            android:id="@+id/collaboration_btn"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/clickonmap_logo"
-            android:layout_below="@+id/system_map_btn"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="48dp"
-            android:onClick="collaborate" />
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/latitude"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:text="Longitude"
+        android:textSize="15sp"
+        android:textColor="#8E8E92" />
 
-        <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
-            android:id="@+id/system_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/collaboration_btn"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="15dp"
-            android:textColor="#8E8E92"
-            android:textSize="15sp"/>
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/longitude_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/longitude"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:textSize="15sp"
+        android:textColor="#1D1D26" />
 
-        <ImageView
-            android:id="@+id/divisor_1"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/system_description"
-            android:background="@drawable/line" />
+    <ImageView
+        android:id="@+id/divisor_2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/longitude"
+        android:background="@drawable/line" />
 
-        <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
-            android:id="@+id/notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/divisor_1"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="15dp"
-            android:text="Notificação"
-            android:textColor="#8E8E92" />
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/system_location_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divisor_2"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:text="Localização"
+        android:textSize="15sp"
+        android:textColor="#8E8E92"/>
 
-        <android.support.v7.widget.SwitchCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignBottom="@+id/notification"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="15dp"/>
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/system_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/system_location_title"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="5dp"
+        android:textSize="15sp"
+        android:textColor="#1D1D26"
+        android:text="Viçosa/Brasil"/>
 
-        <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
-            android:id="@+id/latitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/notification"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="15dp"
-            android:text="Latitude"
-            android:textSize="15sp"
-            android:textColor="#8E8E92" />
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/navigate"
+        android:layout_alignBottom="@+id/system_location"
+        android:layout_toStartOf="@+id/system_location" />
 
-        <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
-            android:id="@+id/latitude_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/latitude"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:textSize="15sp"
-            android:textColor="#1D1D26" />
+    <ImageView
+        android:id="@+id/divisor_3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/system_location_title"
+        android:background="@drawable/line" />
 
-        <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
-            android:id="@+id/longitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/latitude"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="15dp"
-            android:text="Longitude"
-            android:textSize="15sp"
-            android:textColor="#8E8E92" />
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/system_last_colab_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divisor_3"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:text="Última Colaboração"
+        android:textSize="15sp"
+        android:textColor="#8E8E92"/>
 
-        <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
-            android:id="@+id/longitude_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/longitude"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:textSize="15sp"
-            android:textColor="#1D1D26" />
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/system_last_colab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/system_last_colab_title"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:textSize="15sp"
+        android:textColor="#1D1D26" />
 
-        <ImageView
-            android:id="@+id/divisor_2"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/longitude"
-            android:background="@drawable/line" />
+    <ImageView
+        android:id="@+id/divisor_4"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/system_last_colab_title"
+        android:background="@drawable/line"/>
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/system_most_colab_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divisor_4"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:text="Maiores\nColaboradores"
+        android:textSize="15sp"
+        android:textColor="#8E8E92"/>
+
+    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+        android:id="@+id/system_most_colab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/system_most_colab_title"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:textSize="15sp"
+        android:textColor="#1D1D26" />
+
+    <ImageView
+        android:id="@+id/divisor_5"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/system_most_colab_title"
+        android:background="@drawable/line"/>
 
 
-    </RelativeLayout>
-
-
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

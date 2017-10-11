@@ -21,8 +21,8 @@
 
     <ImageButton
         android:id="@+id/content_back_btn"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_margin="20dp"
         android:background="@drawable/back_btn"
         android:clickable="true"
@@ -153,5 +153,13 @@
         android:contentDescription="Escutar Áudio"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="60dp"/>
+
+    <ImageView
+        android:id="@+id/divisor_3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/content_photo_btn"
+        android:background="@drawable/line"
+        android:layout_marginTop="15dp"/>
 
 </RelativeLayout>

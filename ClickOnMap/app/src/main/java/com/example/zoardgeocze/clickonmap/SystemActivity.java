@@ -31,12 +31,16 @@ public class SystemActivity extends AppCompatActivity {
     private TextView systemDescription;
     private TextView latitudeValue;
     private TextView longitudeValue;
+    private TextView lastCollaboration;
+    private TextView mostCollaborations;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_system);
+
+        this.generalController = SingletonFacadeController.getInstance();
 
         this.intent = getIntent();
         this.bundle = this.intent.getExtras();
@@ -50,6 +54,17 @@ public class SystemActivity extends AppCompatActivity {
 
         this.latitudeValue = (TextView) findViewById(R.id.latitude_value);
         this.longitudeValue = (TextView) findViewById(R.id.longitude_value);
+
+        String lastColab = this.generalController.getLastCollaboration(this.vgiSystem.getAdress());
+
+        this.lastCollaboration = (TextView) findViewById(R.id.system_last_colab);
+        this.lastCollaboration.setText(lastColab);
+
+        String mostColab = this.generalController.getMostCollaborator(this.vgiSystem.getAdress());
+
+        this.mostCollaborations = (TextView) findViewById(R.id.system_most_colab);
+        this.mostCollaborations.setText(mostColab);
+
 
         this.location = new Locationer(this,this.latitudeValue,this.longitudeValue);
 

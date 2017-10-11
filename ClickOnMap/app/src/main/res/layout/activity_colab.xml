@@ -23,8 +23,8 @@
 
     <ImageButton
         android:id="@+id/close_colab_btn"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_margin="20dp"
         android:background="@drawable/close_btn"
         android:clickable="true"

@@ -22,7 +22,7 @@ public class ContentActivity extends AppCompatActivity {
     private TextView category;
     private TextView subcategory;
     private ImageButton photo;
-    private  ImageButton video;
+    private ImageButton video;
     private ImageButton audio;
 
     @Override
@@ -43,7 +43,6 @@ public class ContentActivity extends AppCompatActivity {
             String textSize = colab.getTitle();
 
             if(textSize.length() <= 20) {
-                this.title.setTextSize(30);
                 this.title.setText(colab.getTitle());
             } else {
                 this.title.setTextSize(24);
@@ -70,7 +69,7 @@ public class ContentActivity extends AppCompatActivity {
             if(colab.getVideo().equals("")) {
                 this.video.setBackground(getDrawable(R.drawable.video_off));
             } else {
-                this.photo.setBackground(getDrawable(R.drawable.video_on));
+                this.video.setBackground(getDrawable(R.drawable.video_on));
             }
 
             this.audio = (ImageButton) findViewById(R.id.content_audio_btn);

@@ -372,6 +372,41 @@ public final class SingletonFacadeController {
 
     }
 
+    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public String getLastCollaboration(String systemAdress) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        Cursor c = db.search("PendingCollaborations",new String[] {"collaborationDate"},
+                "user_systemAdress = '" + systemAdress + "'","collaborationsId DESC");
+
+        String lastColab = "";
+
+        c.moveToFirst();
+
+        lastColab = c.getString(c.getColumnIndex("collaborationDate"));
+
+        return lastColab;
+
+    }
+
+    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public String getMostCollaborator(String systemAdress) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        Cursor c = db.search("PendingCollaborations",new String[] {"user_userId","COUNT(user_userId) AS userId"},
+                "user_systemAdress = '" + systemAdress + "'","userId DESC");
+
+        String mostColab = "";
+
+        c.moveToFirst();
+
+        mostColab = getUserName(c.getString(c.getColumnIndex("user_userId")));
+
+        return mostColab;
+    }
+
 
     //Atribui valor NULO ao objeto para que o mesmo seja criado na próxima entrada
     //Attributes NULL value to the SingletonFacadeController object
