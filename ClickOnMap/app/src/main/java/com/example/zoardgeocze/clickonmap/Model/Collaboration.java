@@ -10,21 +10,27 @@ public class Collaboration implements Serializable {
 
     private String title;
     private String description;
-    private String category;
-    private String subcategory;
+    private String collaborationDate;
+    private int categoryId;
+    private String categoryName;
+    private int subcategoryId;
+    private String subcategoryName;
     private String photo;
     private String video;
     private String audio;
     private Double latitude;
     private Double longitude;
 
-    public Collaboration(String title, String description, String category,
-                         String subcategory, String photo, String video, String audio,
+    public Collaboration(String title, String description, String collaborationDate,int categoryId, String categoryName,
+                         int subcategoryId, String subcategoryName,  String photo, String video, String audio,
                          Double latitude, Double longitude) {
         this.title = title;
         this.description = description;
-        this.category = category;
-        this.subcategory = subcategory;
+        this.collaborationDate = collaborationDate;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.subcategoryId = subcategoryId;
+        this.subcategoryName = subcategoryName;
         this.photo = photo;
         this.video = video;
         this.audio = audio;
@@ -48,20 +54,44 @@ public class Collaboration implements Serializable {
         this.description = description;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCollaborationDate() {
+        return collaborationDate;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCollaborationDate(String collaborationDate) {
+        this.collaborationDate = collaborationDate;
     }
 
-    public String getSubcategory() {
-        return subcategory;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setSubcategory(String subcategory) {
-        this.subcategory = subcategory;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public int getSubcategoryId() {
+        return subcategoryId;
+    }
+
+    public void setSubcategoryId(int subcategoryId) {
+        this.subcategoryId = subcategoryId;
+    }
+
+    public String getSubcategoryName() {
+        return subcategoryName;
+    }
+
+    public void setSubcategoryName(String subcategoryName) {
+        this.subcategoryName = subcategoryName;
     }
 
     public String getPhoto() {
@@ -103,5 +133,10 @@ public class Collaboration implements Serializable {
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+
+
+
+
+
 
 }

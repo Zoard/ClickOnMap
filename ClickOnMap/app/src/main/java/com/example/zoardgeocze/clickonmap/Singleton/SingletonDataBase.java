@@ -81,7 +81,9 @@ public class SingletonDataBase {
             "CREATE TABLE PendingCollaborations (" +
                     "collaborationsId INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "eventCategory_categoryId INTEGER NOT NULL," +
+                    "eventCategory_categoryName TEXT," + //Adicionado pro GEOINFO
                     "eventType_typeId INTEGER NOT NULL," +
+                    "eventType_typeName TEXT," + //Adicionado pro GEOINFO
                     "user_userId INTEGER NOT NULL," +
                     "user_systemAdress TEXT NOT NULL," +
                     "title TEXT NOT NULL," +

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="18sp"
+    android:padding="5dip"
+    android:gravity="start"
+    android:textColor="#000000">
+
+</com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView>

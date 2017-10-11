@@ -54,7 +54,9 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     private ArrayList<String> categories = new ArrayList<>();
     private ArrayList<String> subcategories = new ArrayList<>();
 
+    private int choosedCategoryId;
     private String choosedCategory;
+    private int choosedSubcategoryId;
     private String choosedSubcategory;
 
     private Intent intent;
@@ -73,8 +75,9 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     private ImageButton audioBtn;
 
     private Uri myPhoto;
-    private String currentPhotoPath;
-    private String currentVideoPath;
+    private String currentPhotoPath = "";
+    private String currentVideoPath = "";
+    private String currentAudioPath = "";
 
     private static String ID;
     private static Context myContext;
@@ -109,7 +112,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
         this.categorySpinner = (Spinner) findViewById(R.id.colab_category);
         this.categorySpinner.setOnItemSelectedListener(this);
 
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this,android.R.layout.select_dialog_item,this.categories);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this,R.layout.spinner_item,this.categories);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         this.categorySpinner.setAdapter(categoryAdapter);
 
@@ -141,6 +144,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         this.choosedCategory = this.categories.get(position);
+        this.choosedCategoryId = position;
 
         Log.i("ON_ITEM_SELECTED: ", String.valueOf(position) + " " + this.choosedCategory);
 
@@ -148,7 +152,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
         this.subcategorySpinner = (Spinner) findViewById(R.id.colab_subcategory);
 
-        ArrayAdapter<String> subcategoryAdapter = new ArrayAdapter<>(this,android.R.layout.select_dialog_item,this.subcategories);
+        ArrayAdapter<String> subcategoryAdapter = new ArrayAdapter<>(this,R.layout.spinner_item,this.subcategories);
         subcategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         this.subcategorySpinner.setAdapter(subcategoryAdapter);
 
@@ -156,6 +160,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 choosedSubcategory = subcategories.get(position);
+                choosedSubcategoryId = position;
                 //Toast.makeText(getBaseContext(),subcategories.get(position), Toast.LENGTH_SHORT).show();
             }
 
@@ -263,7 +268,9 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US).format(new Date());
-        String imageFileName = "IMG_"+ this.vgiSystem.getAdress() + "_" + timeStamp;
+        //String imageFileName = "IMG_"+ this.vgiSystem.getAdress() + "_" + timeStamp;
+        String systemAdress = this.vgiSystem.getAdress();
+        String imageFileName = "IMG_" + timeStamp;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         //File image = File.createTempFile(
@@ -286,7 +293,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     private File createVideoFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US).format(new Date());
-        String videoFileName = "VID_"+ this.vgiSystem.getAdress() + "_" + timeStamp;
+        String videoFileName = "VID_" + timeStamp;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
 
         File video = new File(storageDir,videoFileName.concat(".mp4"));
@@ -299,8 +306,30 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
         return video;
     }
 
+    //Na Versão DEMO para o GEOINFO, irei salvar as colaborações localmente apenas
     //TODO: Aqui a colaboração deverá ser enviada para o Servidor do Sistema, caso contrário, colaboração é salva localmente
     public void sendColaboration(View view) {
+
+        if(!this.title.getText().toString().equals("") && !this.choosedCategory.equals("") && !this.choosedSubcategory.equals("")) {
+
+            String titleText = this.title.getText().toString();
+            String descriptionText = this.description.getText().toString();
+            String timeStamp = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.US).format(new Date());
+
+            this.collaboration = new Collaboration(titleText,descriptionText, timeStamp, this.choosedCategoryId,
+                                                    this.choosedCategory, this.choosedSubcategoryId, this.choosedSubcategory,
+                                                    this.currentPhotoPath, this.currentVideoPath,this.currentAudioPath,
+                                                    this.latitude, this.longitude);
+
+            this.generalController.registerPendingCollaborations(this.collaboration,this.vgiSystem.getAdress());
+
+            Toast.makeText(this,"Colaboração feita com sucesso ;)", Toast.LENGTH_LONG).show();
+
+            finish();
+
+        } else {
+            Toast.makeText(this,"Os campos com * são obrigatórios", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

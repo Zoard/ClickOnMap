@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.example.zoardgeocze.clickonmap.MenuActivity;
+import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
@@ -198,6 +199,32 @@ public final class SingletonFacadeController {
 
         return systemAdress;
 
+    }
+
+    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public boolean registerPendingCollaborations(Collaboration collaboration, String systemAdress) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        ContentValues newCollaboration = new ContentValues();
+
+        newCollaboration.put("eventCategory_categoryId",collaboration.getCategoryId());
+        newCollaboration.put("eventCategory_categoryName",collaboration.getCategoryName());
+        newCollaboration.put("eventType_typeId",collaboration.getSubcategoryId());
+        newCollaboration.put("eventType_typeName",collaboration.getSubcategoryName());
+        newCollaboration.put("user_userId","zoardag@gmail.com");//DE MODO MAIS ERRADO, IMPOSSÍVEL (APAGAR ISSO URGENTE DEPOIS!!)
+        newCollaboration.put("user_systemAdress", systemAdress);
+        newCollaboration.put("title",collaboration.getTitle());
+        newCollaboration.put("description",collaboration.getDescription());
+        newCollaboration.put("collaborationDate",collaboration.getCollaborationDate());
+        newCollaboration.put("picture",collaboration.getPhoto());
+        newCollaboration.put("video",collaboration.getVideo());
+        newCollaboration.put("latitude",collaboration.getLatitude());
+        newCollaboration.put("longitude",collaboration.getLongitude());
+
+        db.insert("PendingCollaborations",newCollaboration);
+
+        return true;
     }
 
     //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
