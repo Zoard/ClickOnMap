@@ -382,9 +382,11 @@ public final class SingletonFacadeController {
 
         String lastColab = "";
 
-        c.moveToFirst();
+        if(c.getCount() > 0) {
+            c.moveToFirst();
 
-        lastColab = c.getString(c.getColumnIndex("collaborationDate"));
+            lastColab = c.getString(c.getColumnIndex("collaborationDate"));
+        }
 
         return lastColab;
 
@@ -400,9 +402,11 @@ public final class SingletonFacadeController {
 
         String mostColab = "";
 
-        c.moveToFirst();
+        if(c.getCount() > 0) {
+            c.moveToFirst();
 
-        mostColab = getUserName(c.getString(c.getColumnIndex("user_userId")));
+            mostColab = getUserName(c.getString(c.getColumnIndex("user_userId")));
+        }
 
         return mostColab;
     }

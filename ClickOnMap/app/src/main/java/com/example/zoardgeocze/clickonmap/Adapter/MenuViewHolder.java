@@ -91,7 +91,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
             //Testando se este Tile aqui está sendo modificado
             if(this.tile instanceof SystemTile) {
                 SystemTile systemTile = (SystemTile) tile;
-                Toast.makeText(this.context,"Endereço do Tile é: " + systemTile.getSystem().getAdress(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this.context,"Endereço do Tile é: " + systemTile.getSystem().getAdress(),Toast.LENGTH_SHORT).show();
                 String hasSession = this.generalController.hasSession(systemTile.getSystem().getAdress());
 
                 if(hasSession.equals("Y")) {

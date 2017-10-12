@@ -83,7 +83,7 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
             markerOptions.position(ll);
             String userName = this.generalController.getUserName(colab.getUserId());
             markerOptions.title(colab.getTitle());
-            markerOptions.snippet("Descrição: " + colab.getDescription());
+            markerOptions.snippet("Categoria: " + colab.getCategoryName() + " - " +"Usuário: " + userName);
 
             Marker marker = this.map.addMarker(markerOptions);
             marker.setTag(colab);
