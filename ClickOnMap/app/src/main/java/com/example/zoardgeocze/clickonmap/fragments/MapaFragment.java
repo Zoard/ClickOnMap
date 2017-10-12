@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -74,6 +75,7 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
         this.map.setMyLocationEnabled(true);
 
         this.collaborations = this.generalController.getCollaborations(vgiSystem.getAdress());
+        Log.i("DEPOIS_DO_BD", String.valueOf(this.collaborations.size()));
 
         for(Collaboration colab: this.collaborations) {
             LatLng ll = new LatLng(colab.getLatitude(),colab.getLongitude());

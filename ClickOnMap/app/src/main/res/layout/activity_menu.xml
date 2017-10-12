@@ -24,7 +24,7 @@
         <com.example.zoardgeocze.clickonmap.Design.AvenirLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Click On Map"
+            android:text="ClickOnMap"
             android:textSize="45sp"
             android:textColor="#FFFFFF"
             android:id="@+id/menu_title"
