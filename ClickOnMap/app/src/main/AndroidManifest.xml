@@ -57,14 +57,18 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name=".MenuActivity"
-            android:theme="@style/Theme.Design.Light.NoActionBar">
+        <activity android:name=".SplashScreenActivity"
+            android:theme="@style/AppCompat.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MenuActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -109,12 +113,12 @@
         <activity
             android:name=".MapaActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar">
-
         </activity>
         <activity
             android:name=".ContentActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
+
     </application>
 
 </manifest>
