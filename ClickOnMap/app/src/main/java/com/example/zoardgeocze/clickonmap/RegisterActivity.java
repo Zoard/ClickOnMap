@@ -165,6 +165,8 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(Call<String> call, Throwable t) {
                 Log.i("Register_User_Server:", t.getMessage());
 
+                Toast.makeText(getBaseContext(),"Sem conexão de rede.",Toast.LENGTH_SHORT).show();
+
                 if (mProgressDialog.isShowing()){
                     mProgressDialog.dismiss();
                 }
@@ -201,6 +203,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.i("SendMobileSystem", t.getMessage());
 
                     registerConfirmation(false);
+
+                    Toast.makeText(getBaseContext(),"Sem conexão de rede.",Toast.LENGTH_SHORT).show();
 
                     if (mProgressDialog.isShowing()) {
                         mProgressDialog.dismiss();
