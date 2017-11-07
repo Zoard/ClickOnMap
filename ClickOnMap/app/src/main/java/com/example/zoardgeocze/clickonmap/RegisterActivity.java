@@ -34,6 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private User user;
 
+    private String firebaseKey;
+
     private VGISystem vgiSystem;
 
     private EditText registerUserName;
@@ -52,6 +54,8 @@ public class RegisterActivity extends AppCompatActivity {
         //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
         this.generalController = SingletonFacadeController.getInstance();
+
+        this.firebaseKey = this.generalController.getFirebaseKey();
 
         this.registerUserName = (EditText) findViewById(R.id.register_user_name);
         this.registerUserEmail = (EditText) findViewById(R.id.register_user_email);
@@ -96,10 +100,8 @@ public class RegisterActivity extends AppCompatActivity {
                         Bundle bundle = intent.getExtras();
 
                         vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
-                        String firebaseKey = generalController.getFirebaseKey();
 
-                        //sendUserToServer();
-                        sendMobileSystemToServer(firebaseKey);
+                        sendUserToServer();
 
                     } else {
                         Toast.makeText(getBaseContext(),"Senhas são diferentes.",Toast.LENGTH_SHORT).show();
@@ -130,17 +132,29 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //TODO: Terminar a implementação na parte do servidor
-    /*private void sendUserToServer() {
+    private void sendUserToServer() {
         final ProgressDialog mProgressDialog = new ProgressDialog(RegisterActivity.this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Cadastrando usuário no sistema...");
         mProgressDialog.show();
 
-        Call<String> call = new RetrofitClientInitializer(this.vgiSystem.getAdress()).getUserService().sendUserToServer("send",this.user);
+        String base_url = this.vgiSystem.getAdress() + "/";
+
+        Call<String> call = new RetrofitClientInitializer(base_url)
+                .getUserService()
+                .sendUserToServer("insertUser",
+                this.user.getEmail(),this.user.getName(),this.user.getPassword(),this.user.getType(),this.user.getRegisterDate());
+
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.i("Register_User_Server: ", response.body());
+
+                if(response.body().equals("true")) {
+                    sendMobileSystemToServer(firebaseKey);
+                } else {
+                    Toast.makeText(getBaseContext(),"Email já cadastrado no sistema.",Toast.LENGTH_SHORT).show();
+                }
 
                 if (mProgressDialog.isShowing()){
                     mProgressDialog.dismiss();
@@ -156,7 +170,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-    }*/
+    }
 
     //Envia para o server central a chave do firebase junto com o endereço do sistema para futuras notificações
     private void sendMobileSystemToServer(String firebaseKey) {

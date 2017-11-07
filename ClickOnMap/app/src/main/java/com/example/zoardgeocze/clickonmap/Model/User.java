@@ -1,11 +1,14 @@
 package com.example.zoardgeocze.clickonmap.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
  * Created by ZoardGeocze on 04/06/17.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {
 
     private String id; // TODO: A idéia é utilizar um UUID, por enquanto está sendo utilizado o próprio email do usuário
