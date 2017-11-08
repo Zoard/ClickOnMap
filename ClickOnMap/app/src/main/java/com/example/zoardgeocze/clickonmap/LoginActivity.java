@@ -12,13 +12,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zoardgeocze.clickonmap.Model.SystemTile;
+
+import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
+
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -35,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText loginUserPassword;
 
     private Button loginButton;
+
+    private User systemUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,8 +90,8 @@ public class LoginActivity extends AppCompatActivity {
         this.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userEmail = String.valueOf(loginUserEmail.getText());
-                String userPassword = String.valueOf(loginUserPassword.getText());
+                final String userEmail = String.valueOf(loginUserEmail.getText());
+                final String userPassword = String.valueOf(loginUserPassword.getText());
 
                 if(!userEmail.equals("") && !userPassword.equals("")) {
 
@@ -92,9 +100,12 @@ public class LoginActivity extends AppCompatActivity {
                     mProgressDialog.setMessage("Verificando Usuário...");
                     mProgressDialog.show();
 
-                    String base_url = vgiSystem.getAdress() + "/";
+                    final String base_url = vgiSystem.getAdress() + "/";
 
-                    Call<String> call = new RetrofitClientInitializer(base_url).getUserService().verifyUser("verifyUser",userEmail,userPassword);
+                    Call<String> call = new RetrofitClientInitializer(base_url)
+                                            .getUserService()
+                                            .verifyUser("verifyUser",userEmail,userPassword);
+
                     call.enqueue(new Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
@@ -102,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.i("verify_user:", response.body());
 
                             if(response.body().equals("true")) {
-
+                                getUserFromServer(base_url,userEmail);
                             } else {
                                 Toast.makeText(getBaseContext(),"Usuário não existe ou senha incorreta.",Toast.LENGTH_SHORT).show();
                             }
@@ -130,12 +141,40 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(),"Todos os campos são obrigatórios.",Toast.LENGTH_SHORT).show();
                 }
 
-
-
             }
         });
 
     }
+
+    private void getUserFromServer(final String base_url, final String userEmail) {
+
+        new RetrofitClientInitializer(base_url)
+                .getUserService()
+                .getUserFromServer("getUser",userEmail)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<User>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("ON_ERROR:", e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        systemUser = user;
+                        Log.i("ON_NEXT:", "qualquer lixo =)");
+                        Log.i("ON_NEXT:", systemUser.getName() + " lixo");
+                    }
+                });
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
