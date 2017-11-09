@@ -108,7 +108,7 @@ public final class SingletonFacadeController {
     }
 
 
-    public boolean registerUser(Context context, VGISystem vgiSystem, User user) {
+    public boolean registerUser(VGISystem vgiSystem, User user) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
@@ -198,6 +198,56 @@ public final class SingletonFacadeController {
         c.close();
 
         return systemAdress;
+
+    }
+
+    //Função que verifica se o sistema está no Hub e faz login do Usuário
+    public boolean vgiSystemLogin(VGISystem vgiSystem, User user) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        //Verifica se o Sistema está no Hub
+        if(searchVGISystem(vgiSystem)) {
+            String verifyUser = getUserId(vgiSystem.getAdress());
+
+            //Verifica se usuário está na Tabela VGISystem, se estiver, basta atualizar a tabela marcando 'Y' na sessão
+            if(verifyUser.equals(user.getId())) {
+
+                String hasSession = "Y";
+
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("hasSession",hasSession);
+                db.update("SystemVGI",
+                        contentValues,
+                        "adress = '" + vgiSystem.getAdress() + "' AND userId = '" + user.getId() + "'");
+
+                return true;
+
+            }
+            //Se usuário não estiver na tabela VGISystem, mas for um usuário do sistema, registra-o na tabela VGISystem e marca 'Y' para sessão
+            else if(!getUserName(user.getId()).equals("")) {
+
+                String hasSession = "Y";
+
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("userId",user.getId());
+                contentValues.put("hasSession",hasSession);
+
+                db.update("SystemVGI",contentValues,"adress = '" + vgiSystem.getAdress() + "'");
+
+                return true;
+
+            }
+            //Caso contrário, registra usuário no sistema
+            else {
+                registerUser(vgiSystem, user);
+
+                return true;
+            }
+
+        } else {
+            return false;
+        }
 
     }
 

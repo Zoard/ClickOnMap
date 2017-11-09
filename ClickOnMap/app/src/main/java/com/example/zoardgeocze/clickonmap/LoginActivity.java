@@ -12,12 +12,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
-
-
+import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +30,8 @@ import rx.schedulers.Schedulers;
  */
 
 public class LoginActivity extends AppCompatActivity {
+
+    private SingletonFacadeController generalController;
 
     private VGISystem vgiSystem;
     private Intent intent;
@@ -48,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        this.generalController = SingletonFacadeController.getInstance();
 
         TextView title = (TextView) findViewById(R.id.login_title);
         this.loginUserEmail = (EditText) findViewById(R.id.login_user);
@@ -167,12 +169,16 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(User user) {
-                        systemUser = user;
-                        Log.i("ON_NEXT:", "qualquer lixo =)");
-                        Log.i("ON_NEXT:", systemUser.getName() + " lixo");
+                        loginVGISystem(user);
                     }
                 });
 
+    }
+
+    private void loginVGISystem(User user) {
+        if(this.generalController.vgiSystemLogin(this.vgiSystem,user)) {
+
+        }
     }
 
 

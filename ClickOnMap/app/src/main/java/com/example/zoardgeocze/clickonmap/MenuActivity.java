@@ -138,7 +138,7 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
             VGISystem vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
             User user = (User) bundle.getSerializable("user");
 
-            this.generalController.registerUser(this,vgiSystem,user);
+            this.generalController.registerUser(vgiSystem,user);
 
             SystemTile systemTile = new SystemTile(vgiSystem);
 
@@ -151,6 +151,8 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
 
 
             //Toast.makeText(this,String.valueOf(vgiSystem.getContributions()),Toast.LENGTH_SHORT).show();
+        }
+        else if(resultCode == 3) {
 
         }
     }
