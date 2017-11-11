@@ -207,7 +207,7 @@ public final class SingletonFacadeController {
         SingletonDataBase db = SingletonDataBase.getInstance();
 
         //Verifica se o Sistema está no Hub
-        if(searchVGISystem(vgiSystem)) {
+        if(!searchVGISystem(vgiSystem)) {
             String verifyUser = getUserId(vgiSystem.getAdress());
 
             //Verifica se usuário está na Tabela VGISystem, se estiver, basta atualizar a tabela marcando 'Y' na sessão
@@ -241,6 +241,14 @@ public final class SingletonFacadeController {
             //Caso contrário, registra usuário no sistema
             else {
                 registerUser(vgiSystem, user);
+
+                String hasSession = "Y";
+
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("userId",user.getId());
+                contentValues.put("hasSession",hasSession);
+
+                db.update("SystemVGI",contentValues,"adress = '" + vgiSystem.getAdress() + "'");
 
                 return true;
             }
