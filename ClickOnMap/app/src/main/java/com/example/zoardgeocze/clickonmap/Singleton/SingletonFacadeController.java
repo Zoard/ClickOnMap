@@ -112,8 +112,11 @@ public final class SingletonFacadeController {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
+        boolean verifySystem = false;
+
         if (searchVGISystem(vgiSystem)) {
             registerSystemVGI(vgiSystem,user);
+            verifySystem = true;
         }
 
         ContentValues newUser = new ContentValues();
@@ -127,7 +130,17 @@ public final class SingletonFacadeController {
 
         db.insert("User",newUser);
 
-        return true;
+        if(!verifySystem) {
+            String hasSession = "Y";
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("userId",user.getId());
+            contentValues.put("hasSession",hasSession);
+
+            db.update("SystemVGI",contentValues,"adress = '" + vgiSystem.getAdress() + "'");
+        }
+
+        return verifySystem;
     }
 
     public boolean updateVGISystemAdress(String oldAdress, String newAdress) {
@@ -240,14 +253,6 @@ public final class SingletonFacadeController {
             //Caso contrário, registra usuário no sistema
             else {
                 registerUser(vgiSystem, user);
-
-                String hasSession = "Y";
-
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("userId",user.getId());
-                contentValues.put("hasSession",hasSession);
-
-                db.update("SystemVGI",contentValues,"adress = '" + vgiSystem.getAdress() + "'");
 
                 return true;
             }

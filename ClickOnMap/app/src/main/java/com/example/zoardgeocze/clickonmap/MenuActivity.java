@@ -127,29 +127,30 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
         }
     }
 
+    //TODO: Melhorar esses requests e results codes, estão desorganizados
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 0) {
-            Toast.makeText(this,"Não foi possível realizar seu cadastro no sistema. Tente novamente.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"Não foi possível realizar seu cadastro no sistema. Tente novamente.", Toast.LENGTH_SHORT).show();
         }
         else if(resultCode == 1) {
             Bundle bundle = data.getExtras();
             VGISystem vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
             User user = (User) bundle.getSerializable("user");
 
-            this.generalController.registerUser(vgiSystem,user);
+            //Se der True é porque ainda não existe Tile do Sistema no Hub, nesse caso é necessário atualizar
+            //caso contrário, não adiciona mais Tiles
+            if(this.generalController.registerUser(vgiSystem,user)) {
+                SystemTile systemTile = new SystemTile(vgiSystem);
 
-            SystemTile systemTile = new SystemTile(vgiSystem);
+                this.menuTiles.add(0,systemTile);
 
-            this.menuTiles.add(0,systemTile);
-
-            /*
-            * FUNÇÃO TEMPORÁRIA - CRIADA PARA DE MONSTRAÇÃO DO GEOINFO
-            * */
-            populaCategoria(vgiSystem);
-
-
+                /*
+                * FUNÇÃO TEMPORÁRIA - CRIADA PARA DEMONSTRAÇÃO DO GEOINFO
+                * */
+                populaCategoria(vgiSystem);
+            }
             //Toast.makeText(this,String.valueOf(vgiSystem.getContributions()),Toast.LENGTH_SHORT).show();
         }
         else if(resultCode == 3) {
