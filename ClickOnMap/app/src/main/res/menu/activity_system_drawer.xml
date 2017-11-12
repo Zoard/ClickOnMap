@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:title="Meu Perfil" />
+        <item
+            android:id="@+id/nav_pending_collab"
+            android:title="Colaborações Pendentes" />
+        <item
+            android:id="@+id/nav_configurations"
+            android:title="Configurações" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Logout"/>
+    </group>
+
+    <item android:title="Sobre nós">
+        <menu>
+            <item
+                android:id="@+id/nav_developers"
+                android:title="Desenvolvedores"/>
+        </menu>
+    </item>
+
+</menu>

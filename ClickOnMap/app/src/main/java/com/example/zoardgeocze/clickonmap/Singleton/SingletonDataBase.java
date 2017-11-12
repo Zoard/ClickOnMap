@@ -49,7 +49,7 @@ public class SingletonDataBase {
                     "registerDate TEXT NOT NULL," +
                     "PRIMARY KEY (userId, systemAdress)," +
                     "CONSTRAINT systemAdress FOREIGN KEY (systemAdress) REFERENCES SystemVGI (adress) ON DELETE CASCADE ON UPDATE CASCADE," +
-                    "CONSTRAINT candidateKeyUser UNIQUE (systemAdress, name)" +
+                    "CONSTRAINT candidateKeyUser UNIQUE (systemAdress, email)" + //MUDEI AQUI "name" para "email", NÃO FAZ SENTIDO SER "name"
                     ");", // FIM CREATE TABLE*/
 
             "CREATE TABLE Notification (" +

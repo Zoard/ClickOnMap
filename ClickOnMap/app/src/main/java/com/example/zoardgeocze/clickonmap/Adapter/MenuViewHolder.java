@@ -94,15 +94,22 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                 //Toast.makeText(this.context,"Endereço do Tile é: " + systemTile.getSystem().getAdress(),Toast.LENGTH_SHORT).show();
                 String hasSession = this.generalController.hasSession(systemTile.getSystem().getAdress());
 
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("vgiSystem",systemTile.getSystem());
+
                 if(hasSession.equals("Y")) {
                     Intent intent = new Intent(this.context, SystemActivity.class);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("vgiSystem",systemTile.getSystem());
 
                     intent.putExtras(bundle);
 
                     ((Activity)this.context).startActivity(intent);
+                } else {
+                    Intent intent = new Intent(this.context, LoginActivity.class);
+
+                    intent.putExtras(bundle);
+
+                    ((Activity)this.context).startActivityForResult(intent,1);
+
                 }
             }
 

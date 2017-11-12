@@ -2,28 +2,34 @@ package com.example.zoardgeocze.clickonmap;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Services.Locationer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
-import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by ZoardGeocze on 08/10/17.
  */
 
-public class SystemActivity extends AppCompatActivity {
+public class SystemActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SingletonFacadeController generalController;
 
     private Locationer location;
 
     private VGISystem vgiSystem;
+    private User user;
     private Intent intent;
     private Bundle bundle;
 
@@ -46,6 +52,8 @@ public class SystemActivity extends AppCompatActivity {
         this.bundle = this.intent.getExtras();
         this.vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
 
+        this.user = this.generalController.getUser(this.vgiSystem);
+
         this.systemName = (TextView) findViewById(R.id.system_name);
         this.systemName.setText(this.vgiSystem.getName());
 
@@ -65,9 +73,36 @@ public class SystemActivity extends AppCompatActivity {
         this.mostCollaborations = (TextView) findViewById(R.id.system_most_colab);
         this.mostCollaborations.setText(mostColab);
 
-
         this.location = new Locationer(this,this.latitudeValue,this.longitudeValue);
 
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ImageButton drawerButton = (ImageButton) findViewById(R.id.system_menu_btn);
+        drawerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(GravityCompat.START);
+                TextView navUserName = (TextView) findViewById(R.id.nav_user_name);
+                String userName = "Olá, " + user.getName();
+                navUserName.setText(userName);
+
+                TextView navUserEmail = (TextView) findViewById(R.id.nav_user_email);
+                navUserEmail.setText(user.getEmail());
+            }
+        });
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -124,6 +159,32 @@ public class SystemActivity extends AppCompatActivity {
     protected void onDestroy() {
         this.location.getClient().disconnect();
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_profile) {
+            // Handle the camera action
+        } else if (id == R.id.nav_pending_collab) {
+
+        } else if (id == R.id.nav_configurations) {
+
+        } else if (id == R.id.nav_logout) {
+
+            this.generalController.vgiSystemLogout(this.vgiSystem.getAdress());
+            finish();
+
+        } else if (id == R.id.nav_developers) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+        return true;
     }
 }
 

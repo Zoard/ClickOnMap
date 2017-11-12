@@ -178,6 +178,7 @@ public class LoginActivity extends AppCompatActivity {
     //Realiza login no sistema VGI, se o tile já estiver no Hub, faz login direto.
     //Caso contrário, adiciona tile no Hub e registra usuário recebido pela requisição
     private void loginVGISystem(User user) {
+        Log.i("loginVGISystem: ", user.getEmail());
         if(this.generalController.vgiSystemLogin(this.vgiSystem,user)) {
             Intent intent = new Intent(this,SystemActivity.class);
             intent.putExtras(this.bundle);

@@ -18,7 +18,15 @@ public class User implements Serializable {
     private Character type;
     private String registerDate;
 
-    //public User() {}
+    public User() {
+        this.id = "";
+        this.email = "";
+        this.name = "";
+        this.password = "";
+        this.type = 'C';
+        this.registerDate = "";
+
+    }
 
     public User(String id, String email, String name, String password, String registerDate) {
         this.id = id;

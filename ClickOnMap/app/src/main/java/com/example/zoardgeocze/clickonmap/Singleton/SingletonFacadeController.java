@@ -208,10 +208,9 @@ public final class SingletonFacadeController {
 
         //Verifica se o Sistema está no Hub
         if(!searchVGISystem(vgiSystem)) {
-            String verifyUser = getUserId(vgiSystem.getAdress());
 
             //Verifica se usuário está na Tabela VGISystem, se estiver, basta atualizar a tabela marcando 'Y' na sessão
-            if(verifyUser.equals(user.getId())) {
+            if(verifyUserInSystemTable(user,vgiSystem)) {
 
                 String hasSession = "Y";
 
@@ -225,7 +224,7 @@ public final class SingletonFacadeController {
 
             }
             //Se usuário não estiver na tabela VGISystem, mas for um usuário do sistema, registra-o na tabela VGISystem e marca 'Y' para sessão
-            else if(!getUserName(user.getId()).equals("")) {
+            else if(verifyUserInUserTable(user,vgiSystem)) {
 
                 String hasSession = "Y";
 
@@ -256,6 +255,75 @@ public final class SingletonFacadeController {
         } else {
             return false;
         }
+
+    }
+
+    public void vgiSystemLogout(String systemAdress) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("hasSession","N");
+
+        db.update("SystemVGI",contentValues,"adress = '" + systemAdress + "'");
+
+    }
+
+    public boolean verifyUserInSystemTable(User user, VGISystem vgiSystem) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        Cursor c = db.search("SystemVGI",new String[]{"userId"},
+                "userId = '" + user.getId() + "' AND adress = '" + vgiSystem.getAdress() + "'","");
+
+        if(c.getCount() > 0) {
+            c.close();
+            return true;
+        } else {
+            c.close();
+            return false;
+        }
+
+    }
+
+    public boolean verifyUserInUserTable(User user, VGISystem vgiSystem) {
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        Cursor c = db.search("User",new String[]{"email"},
+                "email = '" + user.getEmail() + "' AND systemAdress = '" + vgiSystem.getAdress() + "'","");
+
+        if(c.getCount() > 0) {
+            c.close();
+            return true;
+        } else {
+            c.close();
+            return false;
+        }
+    }
+
+    //TODO: Mudar depois o id do usuário para um inteiro ou UUID
+    public User getUser(VGISystem vgiSystem) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+        String userId = getUserId(vgiSystem.getAdress());
+
+        Cursor c = db.search("User", new String[]{"userId","name","password","email","registerDate"},
+                "userId = '" + userId + "' AND systemAdress = '" + vgiSystem.getAdress() + "'","");
+
+        User user = new User();
+
+        while(c.moveToNext()) {
+            user.setId(c.getString(c.getColumnIndex("userId")));
+            user.setName(c.getString(c.getColumnIndex("name")));
+            user.setPassword(c.getString(c.getColumnIndex("password")));
+            user.setEmail(c.getString(c.getColumnIndex("email")));
+            user.setRegisterDate(c.getString(c.getColumnIndex("registerDate")));
+        }
+
+        c.close();
+
+        return user;
 
     }
 
