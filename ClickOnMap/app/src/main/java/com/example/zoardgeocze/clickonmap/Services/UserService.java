@@ -29,7 +29,8 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("clickonmap_mobile/")
-    Call<String> verifyUser(@Field("tag") String tag, @Field("email") String email, @Field("password") String password);
+    Call<String> verifyUser(@Field("tag") String tag, @Field("email") String email, @Field("password") String password,
+                            @Field("firebaseKey") String firebaseKey);
 
     @FormUrlEncoded
     @POST("clickonmap_mobile/")

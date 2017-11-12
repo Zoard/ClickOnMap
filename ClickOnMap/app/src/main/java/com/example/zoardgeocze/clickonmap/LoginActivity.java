@@ -44,12 +44,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private User systemUser;
 
+    private String firebaseKey;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         this.generalController = SingletonFacadeController.getInstance();
+
+        this.firebaseKey = this.generalController.getFirebaseKey();
 
         TextView title = (TextView) findViewById(R.id.login_title);
         this.loginUserEmail = (EditText) findViewById(R.id.login_user);
@@ -106,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     Call<String> call = new RetrofitClientInitializer(base_url)
                                             .getUserService()
-                                            .verifyUser("verifyUser",userEmail,userPassword);
+                                            .verifyUser("verifyUser",userEmail,userPassword,firebaseKey);
 
                     call.enqueue(new Callback<String>() {
                         @Override
