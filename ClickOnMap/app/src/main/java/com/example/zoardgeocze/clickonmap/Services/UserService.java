@@ -19,21 +19,22 @@ import rx.Observable;
 public interface UserService {
 
     @FormUrlEncoded
-    @POST("clickonmap_mobile/")
+    @POST("mobile/")
     Call<String> sendUserToServer(@Field("tag") String tag,
                                   @Field("email") String email,
                                   @Field("name") String name,
                                   @Field("password") String password,
                                   @Field("type") char type,
-                                  @Field("registerDate") String registerDate);
+                                  @Field("registerDate") String registerDate,
+                                  @Field("firebaseKey") String firebaseKey);
 
     @FormUrlEncoded
-    @POST("clickonmap_mobile/")
+    @POST("mobile/")
     Call<String> verifyUser(@Field("tag") String tag, @Field("email") String email, @Field("password") String password,
                             @Field("firebaseKey") String firebaseKey);
 
     @FormUrlEncoded
-    @POST("clickonmap_mobile/")
+    @POST("mobile/")
     Observable<User> getUserFromServer(@Field("tag") String tag, @Field("email") String email);
 
 }

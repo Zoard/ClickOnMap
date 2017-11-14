@@ -7,19 +7,19 @@
         <item
             android:id="@+id/nav_profile"
             android:title="Meu Perfil"
-            android:icon="@mipmap/ic_person_black_48dp"/>
+            android:icon="@drawable/ic_person_black_48dp"/>
         <item
             android:id="@+id/nav_pending_collab"
             android:title="Colaborações Pendentes"
-            android:icon="@mipmap/ic_backup_black_48dp"/>
+            android:icon="@drawable/ic_backup_black_48dp"/>
         <item
             android:id="@+id/nav_configurations"
             android:title="Configurações"
-            android:icon="@mipmap/ic_settings_black_48dp"/>
+            android:icon="@drawable/ic_settings_black_48dp"/>
         <item
             android:id="@+id/nav_logout"
             android:title="Logout"
-            android:icon="@mipmap/ic_arrow_back_black_48dp"/>
+            android:icon="@drawable/ic_arrow_back_black_48dp"/>
     </group>
 
     <item android:title="Sobre nós">
@@ -27,7 +27,7 @@
             <item
                 android:id="@+id/nav_developers"
                 android:title="Desenvolvedores"
-                android:icon="@mipmap/ic_local_cafe_black_48dp"/>
+                android:icon="@drawable/ic_local_cafe_black_48dp"/>
         </menu>
     </item>
 
