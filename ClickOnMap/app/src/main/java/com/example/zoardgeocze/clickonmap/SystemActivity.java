@@ -18,6 +18,10 @@ import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Services.Locationer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 
+
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * Created by ZoardGeocze on 08/10/17.
  */
@@ -63,12 +67,12 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
         this.latitudeValue = (TextView) findViewById(R.id.latitude_value);
         this.longitudeValue = (TextView) findViewById(R.id.longitude_value);
 
-        String lastColab = this.generalController.getLastCollaboration(this.vgiSystem.getAdress());
+        String lastColab = this.generalController.getLastCollaboration(this.vgiSystem.getAddress());
 
         this.lastCollaboration = (TextView) findViewById(R.id.system_last_colab);
         this.lastCollaboration.setText(lastColab);
 
-        String mostColab = this.generalController.getMostCollaborator(this.vgiSystem.getAdress());
+        String mostColab = this.generalController.getMostCollaborator(this.vgiSystem.getAddress());
 
         this.mostCollaborations = (TextView) findViewById(R.id.system_most_colab);
         this.mostCollaborations.setText(mostColab);
@@ -109,12 +113,12 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
     protected void onStart() {
         super.onStart();
 
-        String lastColab = this.generalController.getLastCollaboration(this.vgiSystem.getAdress());
+        String lastColab = this.generalController.getLastCollaboration(this.vgiSystem.getAddress());
 
         this.lastCollaboration = (TextView) findViewById(R.id.system_last_colab);
         this.lastCollaboration.setText(lastColab);
 
-        String mostColab = this.generalController.getMostCollaborator(this.vgiSystem.getAdress());
+        String mostColab = this.generalController.getMostCollaborator(this.vgiSystem.getAddress());
 
         this.mostCollaborations = (TextView) findViewById(R.id.system_most_colab);
         this.mostCollaborations.setText(mostColab);
@@ -174,7 +178,7 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
 
         } else if (id == R.id.nav_logout) {
 
-            this.generalController.vgiSystemLogout(this.vgiSystem.getAdress());
+            this.generalController.vgiSystemLogout(this.vgiSystem.getAddress());
             finish();
 
         } else if (id == R.id.nav_developers) {
@@ -186,6 +190,7 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
 
         return true;
     }
+
 }
 
 

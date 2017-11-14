@@ -50,7 +50,7 @@ public final class SingletonFacadeController {
 
             VGISystem vgiSystem = new VGISystem();
 
-            vgiSystem.setAdress(c.getString(c.getColumnIndex("adress")));
+            vgiSystem.setAddress(c.getString(c.getColumnIndex("adress")));
             vgiSystem.setName(c.getString(c.getColumnIndex("name")));
             vgiSystem.setColor(c.getString(c.getColumnIndex("color")));
             vgiSystem.setCollaborations(c.getInt(c.getColumnIndex("collaborations")));
@@ -78,7 +78,7 @@ public final class SingletonFacadeController {
 
         ContentValues newSystemVGI = new ContentValues();
 
-        newSystemVGI.put("adress",vgiSystem.getAdress());
+        newSystemVGI.put("adress",vgiSystem.getAddress());
         newSystemVGI.put("name",vgiSystem.getName());
         newSystemVGI.put("color",vgiSystem.getColor());
         newSystemVGI.put("collaborations",vgiSystem.getCollaborations());
@@ -97,7 +97,7 @@ public final class SingletonFacadeController {
     public boolean searchVGISystem(VGISystem vgiSystem) {
         SingletonDataBase db = SingletonDataBase.getInstance();
 
-        Cursor c = db.search("SystemVGI",new String[]{"adress"},"adress = '" + vgiSystem.getAdress() + "'","");
+        Cursor c = db.search("SystemVGI",new String[]{"adress"},"adress = '" + vgiSystem.getAddress() + "'","");
         if (!(c.getCount() > 0)) {
             c.close();
             return true;
@@ -106,7 +106,6 @@ public final class SingletonFacadeController {
             return false;
         }
     }
-
 
     public boolean registerUser(VGISystem vgiSystem, User user) {
 
@@ -122,7 +121,7 @@ public final class SingletonFacadeController {
         ContentValues newUser = new ContentValues();
 
         newUser.put("userId",user.getId());
-        newUser.put("systemAdress",vgiSystem.getAdress());
+        newUser.put("systemAdress",vgiSystem.getAddress());
         newUser.put("name",user.getName());
         newUser.put("password",user.getPassword());
         newUser.put("email",user.getEmail());
@@ -137,7 +136,7 @@ public final class SingletonFacadeController {
             contentValues.put("userId",user.getId());
             contentValues.put("hasSession",hasSession);
 
-            db.update("SystemVGI",contentValues,"adress = '" + vgiSystem.getAdress() + "'");
+            db.update("SystemVGI",contentValues,"adress = '" + vgiSystem.getAddress() + "'");
         }
 
         return verifySystem;
@@ -231,7 +230,7 @@ public final class SingletonFacadeController {
                 contentValues.put("hasSession",hasSession);
                 db.update("SystemVGI",
                         contentValues,
-                        "adress = '" + vgiSystem.getAdress() + "' AND userId = '" + user.getId() + "'");
+                        "adress = '" + vgiSystem.getAddress() + "' AND userId = '" + user.getId() + "'");
 
                 return true;
 
@@ -245,7 +244,7 @@ public final class SingletonFacadeController {
                 contentValues.put("userId",user.getId());
                 contentValues.put("hasSession",hasSession);
 
-                db.update("SystemVGI",contentValues,"adress = '" + vgiSystem.getAdress() + "'");
+                db.update("SystemVGI",contentValues,"adress = '" + vgiSystem.getAddress() + "'");
 
                 return true;
 
@@ -280,7 +279,7 @@ public final class SingletonFacadeController {
         SingletonDataBase db = SingletonDataBase.getInstance();
 
         Cursor c = db.search("SystemVGI",new String[]{"userId"},
-                "userId = '" + user.getId() + "' AND adress = '" + vgiSystem.getAdress() + "'","");
+                "userId = '" + user.getId() + "' AND adress = '" + vgiSystem.getAddress() + "'","");
 
         if(c.getCount() > 0) {
             c.close();
@@ -296,7 +295,7 @@ public final class SingletonFacadeController {
         SingletonDataBase db = SingletonDataBase.getInstance();
 
         Cursor c = db.search("User",new String[]{"email"},
-                "email = '" + user.getEmail() + "' AND systemAdress = '" + vgiSystem.getAdress() + "'","");
+                "email = '" + user.getEmail() + "' AND systemAdress = '" + vgiSystem.getAddress() + "'","");
 
         if(c.getCount() > 0) {
             c.close();
@@ -311,10 +310,10 @@ public final class SingletonFacadeController {
     public User getUser(VGISystem vgiSystem) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
-        String userId = getUserId(vgiSystem.getAdress());
+        String userId = getUserId(vgiSystem.getAddress());
 
         Cursor c = db.search("User", new String[]{"userId","name","password","email","registerDate"},
-                "userId = '" + userId + "' AND systemAdress = '" + vgiSystem.getAdress() + "'","");
+                "userId = '" + userId + "' AND systemAdress = '" + vgiSystem.getAddress() + "'","");
 
         User user = new User();
 
@@ -438,7 +437,7 @@ public final class SingletonFacadeController {
 
         int eventCategoryID = 1;
 
-        newCategory.put("serverAdress",vgiSystem.getAdress());
+        newCategory.put("serverAdress",vgiSystem.getAddress());
         newCategory.put("eventCategoryId", eventCategoryID);
         newCategory.put("eventCategoryDescription","Teste");
 

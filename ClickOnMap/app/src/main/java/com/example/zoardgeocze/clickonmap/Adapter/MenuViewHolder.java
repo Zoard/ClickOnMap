@@ -92,7 +92,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
             if(this.tile instanceof SystemTile) {
                 SystemTile systemTile = (SystemTile) tile;
                 //Toast.makeText(this.context,"Endereço do Tile é: " + systemTile.getSystem().getAdress(),Toast.LENGTH_SHORT).show();
-                String hasSession = this.generalController.hasSession(systemTile.getSystem().getAdress());
+                String hasSession = this.generalController.hasSession(systemTile.getSystem().getAddress());
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("vgiSystem",systemTile.getSystem());

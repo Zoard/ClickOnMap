@@ -1,18 +1,24 @@
 package com.example.zoardgeocze.clickonmap.Model;
 
+import android.util.Log;
+
+import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+
 
 /**
  * Created by ZoardGeocze on 29/04/17.
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class VGISystem implements Serializable {
+public class VGISystem implements Serializable, Observer {
 
-    private String adress;
+    private String address;
     private String name;
     private String description;
     private String color;
@@ -24,7 +30,7 @@ public class VGISystem implements Serializable {
     private double lngY;
 
     public VGISystem() {
-        this.adress = "";
+        this.address = "";
         this.name = "";
         this.description = "";
         this.color = "";
@@ -35,8 +41,8 @@ public class VGISystem implements Serializable {
         this.lngY = 0.0;
     }
 
-    public VGISystem(String adress, String name, String description, String color, List<String> category, int collaborations) {
-        this.adress = adress;
+    public VGISystem(String address, String name, String description, String color, List<String> category, int collaborations) {
+        this.address = address;
         this.name = name;
         this.description = description;
         this.color = color;
@@ -44,8 +50,8 @@ public class VGISystem implements Serializable {
         this.collaborations = collaborations;
     }
 
-    public VGISystem(String adress, String name, String description, int collaborations, double latX, double latY, double lngX, double lngY) {
-        this.adress = adress;
+    public VGISystem(String address, String name, String description, int collaborations, double latX, double latY, double lngX, double lngY) {
+        this.address = address;
         this.name = name;
         this.description = description;
         this.color = "";
@@ -56,12 +62,12 @@ public class VGISystem implements Serializable {
         this.lngY = lngY;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getName() {
@@ -134,5 +140,11 @@ public class VGISystem implements Serializable {
 
     public void setLngY(double lngY) {
         this.lngY = lngY;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        this.address = arg.toString();
+        Log.i("update_OBSERVER: ",arg.toString());
     }
 }

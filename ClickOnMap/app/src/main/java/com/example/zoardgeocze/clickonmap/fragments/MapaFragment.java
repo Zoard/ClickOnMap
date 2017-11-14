@@ -74,7 +74,7 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
         }
         this.map.setMyLocationEnabled(true);
 
-        this.collaborations = this.generalController.getCollaborations(vgiSystem.getAdress());
+        this.collaborations = this.generalController.getCollaborations(vgiSystem.getAddress());
         Log.i("DEPOIS_DO_BD", String.valueOf(this.collaborations.size()));
 
         for(Collaboration colab: this.collaborations) {

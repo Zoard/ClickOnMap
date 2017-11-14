@@ -104,7 +104,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
         //Função Temporária - Demo GEOINFO
         if(this.vgiSystem != null) {
-            this.categories = this.generalController.getCategoriesFromSystem(this.vgiSystem.getAdress());
+            this.categories = this.generalController.getCategoriesFromSystem(this.vgiSystem.getAddress());
             this.categories.add(0,"--");
             //this.subcategories = this.generalController.getSubcategoriesFromSystem(this.categories);
         }
@@ -119,7 +119,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
         this.subcategorySpinner = (Spinner) findViewById(R.id.colab_subcategory);
         this.subcategorySpinner.setOnItemSelectedListener(this);
 
-        ID = this.vgiSystem.getAdress();
+        ID = this.vgiSystem.getAddress();
         myContext = this.getBaseContext();
 
         this.latitude = intent.getDoubleExtra("latitude",0);
@@ -269,7 +269,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US).format(new Date());
         //String imageFileName = "IMG_"+ this.vgiSystem.getAdress() + "_" + timeStamp;
-        String systemAdress = this.vgiSystem.getAdress();
+        String systemAdress = this.vgiSystem.getAddress();
         String imageFileName = "IMG_" + timeStamp;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
@@ -315,14 +315,14 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
             String titleText = this.title.getText().toString();
             String descriptionText = this.description.getText().toString();
             String timeStamp = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.US).format(new Date());
-            String userId = this.generalController.getUserId(this.vgiSystem.getAdress());
+            String userId = this.generalController.getUserId(this.vgiSystem.getAddress());
 
             this.collaboration = new Collaboration(userId,titleText,descriptionText, timeStamp, this.choosedCategoryId,
                                                     this.choosedCategory, this.choosedSubcategoryId, this.choosedSubcategory,
                                                     this.currentPhotoPath, this.currentVideoPath,this.currentAudioPath,
                                                     this.latitude, this.longitude);
 
-            this.generalController.registerPendingCollaborations(this.collaboration,this.vgiSystem.getAdress());
+            this.generalController.registerPendingCollaborations(this.collaboration,this.vgiSystem.getAddress());
 
             Toast.makeText(this,"Colaboração feita com sucesso ;)", Toast.LENGTH_LONG).show();
 

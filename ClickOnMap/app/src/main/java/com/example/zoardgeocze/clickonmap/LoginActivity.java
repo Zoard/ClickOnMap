@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                     mProgressDialog.setMessage("Verificando Usuário...");
                     mProgressDialog.show();
 
-                    final String base_url = vgiSystem.getAdress() + "/";
+                    final String base_url = vgiSystem.getAddress() + "/";
 
                     Call<String> call = new RetrofitClientInitializer(base_url)
                                             .getUserService()

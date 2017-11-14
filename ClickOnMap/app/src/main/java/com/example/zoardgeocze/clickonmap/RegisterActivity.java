@@ -138,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
         mProgressDialog.setMessage("Cadastrando usuário no sistema...");
         mProgressDialog.show();
 
-        final String base_url = this.vgiSystem.getAdress() + "/";
+        final String base_url = this.vgiSystem.getAddress() + "/";
 
         Call<String> call = new RetrofitClientInitializer(base_url)
                 .getUserService()
@@ -186,7 +186,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             Call<String> call = new RetrofitInitializer()
                     .getSystemService()
-                    .sendMobileSystemToServer("sendMobileSystem",this.vgiSystem.getAdress(),firebaseKey);
+                    .sendMobileSystemToServer("sendMobileSystem",this.vgiSystem.getAddress(),firebaseKey);
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {

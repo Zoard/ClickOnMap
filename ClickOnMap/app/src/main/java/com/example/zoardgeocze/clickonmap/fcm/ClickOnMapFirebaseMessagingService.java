@@ -42,19 +42,19 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
 
                 Log.i(TAG, "Msg: " + msg);
 
+                String oldAddress = data.get("oldAdress");
+                String newAddress = data.get("newAdress");
+
                 if(msg.equals("change_adress")) {
 
-                    String oldAdress = data.get("oldAdress");
-                    String newAdress = data.get("newAdress");
-
-                    changeSystemAdress(oldAdress,newAdress);
+                    changeSystemAdress(msg,oldAddress,newAddress);
 
                 } else if(msg.equals("delete_system")) {
 
-                    String adress = data.get("oldAdress");
+                    deleteSystem(oldAddress);
 
-                    deleteSystem(adress);
-
+                } else if (msg.equals("category_change")) {
+                    changeCategory();
                 }
 
                 String horario = data.get("horario");
@@ -66,13 +66,17 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
         Log.i(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
     }
 
-    private void changeSystemAdress(String oldAdress, String newAdress) {
+    private void changeSystemAdress(String message,String oldAddress, String newAddress) {
         this.generalController = SingletonFacadeController.getInstance();
-        this.generalController.updateVGISystemAdress(oldAdress,newAdress);
+        this.generalController.updateVGISystemAdress(oldAddress,newAddress);
     }
 
-    private void deleteSystem(String adress) {
+    private void deleteSystem(String address) {
         this.generalController = SingletonFacadeController.getInstance();
-        this.generalController.deleteVGISystem(adress);
+        this.generalController.deleteVGISystem(address);
+    }
+
+    private void changeCategory() {
+
     }
 }
