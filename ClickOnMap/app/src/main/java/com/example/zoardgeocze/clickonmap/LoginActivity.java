@@ -12,10 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zoardgeocze.clickonmap.Model.EventCategory;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -189,11 +192,48 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            this.bundle.putSerializable("user",user);
-            this.intent.putExtras(this.bundle);
-            setResult(1,this.intent);
-            finish();
+            final String base_url = vgiSystem.getAddress() + "/";
+            getSystemCategories(base_url,user);
         }
+    }
+
+    private void getSystemCategories(final String base_url, final User user) {
+
+        new RetrofitClientInitializer(base_url)
+                .getSystemService()
+                .getSystemCategories("getCategories")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<EventCategory>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<EventCategory> eventCategories) {
+                        registerConfirmation(eventCategories,user);
+                    }
+                });
+    }
+
+    //Confirma o registro do usuário no sistema
+    private void registerConfirmation(List<EventCategory> eventCategories, User user) {
+
+        this.vgiSystem.setCategory(eventCategories);
+        bundle = intent.getExtras();
+        bundle.putSerializable("vgiSystem",this.vgiSystem);
+        bundle.putSerializable("user",user);
+        intent.putExtras(bundle);
+
+        setResult(1,intent);
+        finish();
+
     }
 
 

@@ -2,12 +2,20 @@ package com.example.zoardgeocze.clickonmap.fcm;
 
 import android.util.Log;
 
+import com.example.zoardgeocze.clickonmap.Model.EventCategory;
+import com.example.zoardgeocze.clickonmap.Model.VGISystem;
+import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Map;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ZoardGeocze on 03/05/2017.
@@ -26,6 +34,8 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
         // Also if you intend on generating your own notifications as a result of a received fcm
         // message, here is where that should be initiated.
         Log.i(TAG, "From: " + remoteMessage.getFrom());
+
+        generalController = SingletonFacadeController.getInstance();
 
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
@@ -54,7 +64,7 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
                     deleteSystem(oldAddress);
 
                 } else if (msg.equals("category_change")) {
-                    changeCategory();
+                    changeCategory(oldAddress);
                 }
 
                 String horario = data.get("horario");
@@ -76,7 +86,33 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
         this.generalController.deleteVGISystem(address);
     }
 
-    private void changeCategory() {
+    //TODO: O método para tratar categorias deverá ser diferenciado.
+    private void changeCategory(final String address) {
+        final String base_url = address + "/";
+        new RetrofitClientInitializer(base_url)
+                .getSystemService()
+                .getSystemCategories("getCategories")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<EventCategory>>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<EventCategory> eventCategories) {
+                        VGISystem vgiSystem = new VGISystem();
+                        vgiSystem.setAddress(address);
+                        vgiSystem.setCategory(eventCategories);
+
+                        generalController.registerCategory(vgiSystem);
+                    }
+                });
     }
 }

@@ -16,6 +16,8 @@ import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Single;
+
 /**
  * Created by ZoardGeocze on 17/05/2017.
  */
@@ -459,6 +461,8 @@ public final class SingletonFacadeController {
         }
 
     }
+
+
 
     //TODO GEOINFO:FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO
     public ArrayList<String> getCategoriesFromSystem(String systemAddress) {
