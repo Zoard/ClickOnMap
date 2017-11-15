@@ -1,12 +1,19 @@
 package com.example.zoardgeocze.clickonmap.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by ZoardGeocze on 12/11/17.
  */
 
-public class EventCategory {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class EventCategory implements Serializable{
 
     private int id;
     private String description;
@@ -16,6 +23,11 @@ public class EventCategory {
         this. id = id;
         this.description = description;
         this.eventTypes = eventTypes;
+    }
+
+    public EventCategory(Parcel in) {
+        this.id = in.readInt();
+        this.description = in.readString();
     }
 
     public int getId() {
@@ -41,4 +53,6 @@ public class EventCategory {
     public void setEventTypes(List<EventType> eventTypes) {
         this.eventTypes = eventTypes;
     }
+
+
 }

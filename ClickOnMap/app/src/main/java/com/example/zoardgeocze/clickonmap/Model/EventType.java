@@ -1,10 +1,15 @@
 package com.example.zoardgeocze.clickonmap.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
+
 /**
  * Created by ZoardGeocze on 12/11/17.
  */
 
-public class EventType {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class EventType implements Serializable {
 
     private int id;
     private String description;

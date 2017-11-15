@@ -26,7 +26,7 @@ public class SingletonDataBase {
                     ");", // FIM CREATE TABLE
 
             "CREATE TABLE SystemVGI (" +
-                    "adress TEXT NOT NULL," +
+                    "address TEXT NOT NULL," +
                     "name TEXT NOT NULL," +
                     "color TEXT," +
                     "collaborations INTEGER," +
@@ -37,36 +37,36 @@ public class SingletonDataBase {
                     "lngY REAL NOT NULL," +
                     "hasSession TEXT NOT NULL,"+
                     "systemDescription TEXT NOT NULL," +
-                    "PRIMARY KEY (adress)" +
+                    "PRIMARY KEY (address)" +
                     ");", // FIM CREATE TABLE
 
             "CREATE TABLE User (" +
                     "userId TEXT NOT NULL," + //GEOINFO - MUDEI DE INTEGER PARA TEXT
-                    "systemAdress TEXT NOT NULL," +
+                    "systemAddress TEXT NOT NULL," +
                     "name TEXT NOT NULL," +
                     "password TEXT NOT NULL," +
                     "email TEXT NOT NULL," +
                     "registerDate TEXT NOT NULL," +
-                    "PRIMARY KEY (userId, systemAdress)," +
-                    "CONSTRAINT systemAdress FOREIGN KEY (systemAdress) REFERENCES SystemVGI (adress) ON DELETE CASCADE ON UPDATE CASCADE," +
-                    "CONSTRAINT candidateKeyUser UNIQUE (systemAdress, email)" + //MUDEI AQUI "name" para "email", NÃO FAZ SENTIDO SER "name"
+                    "PRIMARY KEY (userId, systemAddress)," +
+                    "CONSTRAINT systemAddress FOREIGN KEY (systemAddress) REFERENCES SystemVGI (address) ON DELETE CASCADE ON UPDATE CASCADE," +
+                    "CONSTRAINT candidateKeyUser UNIQUE (systemAddress, email)" + //MUDEI AQUI "name" para "email", NÃO FAZ SENTIDO SER "name"
                     ");", // FIM CREATE TABLE*/
 
             "CREATE TABLE Notification (" +
                     "notificationId INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "userId TEXT NOT NULL," + //GEOINFO - MUDEI DE INTEGER PARA TEXT
-                    "userSystemAdress TEXT NOT NULL," +
+                    "userSystemAddress TEXT NOT NULL," +
                     "description TEXT NOT NULL," +
-                    "CONSTRAINT user_userId_userSystemAdress FOREIGN KEY (userId, userSystemAdress) REFERENCES User (userId, systemAdress) ON DELETE CASCADE ON UPDATE CASCADE" +
+                    "CONSTRAINT user_userId_userSystemAddress FOREIGN KEY (userId, userSystemAddress) REFERENCES User (userId, systemAddress) ON DELETE CASCADE ON UPDATE CASCADE" +
                     ");", // FIM CREATE TABLE*/
 
             "CREATE TABLE EventCategory (" +
                     "categoryId INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "serverAdress TEXT NOT NULL," +
+                    "serverAddress TEXT NOT NULL," +
                     "eventCategoryId INTEGER NOT NULL," +
                     "eventCategoryDescription TEXT," +
-                    "CONSTRAINT serverAdress FOREIGN KEY (serverAdress) REFERENCES SystemVGI (adress) ON DELETE CASCADE ON UPDATE CASCADE," +
-                    "CONSTRAINT candidateKeyEventCategory UNIQUE (serverAdress, eventCategoryId)" +
+                    "CONSTRAINT serverAddress FOREIGN KEY (serverAddress) REFERENCES SystemVGI (address) ON DELETE CASCADE ON UPDATE CASCADE," +
+                    "CONSTRAINT candidateKeyEventCategory UNIQUE (serverAddress, eventCategoryId)" +
                     ");", // FIM CREATE TABLE*/
 
             "CREATE TABLE EventType (" +
@@ -85,7 +85,7 @@ public class SingletonDataBase {
                     "eventType_typeId INTEGER NOT NULL," +
                     "eventType_typeName TEXT," + //Adicionado pro GEOINFO
                     "user_userId TEXT NOT NULL," + //GEOINFO - MUDEI DE INTEGER PARA TEXT
-                    "user_systemAdress TEXT NOT NULL," +
+                    "user_systemAddress TEXT NOT NULL," +
                     "title TEXT NOT NULL," +
                     "description TEXT NOT NULL," +
                     "collaborationDate TEXT NOT NULL," +
@@ -95,7 +95,7 @@ public class SingletonDataBase {
                     "longitude REAL NOT NULL," +
                     "CONSTRAINT eventCategory_categoryId FOREIGN KEY (eventCategory_categoryId) REFERENCES EventCategory (categoryId) ON DELETE NO ACTION ON UPDATE NO ACTION," +
                     "CONSTRAINT eventType_typeId FOREIGN KEY (eventType_typeId) REFERENCES EventType (typeId) ON DELETE NO ACTION ON UPDATE NO ACTION," +
-                    "CONSTRAINT user_userId_systemAdress FOREIGN KEY (user_userId, user_systemAdress) REFERENCES User (userId, systemAdress) ON DELETE CASCADE ON UPDATE CASCADE" +
+                    "CONSTRAINT user_userId_systemAddress FOREIGN KEY (user_userId, user_systemAddress) REFERENCES User (userId, systemAddress) ON DELETE CASCADE ON UPDATE CASCADE" +
                     ");" // FIM CREATE TABLE*/
 
     };

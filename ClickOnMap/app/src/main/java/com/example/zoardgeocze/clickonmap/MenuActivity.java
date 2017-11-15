@@ -17,6 +17,7 @@ import com.example.zoardgeocze.clickonmap.Helper.CallbackItemTouch;
 import com.example.zoardgeocze.clickonmap.Helper.ItemTouchHelperCallback;
 import com.example.zoardgeocze.clickonmap.Helper.RecyclerItemClickListener;
 import com.example.zoardgeocze.clickonmap.Model.AddTile;
+import com.example.zoardgeocze.clickonmap.Model.EventCategory;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.Model.User;
@@ -132,24 +133,20 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 0) {
-            //Toast.makeText(this,"Não foi possível realizar seu cadastro no sistema. Tente novamente.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"Nenhum Sistema VGI foi cadastrado.", Toast.LENGTH_SHORT).show();
         }
         else if(resultCode == 1) {
             Bundle bundle = data.getExtras();
             VGISystem vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
+
             User user = (User) bundle.getSerializable("user");
 
             //Se der True é porque ainda não existe Tile do Sistema no Hub, nesse caso é necessário atualizar
             //caso contrário, não adiciona mais Tiles
             if(this.generalController.registerUser(vgiSystem,user)) {
+                this.generalController.registerCategory(vgiSystem); //Registra Categorias no Sistema
                 SystemTile systemTile = new SystemTile(vgiSystem);
-
                 this.menuTiles.add(0,systemTile);
-
-                /*
-                * FUNÇÃO TEMPORÁRIA - CRIADA PARA DEMONSTRAÇÃO DO GEOINFO
-                * */
-                populaCategoria(vgiSystem);
             }
             //Toast.makeText(this,String.valueOf(vgiSystem.getContributions()),Toast.LENGTH_SHORT).show();
         }
@@ -158,14 +155,6 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
         }
     }
 
-    //FUNÇÃO TEMPORÁRIA - Demo GEOINFO
-    private void populaCategoria(VGISystem vgiSystem) {
-        /*
-         * VARIÁVEIS TEMPORÁRIAS - CRIADA PARA DEMONSTRAÇÃO DO GEOINFO
-         * */
-        String[] subcategoria = new String[]{"Segurança","Usabilidade","Interface","Desenvolvimento", "GeoInfo"};
-        this.generalController.registerCategory(vgiSystem,subcategoria);
-    }
 
 
     @Override

@@ -1,6 +1,8 @@
 package com.example.zoardgeocze.clickonmap.Retrofit;
 
+import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Services.UserService;
+import com.example.zoardgeocze.clickonmap.Services.VGISystemService;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -36,5 +38,6 @@ public class RetrofitClientInitializer {
     }
 
     public UserService getUserService() {return retrofit.create(UserService.class);}
+    public VGISystemService getSystemService() {return retrofit.create(VGISystemService.class);}
 
 }

@@ -11,18 +11,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.zoardgeocze.clickonmap.Model.EventCategory;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ZoardGeocze on 28/04/17.
@@ -115,20 +121,17 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //Confirma o registro do usuário no sistema
-    private void registerConfirmation(boolean verifier) {
+    private void registerConfirmation(List<EventCategory> eventCategories) {
 
-        if(verifier) {
+        this.vgiSystem.setCategory(eventCategories);
+        bundle = intent.getExtras();
+        bundle.putSerializable("vgiSystem",this.vgiSystem);
+        bundle.putSerializable("user",user);
+        intent.putExtras(bundle);
 
-            bundle = intent.getExtras();
-            bundle.putSerializable("user",user);
-            intent.putExtras(bundle);
+        setResult(1,intent);
+        finish();
 
-            setResult(1,intent);
-            finish();
-
-        } else {
-            Toast.makeText(getBaseContext(),"Não foi possível fazer cadastro no sistema. Tente novamente.",Toast.LENGTH_SHORT).show();
-        }
     }
 
     //TODO: Terminar a implementação na parte do servidor
@@ -139,6 +142,7 @@ public class RegisterActivity extends AppCompatActivity {
         mProgressDialog.show();
 
         final String base_url = this.vgiSystem.getAddress() + "/";
+        Log.i("sendUserToServer: ", base_url);
 
         Call<String> call = new RetrofitClientInitializer(base_url)
                 .getUserService()
@@ -153,6 +157,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if(response.body().equals("true")) {
                     sendMobileSystemToServer(firebaseKey);
+                    getSystemCategories(base_url);
                 } else {
                     Toast.makeText(getBaseContext(),"Email já cadastrado no sistema.",Toast.LENGTH_SHORT).show();
                 }
@@ -179,39 +184,72 @@ public class RegisterActivity extends AppCompatActivity {
     private void sendMobileSystemToServer(String firebaseKey) {
         if (!firebaseKey.equals("")) {
 
-            final ProgressDialog mProgressDialog = new ProgressDialog(RegisterActivity.this);
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Cadastrando no sistema...");
-            mProgressDialog.show();
-
-            Call<String> call = new RetrofitInitializer()
+            new RetrofitInitializer()
                     .getSystemService()
-                    .sendMobileSystemToServer("sendMobileSystem",this.vgiSystem.getAddress(),firebaseKey);
-            call.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Log.i("SendMobileSystem", response.body());
+                    .sendMobileSystemToServer("sendMobileSystem",this.vgiSystem.getAddress(),firebaseKey)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<String>() {
+                        @Override
+                        public void onCompleted() {
 
-                    registerConfirmation(true);
+                        }
 
-                    if (mProgressDialog.isShowing()){
-                        mProgressDialog.dismiss();
-                    }
-                }
+                        @Override
+                        public void onError(Throwable e) {
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    Log.i("SendMobileSystem", t.getMessage());
+                        }
 
-                    registerConfirmation(false);
+                        @Override
+                        public void onNext(String s) {
 
-                    Toast.makeText(getBaseContext(),"Sem conexão de rede.",Toast.LENGTH_SHORT).show();
-
-                    if (mProgressDialog.isShowing()) {
-                        mProgressDialog.dismiss();
-                    }
-                }
-            });
+                        }
+                    });
         }
     }
+
+    private void getSystemCategories(final String base_url) {
+
+        new RetrofitClientInitializer(base_url)
+                .getSystemService()
+                .getSystemCategories("getCategories")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<EventCategory>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<EventCategory> eventCategories) {
+                        registerConfirmation(eventCategories);
+                    }
+                });
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.example.zoardgeocze.clickonmap.MenuActivity;
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
+import com.example.zoardgeocze.clickonmap.Model.EventCategory;
+import com.example.zoardgeocze.clickonmap.Model.EventType;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
@@ -42,7 +44,7 @@ public final class SingletonFacadeController {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
-        Cursor c = db.search("SystemVGI",new String[]{"adress","name","color",
+        Cursor c = db.search("SystemVGI",new String[]{"address","name","color",
                             "collaborations","systemDescription","latX","latY","lngX","lngY"},"","");
         Log.d("Teste", "Cont tiles: " + c.getCount());
 
@@ -50,7 +52,7 @@ public final class SingletonFacadeController {
 
             VGISystem vgiSystem = new VGISystem();
 
-            vgiSystem.setAddress(c.getString(c.getColumnIndex("adress")));
+            vgiSystem.setAddress(c.getString(c.getColumnIndex("address")));
             vgiSystem.setName(c.getString(c.getColumnIndex("name")));
             vgiSystem.setColor(c.getString(c.getColumnIndex("color")));
             vgiSystem.setCollaborations(c.getInt(c.getColumnIndex("collaborations")));
@@ -78,7 +80,7 @@ public final class SingletonFacadeController {
 
         ContentValues newSystemVGI = new ContentValues();
 
-        newSystemVGI.put("adress",vgiSystem.getAddress());
+        newSystemVGI.put("address",vgiSystem.getAddress());
         newSystemVGI.put("name",vgiSystem.getName());
         newSystemVGI.put("color",vgiSystem.getColor());
         newSystemVGI.put("collaborations",vgiSystem.getCollaborations());
@@ -97,7 +99,7 @@ public final class SingletonFacadeController {
     public boolean searchVGISystem(VGISystem vgiSystem) {
         SingletonDataBase db = SingletonDataBase.getInstance();
 
-        Cursor c = db.search("SystemVGI",new String[]{"adress"},"adress = '" + vgiSystem.getAddress() + "'","");
+        Cursor c = db.search("SystemVGI",new String[]{"address"},"address = '" + vgiSystem.getAddress() + "'","");
         if (!(c.getCount() > 0)) {
             c.close();
             return true;
@@ -121,7 +123,7 @@ public final class SingletonFacadeController {
         ContentValues newUser = new ContentValues();
 
         newUser.put("userId",user.getId());
-        newUser.put("systemAdress",vgiSystem.getAddress());
+        newUser.put("systemAddress",vgiSystem.getAddress());
         newUser.put("name",user.getName());
         newUser.put("password",user.getPassword());
         newUser.put("email",user.getEmail());
@@ -136,30 +138,30 @@ public final class SingletonFacadeController {
             contentValues.put("userId",user.getId());
             contentValues.put("hasSession",hasSession);
 
-            db.update("SystemVGI",contentValues,"adress = '" + vgiSystem.getAddress() + "'");
+            db.update("SystemVGI",contentValues,"address = '" + vgiSystem.getAddress() + "'");
         }
 
         return verifySystem;
     }
 
-    public boolean updateVGISystemAdress(String oldAdress, String newAdress) {
+    public boolean updateVGISystemAddress(String oldAddress, String newAddress) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
         ContentValues updateSystem = new ContentValues();
 
-        updateSystem.put("adress",newAdress);
+        updateSystem.put("address",newAddress);
 
-        db.update("SystemVGI",updateSystem,"adress = '" + oldAdress + "'");
+        db.update("SystemVGI",updateSystem,"address = '" + oldAddress + "'");
 
         return true;
     }
 
-    public boolean deleteVGISystem(String adress) {
+    public boolean deleteVGISystem(String address) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
-        db.delete("SystemVGI","adress = '" + adress + "'");
+        db.delete("SystemVGI","address = '" + address + "'");
 
         return true;
     }
@@ -197,19 +199,19 @@ public final class SingletonFacadeController {
         return firebaseKey;
     }
 
-    public String hasSession(String adress) {
+    public String hasSession(String address) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
-        Cursor c = db.search("SystemVGI", new String[]{"hasSession"},"adress = '" + adress + "'","");
-        String systemAdress = "N";
+        Cursor c = db.search("SystemVGI", new String[]{"hasSession"},"address = '" + address + "'","");
+        String systemAddress = "N";
 
         while (c.moveToNext()) {
-            systemAdress = c.getString(c.getColumnIndex("hasSession"));
+            systemAddress = c.getString(c.getColumnIndex("hasSession"));
         }
 
         c.close();
 
-        return systemAdress;
+        return systemAddress;
 
     }
 
@@ -230,7 +232,7 @@ public final class SingletonFacadeController {
                 contentValues.put("hasSession",hasSession);
                 db.update("SystemVGI",
                         contentValues,
-                        "adress = '" + vgiSystem.getAddress() + "' AND userId = '" + user.getId() + "'");
+                        "address = '" + vgiSystem.getAddress() + "' AND userId = '" + user.getId() + "'");
 
                 return true;
 
@@ -244,7 +246,7 @@ public final class SingletonFacadeController {
                 contentValues.put("userId",user.getId());
                 contentValues.put("hasSession",hasSession);
 
-                db.update("SystemVGI",contentValues,"adress = '" + vgiSystem.getAddress() + "'");
+                db.update("SystemVGI",contentValues,"address = '" + vgiSystem.getAddress() + "'");
 
                 return true;
 
@@ -262,7 +264,7 @@ public final class SingletonFacadeController {
 
     }
 
-    public void vgiSystemLogout(String systemAdress) {
+    public void vgiSystemLogout(String systemAddress) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
@@ -270,7 +272,7 @@ public final class SingletonFacadeController {
 
         contentValues.put("hasSession","N");
 
-        db.update("SystemVGI",contentValues,"adress = '" + systemAdress + "'");
+        db.update("SystemVGI",contentValues,"address = '" + systemAddress + "'");
 
     }
 
@@ -279,7 +281,7 @@ public final class SingletonFacadeController {
         SingletonDataBase db = SingletonDataBase.getInstance();
 
         Cursor c = db.search("SystemVGI",new String[]{"userId"},
-                "userId = '" + user.getId() + "' AND adress = '" + vgiSystem.getAddress() + "'","");
+                "userId = '" + user.getId() + "' AND address = '" + vgiSystem.getAddress() + "'","");
 
         if(c.getCount() > 0) {
             c.close();
@@ -295,7 +297,7 @@ public final class SingletonFacadeController {
         SingletonDataBase db = SingletonDataBase.getInstance();
 
         Cursor c = db.search("User",new String[]{"email"},
-                "email = '" + user.getEmail() + "' AND systemAdress = '" + vgiSystem.getAddress() + "'","");
+                "email = '" + user.getEmail() + "' AND systemAddress = '" + vgiSystem.getAddress() + "'","");
 
         if(c.getCount() > 0) {
             c.close();
@@ -313,7 +315,7 @@ public final class SingletonFacadeController {
         String userId = getUserId(vgiSystem.getAddress());
 
         Cursor c = db.search("User", new String[]{"userId","name","password","email","registerDate"},
-                "userId = '" + userId + "' AND systemAdress = '" + vgiSystem.getAddress() + "'","");
+                "userId = '" + userId + "' AND systemAddress = '" + vgiSystem.getAddress() + "'","");
 
         User user = new User();
 
@@ -331,11 +333,11 @@ public final class SingletonFacadeController {
 
     }
 
-    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
-    public String getUserId(String systemAdress) {
+    //TODO:FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public String getUserId(String systemAddress) {
         SingletonDataBase db = SingletonDataBase.getInstance();
 
-        Cursor c = db.search("SystemVGI", new String[]{"userId"},"adress = '" + systemAdress + "' AND hasSession = 'Y'","");
+        Cursor c = db.search("SystemVGI", new String[]{"userId"},"address = '" + systemAddress + "' AND hasSession = 'Y'","");
 
         String userId = "";
 
@@ -346,7 +348,7 @@ public final class SingletonFacadeController {
         return userId;
     }
 
-    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    //TODO:FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
     public String getUserName(String userId) {
         SingletonDataBase db = SingletonDataBase.getInstance();
 
@@ -361,8 +363,8 @@ public final class SingletonFacadeController {
         return userName;
     }
 
-    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
-    public boolean registerPendingCollaborations(Collaboration collaboration, String systemAdress) {
+    //TODO:FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public boolean registerPendingCollaborations(Collaboration collaboration, String systemAddress) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
@@ -373,7 +375,7 @@ public final class SingletonFacadeController {
         newCollaboration.put("eventType_typeId",collaboration.getSubcategoryId());
         newCollaboration.put("eventType_typeName",collaboration.getSubcategoryName());
         newCollaboration.put("user_userId",collaboration.getUserId());
-        newCollaboration.put("user_systemAdress", systemAdress);
+        newCollaboration.put("user_systemAddress", systemAddress);
         newCollaboration.put("title",collaboration.getTitle());
         newCollaboration.put("description",collaboration.getDescription());
         newCollaboration.put("collaborationDate",collaboration.getCollaborationDate());
@@ -387,8 +389,8 @@ public final class SingletonFacadeController {
         return true;
     }
 
-    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
-    public List<Collaboration> getCollaborations(String systemAdress) {
+    //TODO:FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public List<Collaboration> getCollaborations(String systemAddress) {
 
         List<Collaboration> collaborationList = new ArrayList<>();
 
@@ -398,7 +400,7 @@ public final class SingletonFacadeController {
                 new String[] {"eventCategory_categoryId", "eventCategory_categoryName", "eventType_typeId",
                               "eventType_typeName","user_userId", "title","description","collaborationDate",
                               "picture","video","latitude","longitude"},
-                "user_systemAdress = '" + systemAdress + "'","");
+                "user_systemAddress = '" + systemAddress + "'","");
 
         Collaboration collaboration;
 
@@ -428,46 +430,45 @@ public final class SingletonFacadeController {
 
     }
 
-    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
-    public boolean registerCategory(VGISystem vgiSystem, String[] subcategorias) {
+    //Função que registra Categorias e Tipos de Eventos
+    public void registerCategory(VGISystem vgiSystem) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
-        ContentValues newCategory = new ContentValues();
+        for (EventCategory category:vgiSystem.getCategory()) {
 
-        int eventCategoryID = 1;
+            ContentValues newCategory = new ContentValues();
 
-        newCategory.put("serverAdress",vgiSystem.getAddress());
-        newCategory.put("eventCategoryId", eventCategoryID);
-        newCategory.put("eventCategoryDescription","Teste");
+            newCategory.put("serverAddress",vgiSystem.getAddress());
+            newCategory.put("eventCategoryId", category.getId());
+            newCategory.put("eventCategoryDescription",category.getDescription());
 
-        db.insert("EventCategory",newCategory);
+            long categoryId = db.insert("EventCategory",newCategory);
 
-        ContentValues newSubcategory;
+            for (EventType type:category.getEventTypes()) {
 
-        for(int i = 0; i < subcategorias.length; i++) {
+                ContentValues newType = new ContentValues();
 
-            newSubcategory = new ContentValues();
-            newSubcategory.put("categoryId",eventCategoryID);
-            newSubcategory.put("eventTypeId",i+1);
-            newSubcategory.put("eventTypeDescription",subcategorias[i]);
+                newType.put("categoryId",categoryId);
+                newType.put("eventTypeId", type.getId());
+                newType.put("eventTypeDescription",type.getDescription());
 
-            db.insert("EventType",newSubcategory);
+                db.insert("EventType",newType);
+            }
+
         }
-
-        return true;
 
     }
 
-    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
-    public ArrayList<String> getCategoriesFromSystem(String systemAdress) {
+    //TODO GEOINFO:FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO
+    public ArrayList<String> getCategoriesFromSystem(String systemAddress) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
         ArrayList<String> categories = new ArrayList<>();
 
         Cursor c = db.search("EventCategory",new String[]{"categoryId","eventCategoryDescription"},
-                            "serverAdress = '" + systemAdress + "'", "categoryId ASC");
+                            "serverAddress = '" + systemAddress + "'", "categoryId ASC");
 
         while(c.moveToNext()) {
             int categoryId = c.getInt(c.getColumnIndex("categoryId"));
@@ -479,8 +480,8 @@ public final class SingletonFacadeController {
 
     }
 
-    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
-    public ArrayList<String> getSubcategoriesFromSystem(int categoryId) {
+    //TODO:FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public ArrayList<String> getTypesFromSystem(int categoryId) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
@@ -502,13 +503,13 @@ public final class SingletonFacadeController {
 
     }
 
-    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
-    public String getLastCollaboration(String systemAdress) {
+    //TODO:FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public String getLastCollaboration(String systemAddress) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
         Cursor c = db.search("PendingCollaborations",new String[] {"collaborationDate"},
-                "user_systemAdress = '" + systemAdress + "'","collaborationsId DESC");
+                "user_systemAddress = '" + systemAddress + "'","collaborationsId DESC");
 
         String lastColab = "";
 
@@ -522,13 +523,13 @@ public final class SingletonFacadeController {
 
     }
 
-    //FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
-    public String getMostCollaborator(String systemAdress) {
+    //TODO:FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
+    public String getMostCollaborator(String systemAddress) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
 
         Cursor c = db.search("PendingCollaborations",new String[] {"user_userId","COUNT(user_userId) AS userId"},
-                "user_systemAdress = '" + systemAdress + "'","userId DESC");
+                "user_systemAddress = '" + systemAddress + "'","userId DESC");
 
         String mostColab = "";
 

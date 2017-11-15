@@ -68,7 +68,7 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
 
     private void changeSystemAdress(String message,String oldAddress, String newAddress) {
         this.generalController = SingletonFacadeController.getInstance();
-        this.generalController.updateVGISystemAdress(oldAddress,newAddress);
+        this.generalController.updateVGISystemAddress(oldAddress,newAddress);
     }
 
     private void deleteSystem(String address) {

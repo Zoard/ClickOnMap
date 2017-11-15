@@ -22,7 +22,7 @@ public class VGISystem implements Serializable, Observer {
     private String name;
     private String description;
     private String color;
-    private List<String> category; //TODO: Verificar se uma tabela Hash aqui seria melhor
+    private List<EventCategory> category; //TODO: Verificar se uma tabela Hash aqui seria melhor
     private int collaborations;
     private double latX;
     private double latY;
@@ -41,7 +41,7 @@ public class VGISystem implements Serializable, Observer {
         this.lngY = 0.0;
     }
 
-    public VGISystem(String address, String name, String description, String color, List<String> category, int collaborations) {
+    public VGISystem(String address, String name, String description, String color, List<EventCategory> category, int collaborations) {
         this.address = address;
         this.name = name;
         this.description = description;
@@ -102,11 +102,11 @@ public class VGISystem implements Serializable, Observer {
         this.color = color;
     }
 
-    public List<String> getCategory() {
+    public List<EventCategory> getCategory() {
         return category;
     }
 
-    public void setCategory(List<String> category) {
+    public void setCategory(List<EventCategory> category) {
         this.category = category;
     }
 
