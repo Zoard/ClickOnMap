@@ -23,6 +23,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ZoardGeocze on 29/04/17.
@@ -55,12 +59,51 @@ public class AddSystemActivity extends AppCompatActivity {
                 getSystemsFromServer(false);
             }
         });
+    }
 
+    private void getSystemsFromServer(boolean showProgDialog) {
+
+        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+
+        if(showProgDialog) {
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Carregando Sistemas VGI...");
+            mProgressDialog.show();
+        }
+
+        new RetrofitInitializer()
+                .getSystemService()
+                .getVGISystemList("getVGISystem")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<VGISystem>>() {
+                    @Override
+                    public void onCompleted() {
+                        if (mProgressDialog.isShowing()){
+                            mProgressDialog.dismiss();
+                        } else {
+                            swipeSystemList.setRefreshing(false);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (mProgressDialog.isShowing()){
+                            mProgressDialog.dismiss();
+                        } else {
+                            swipeSystemList.setRefreshing(false);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(List<VGISystem> vgiSystems) {
+                        loadAvailableVGISystems(vgiSystems);
+                    }
+                });
 
     }
 
-
-    private void getSystemsFromServer(boolean showProgDialog) {
+    /*private void getSystemsFromServer(boolean showProgDialog) {
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
 
@@ -118,13 +161,28 @@ public class AddSystemActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
 
-    private void loadAvailableVGISystems() {
-        this.addSystemRecycler.setAdapter(new AddSystemAdapter(this.vgiSystems,this));
-        RecyclerView.LayoutManager layout = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        this.addSystemRecycler.setLayoutManager(layout);
+    private void loadAvailableVGISystems(List<VGISystem> availableVgiSystems) {
+
+        if(availableVgiSystems != null) {
+            for (VGISystem vs : availableVgiSystems) {
+                if(this.generalController.searchVGISystem(vs)) {
+                    this.vgiSystems.add(vs);
+                }
+            }
+        }
+
+        Log.i("onResponse_VGISYSTEM: ", String.valueOf(vgiSystems.size()));
+
+        if(!this.vgiSystems.isEmpty()) {
+            this.addSystemRecycler.setAdapter(new AddSystemAdapter(this.vgiSystems,this));
+            RecyclerView.LayoutManager layout = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+            this.addSystemRecycler.setLayoutManager(layout);
+        } else {
+            Toast.makeText(getBaseContext(),"Nenhum sistema VGI disponível",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void backToMenu(View view) {

@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         this.bundle = intent.getExtras();
 
         this.vgiSystem = (VGISystem) this.bundle.getSerializable("vgiSystem");
+        Log.i("onCreate_LoginActivity",vgiSystem.getAddress());
 
         title.setText(this.vgiSystem.getName());
 

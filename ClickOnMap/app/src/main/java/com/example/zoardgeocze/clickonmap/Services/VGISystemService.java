@@ -26,7 +26,7 @@ public interface VGISystemService {
     Observable<String> sendMobileSystemToServer(@Field("tag") String tag, @Field("systemAdress") String systemAdress, @Field("firebaseKey") String firebaseKey);
 
     @GET("VGISystem")
-    Call<VGISystemSync> getVGISystemList(@Query("tag") String tag);
+    Observable<List<VGISystem>> getVGISystemList(@Query("tag") String tag);
 
     @GET("mobile")
     Observable<List<EventCategory>> getSystemCategories(@Query("tag") String tag);
