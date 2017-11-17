@@ -16,6 +16,7 @@ import com.example.zoardgeocze.clickonmap.Model.EventCategory;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
+import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 
 import java.util.List;
@@ -124,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             if(response.body().equals("true")) {
                                 getUserFromServer(base_url,userEmail);
+                                sendMobileSystemToServer(firebaseKey);
                             } else {
                                 Toast.makeText(getBaseContext(),"Usuário não existe ou senha incorreta.",Toast.LENGTH_SHORT).show();
                             }
@@ -221,6 +223,34 @@ public class LoginActivity extends AppCompatActivity {
                         registerConfirmation(eventCategories,user);
                     }
                 });
+    }
+
+    //Envia para o server central a chave do firebase junto com o endereço do sistema para futuras notificações
+    private void sendMobileSystemToServer(String firebaseKey) {
+        if (!firebaseKey.equals("")) {
+
+            new RetrofitInitializer()
+                    .getSystemService()
+                    .sendMobileSystemToServer("sendMobileSystem",this.vgiSystem.getAddress(),firebaseKey)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<String>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(String s) {
+
+                        }
+                    });
+        }
     }
 
     //Confirma o registro do usuário no sistema

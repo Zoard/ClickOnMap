@@ -23,7 +23,7 @@ public interface VGISystemService {
 
     @FormUrlEncoded
     @POST("VGISystem/")
-    Observable<String> sendMobileSystemToServer(@Field("tag") String tag, @Field("systemAdress") String systemAdress, @Field("firebaseKey") String firebaseKey);
+    Observable<String> sendMobileSystemToServer(@Field("tag") String tag, @Field("systemAddress") String systemAdress, @Field("firebaseKey") String firebaseKey);
 
     @GET("VGISystem")
     Observable<List<VGISystem>> getVGISystemList(@Query("tag") String tag);
