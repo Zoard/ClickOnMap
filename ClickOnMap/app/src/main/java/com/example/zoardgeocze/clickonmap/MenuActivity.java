@@ -216,8 +216,23 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
                     if(this.menuTiles.get(i) instanceof SystemTile) {
                         if(((SystemTile) this.menuTiles.get(i))
                                 .getSystem().getAddress().equals(vgiSystemNotifier.getOldAddress())) {
-                            this.menuTiles.remove(i);
-                            this.menuRecycler.getAdapter().notifyDataSetChanged();
+                            ((SystemTile) this.menuTiles.get(i)).setAvailable(false);
+                        }
+                    }
+                }
+            }
+
+            else if(vgiSystemNotifier.getMessage().equals("category_change") ||
+                    vgiSystemNotifier.getMessage().equals("type_change") ) {
+                for(int i=0; i < this.menuTiles.size(); i++) {
+                    if(this.menuTiles.get(i) instanceof SystemTile) {
+                        if(((SystemTile) this.menuTiles.get(i))
+                                .getSystem().getAddress().equals(vgiSystemNotifier.getOldAddress())) {
+
+                            ((SystemTile) this.menuTiles
+                                    .get(i))
+                                    .getSystem()
+                                    .setCategory(this.generalController.getCategories(vgiSystemNotifier.getOldAddress()));
                         }
                     }
                 }

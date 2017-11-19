@@ -15,6 +15,7 @@ import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import rx.Single;
 
@@ -64,7 +65,8 @@ public final class SingletonFacadeController {
             vgiSystem.setLngX(c.getDouble(c.getColumnIndex("lngX")));
             vgiSystem.setLngY(c.getDouble(c.getColumnIndex("lngY")));
 
-            getEventCategories(vgiSystem.getAddress());
+            List<EventCategory> categories = getCategories(vgiSystem.getAddress());
+            vgiSystem.setCategory(categories);
 
             SystemTile systemTile = new SystemTile(vgiSystem);
 
@@ -75,9 +77,7 @@ public final class SingletonFacadeController {
         c.close();
     }
 
-    private void getEventCategories(String address) {
 
-    }
 
     public List<SystemTile> getMenuTiles() {
         return menuTiles;
@@ -469,6 +469,46 @@ public final class SingletonFacadeController {
 
         }
 
+    }
+
+    public List<EventCategory> getCategories(String address) {
+        SingletonDataBase db = SingletonDataBase.getInstance();
+        Cursor c = db.search("EventCategory",new String[]{"categoryId","eventCategoryId","eventCategoryDescription"},
+                "serverAddress = '" + address + "'", "eventCategoryId ASC");
+
+        List<EventCategory> categories = new ArrayList<>();
+
+        while(c.moveToNext()) {
+            int categoryId = c.getInt(c.getColumnIndex("categoryId"));
+            int eventCategoryId = c.getInt(c.getColumnIndex("eventCategoryId"));
+            String eventCategoryDescription = c.getString(c.getColumnIndex("eventCategoryDescription"));
+
+            List<EventType> eventTypes = new ArrayList<>();
+
+            Cursor c2 = db.search("EventType",new String[]{"eventTypeId","eventTypeDescription"},
+                    "categoryId = '" + categoryId + "'", "eventTypeId ASC");
+
+            while(c2.moveToNext()) {
+
+                int eventTypeId = c2.getInt(c2.getColumnIndex("eventTypeId"));
+                String eventTypeDescription = c2.getString(c2.getColumnIndex("eventTypeDescription"));
+
+                EventType eventType = new EventType(eventTypeId,eventTypeDescription);
+
+                eventTypes.add(eventType);
+
+            }
+
+            EventCategory eventCategory = new EventCategory(eventCategoryId,eventCategoryDescription,eventTypes);
+
+            categories.add(eventCategory);
+
+            c2.close();
+        }
+
+        c.close();
+
+        return categories;
     }
 
 

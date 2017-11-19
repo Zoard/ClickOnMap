@@ -10,8 +10,11 @@ public class SystemTile extends Tile implements Serializable {
 
     private VGISystem system;
 
+    private boolean available;
+
     public SystemTile(VGISystem system) {
         this.system = system;
+        this.available = true;
     }
 
     public VGISystem getSystem() {
@@ -22,4 +25,11 @@ public class SystemTile extends Tile implements Serializable {
         this.system = system;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
 }

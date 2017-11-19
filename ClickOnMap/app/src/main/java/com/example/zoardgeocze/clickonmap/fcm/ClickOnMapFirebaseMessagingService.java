@@ -68,7 +68,7 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
                     deleteSystem(msg,oldAddress);
 
                 } else if (msg.equals("category_change") || msg.equals("type_change")) {
-                    changeCategory(oldAddress);
+                    changeCategory(msg,oldAddress);
                 }
 
                 String horario = data.get("horario");
@@ -94,8 +94,8 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
     }
 
     //TODO: O método para tratar categorias deverá ser diferenciado.
-    private void changeCategory(final String address) {
-        final String base_url = address + "/";
+    private void changeCategory(final String message, final String oldAddress) {
+        final String base_url = oldAddress + "/";
         new RetrofitClientInitializer(base_url)
                 .getSystemService()
                 .getSystemCategories("getCategories")
@@ -115,10 +115,11 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
                     @Override
                     public void onNext(List<EventCategory> eventCategories) {
                         VGISystem vgiSystem = new VGISystem();
-                        vgiSystem.setAddress(address);
+                        vgiSystem.setAddress(oldAddress);
                         vgiSystem.setCategory(eventCategories);
 
                         generalController.registerCategory(vgiSystem);
+                        vgiSystemNotifier.setVGIsystemNotifier(message,oldAddress,"");
                     }
                 });
     }

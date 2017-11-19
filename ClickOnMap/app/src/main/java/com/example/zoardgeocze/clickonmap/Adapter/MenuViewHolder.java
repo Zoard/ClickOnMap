@@ -91,26 +91,32 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
             //Testando se este Tile aqui está sendo modificado
             if(this.tile instanceof SystemTile) {
                 SystemTile systemTile = (SystemTile) tile;
-                Toast.makeText(this.context,"Endereço do Tile é: " + systemTile.getSystem().getAddress(),Toast.LENGTH_SHORT).show();
+
                 String hasSession = this.generalController.hasSession(systemTile.getSystem().getAddress());
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("vgiSystem",systemTile.getSystem());
 
-                if(hasSession.equals("Y")) {
-                    Intent intent = new Intent(this.context, SystemActivity.class);
+                if(systemTile.isAvailable()) {
+                    Toast.makeText(this.context,"Endereço do Tile é: " + systemTile.getSystem().getAddress(),Toast.LENGTH_SHORT).show();
+                    if(hasSession.equals("Y")) {
+                        Intent intent = new Intent(this.context, SystemActivity.class);
 
-                    intent.putExtras(bundle);
+                        intent.putExtras(bundle);
 
-                    ((Activity)this.context).startActivity(intent);
+                        ((Activity)this.context).startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(this.context, LoginActivity.class);
+
+                        intent.putExtras(bundle);
+
+                        ((Activity)this.context).startActivityForResult(intent,1);
+
+                    }
                 } else {
-                    Intent intent = new Intent(this.context, LoginActivity.class);
-
-                    intent.putExtras(bundle);
-
-                    ((Activity)this.context).startActivityForResult(intent,1);
-
+                    Toast.makeText(this.context,"Sistema indisponível para colaborações.",Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             //TODO: Implementar login do usuário no sistema, verificando a sessão do sistema

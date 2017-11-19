@@ -54,5 +54,8 @@ public class EventCategory implements Serializable{
         this.eventTypes = eventTypes;
     }
 
-
+    @Override
+    public String toString() {
+        return this.description;
+    }
 }

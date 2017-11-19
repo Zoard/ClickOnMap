@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
+import com.example.zoardgeocze.clickonmap.Model.EventCategory;
+import com.example.zoardgeocze.clickonmap.Model.EventType;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 
@@ -51,13 +53,11 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     private Double latitude;
     private Double longitude;
 
-    private ArrayList<String> categories = new ArrayList<>();
-    private ArrayList<String> subcategories = new ArrayList<>();
+    //private ArrayList<String> categories = new ArrayList<>();
+    //private ArrayList<String> subcategories = new ArrayList<>();
 
-    private int choosedCategoryId;
-    private String choosedCategory;
-    private int choosedSubcategoryId;
-    private String choosedSubcategory;
+    private EventCategory choosedCategory;
+    private EventType choosedType;
 
     private Intent intent;
     private Bundle bundle;
@@ -102,17 +102,10 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
         this.vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
 
-        //Função Temporária - Demo GEOINFO
-        if(this.vgiSystem != null) {
-            this.categories = this.generalController.getCategoriesFromSystem(this.vgiSystem.getAddress());
-            this.categories.add(0,"--");
-            //this.subcategories = this.generalController.getSubcategoriesFromSystem(this.categories);
-        }
-
         this.categorySpinner = (Spinner) findViewById(R.id.colab_category);
         this.categorySpinner.setOnItemSelectedListener(this);
 
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this,R.layout.spinner_item,this.categories);
+        ArrayAdapter<EventCategory> categoryAdapter = new ArrayAdapter<EventCategory>(this,R.layout.spinner_item,this.vgiSystem.getCategory());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         this.categorySpinner.setAdapter(categoryAdapter);
 
@@ -143,24 +136,20 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        this.choosedCategory = this.categories.get(position);
-        this.choosedCategoryId = position;
+        this.choosedCategory = this.vgiSystem.getCategory().get(position);
 
         Log.i("ON_ITEM_SELECTED: ", String.valueOf(position) + " " + this.choosedCategory);
 
-        this.subcategories = this.generalController.getTypesFromSystem(this.choosedCategoryId);
-
         this.subcategorySpinner = (Spinner) findViewById(R.id.colab_subcategory);
 
-        ArrayAdapter<String> subcategoryAdapter = new ArrayAdapter<>(this,R.layout.spinner_item,this.subcategories);
-        subcategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        this.subcategorySpinner.setAdapter(subcategoryAdapter);
+        ArrayAdapter<EventType> eventTypeAdapter = new ArrayAdapter<EventType>(this,R.layout.spinner_item,this.choosedCategory.getEventTypes());
+        eventTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        this.subcategorySpinner.setAdapter(eventTypeAdapter);
 
         this.subcategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                choosedSubcategory = subcategories.get(position);
-                choosedSubcategoryId = position;
+                choosedType = choosedCategory.getEventTypes().get(position);
                 //Toast.makeText(getBaseContext(),subcategories.get(position), Toast.LENGTH_SHORT).show();
             }
 
@@ -175,7 +164,6 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
 
     //Tira a foto pedindo uma resposta da câmera
@@ -310,15 +298,18 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     //TODO: Aqui a colaboração deverá ser enviada para o Servidor do Sistema, caso contrário, colaboração é salva localmente
     public void sendColaboration(View view) {
 
-        if(!this.title.getText().toString().equals("") && !this.choosedCategory.equals("") && !this.choosedSubcategory.equals("")) {
+        if(!this.title.getText().toString().equals("") &&
+                !this.choosedCategory.getDescription().equals("") &&
+                !this.choosedType.getDescription().equals("")) {
 
             String titleText = this.title.getText().toString();
             String descriptionText = this.description.getText().toString();
             String timeStamp = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.US).format(new Date());
             String userId = this.generalController.getUserId(this.vgiSystem.getAddress());
 
-            this.collaboration = new Collaboration(userId,titleText,descriptionText, timeStamp, this.choosedCategoryId,
-                                                    this.choosedCategory, this.choosedSubcategoryId, this.choosedSubcategory,
+            this.collaboration = new Collaboration(userId,titleText,descriptionText, timeStamp, this.choosedCategory.getId(),
+                                                    this.choosedCategory.getDescription(), this.choosedType.getId(),
+                                                    this.choosedType.getDescription(),
                                                     this.currentPhotoPath, this.currentVideoPath,this.currentAudioPath,
                                                     this.latitude, this.longitude);
 
