@@ -38,8 +38,8 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
         // message, here is where that should be initiated.
         Log.i(TAG, "From: " + remoteMessage.getFrom());
 
-        generalController = SingletonFacadeController.getInstance();
-        vgiSystemNotifier = VGISystemNotifier.getInstance();
+        this.generalController = SingletonFacadeController.getInstance();
+        this.vgiSystemNotifier = VGISystemNotifier.getInstance();
 
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
@@ -80,15 +80,34 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
         Log.i(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
     }
 
+    public void onMessageReceivedSystemTray(String msg, String oldAddress, String newAddress) {
+        this.generalController = SingletonFacadeController.getInstance();
+        this.vgiSystemNotifier = VGISystemNotifier.getInstance();
+
+        if(msg.equals("change_adress")) {
+
+            changeSystemAdress(msg,oldAddress,newAddress);
+
+        } else if(msg.equals("delete_system")) {
+
+            deleteSystem(msg,oldAddress);
+
+        } else if (msg.equals("category_change") || msg.equals("type_change")) {
+            changeCategory(msg,oldAddress);
+        }
+
+
+    }
+
     //Todos os métodos abaixo fazem alterações locais e avisam as activities que VGISystem foi alterado
     private void changeSystemAdress(String message, String oldAddress, String newAddress) {
-        this.generalController = SingletonFacadeController.getInstance();
+
         this.generalController.updateVGISystemAddress(oldAddress,newAddress);
         this.vgiSystemNotifier.setVGIsystemNotifier(message,oldAddress,newAddress);
     }
 
     private void deleteSystem(String message, String oldAddress) {
-        this.generalController = SingletonFacadeController.getInstance();
+
         this.generalController.deleteVGISystem(oldAddress);
         this.vgiSystemNotifier.setVGIsystemNotifier(message,oldAddress,"");
     }

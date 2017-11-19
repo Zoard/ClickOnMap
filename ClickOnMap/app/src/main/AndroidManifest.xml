@@ -69,6 +69,10 @@
         <activity
             android:name=".MenuActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="OPEN_ACTIVITY_DATA" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"

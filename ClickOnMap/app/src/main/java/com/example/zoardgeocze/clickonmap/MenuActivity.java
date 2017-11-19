@@ -23,6 +23,7 @@ import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.fcm.ClickOnMapFirebaseMessagingService;
 import com.example.zoardgeocze.clickonmap.observer.VGISystemNotifier;
 
 import java.util.ArrayList;
@@ -127,6 +128,20 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
 
     }
 
+    private void handleData() {
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            String message = bundle.getString("message");
+            String oldAddress = bundle.getString("oldAdress");
+            String newAddress = bundle.getString("newAdress");
+            Log.i("HANDLE_DATA: ",message);
+            Log.i("HANDLE_DATA: ",oldAddress);
+            Log.i("HANDLE_DATA: ",newAddress);
+            ClickOnMapFirebaseMessagingService comapMsgService = new ClickOnMapFirebaseMessagingService();
+            comapMsgService.onMessageReceivedSystemTray(message,oldAddress,newAddress);
+        }
+    }
+
     private void getSystemsFromDataBase() {
         this.generalController = SingletonFacadeController.getInstance();
         Log.d("Teste", "GeneralController: " + this.generalController);
@@ -163,7 +178,11 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
         }
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        handleData();//Handle FCM messages that are in System Tray
+    }
 
     @Override
     protected void onResume() {

@@ -17,6 +17,7 @@ import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Services.Locationer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.observer.VGISystemNotifier;
 
 
 import java.util.Observable;
@@ -26,9 +27,12 @@ import java.util.Observer;
  * Created by ZoardGeocze on 08/10/17.
  */
 
-public class SystemActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class SystemActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+                                                                 Observer{
 
     private SingletonFacadeController generalController;
+
+    private Observable vgiSystemObservable;
 
     private Locationer location;
 
@@ -97,6 +101,9 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        this.vgiSystemObservable = VGISystemNotifier.getInstance();
+        this.vgiSystemObservable.addObserver(this);
+
     }
 
     @Override
@@ -124,6 +131,7 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
         this.mostCollaborations.setText(mostColab);
 
     }
+
 
     public void goToMap(View view) {
 
@@ -161,6 +169,7 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     protected void onDestroy() {
+        this.vgiSystemObservable.deleteObserver(this);
         this.location.getClient().disconnect();
         super.onDestroy();
     }
@@ -191,6 +200,32 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
+    //Realiza a atualização do objeto VGISystem local, caso alguma alteração seja feita na parte Web
+    //Implementação do Padrão de Projeto Observer
+    @Override
+    public void update(Observable observable, Object arg) {
+        if(observable instanceof VGISystemNotifier) {
+            VGISystemNotifier vgiSystemNotifier = (VGISystemNotifier) observable;
+
+            if(vgiSystemNotifier.getMessage().equals("change_adress")) {
+                if(this.vgiSystem.getAddress().equals(vgiSystemNotifier.getOldAddress())) {
+                    this.vgiSystem.setAddress(vgiSystemNotifier.getNewAddress());
+                    this.bundle.putSerializable("vgiSystem",this.vgiSystem);
+                }
+            }
+
+            else if(vgiSystemNotifier.getMessage().equals("delete_system")) {
+                //TODO: Implementar um modal avisando que o sistema não está mais disponível para colaboração
+                finish();
+            }
+
+            else if(vgiSystemNotifier.getMessage().equals("category_change") ||
+                    vgiSystemNotifier.getMessage().equals("type_change") ) {
+                this.vgiSystem.setCategory(this.generalController.getCategories(this.vgiSystem.getAddress()));
+                this.bundle.putSerializable("vgiSystem",this.vgiSystem);
+            }
+        }
+    }
 }
 
 
