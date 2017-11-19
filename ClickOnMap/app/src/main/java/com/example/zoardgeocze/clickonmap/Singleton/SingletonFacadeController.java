@@ -64,6 +64,8 @@ public final class SingletonFacadeController {
             vgiSystem.setLngX(c.getDouble(c.getColumnIndex("lngX")));
             vgiSystem.setLngY(c.getDouble(c.getColumnIndex("lngY")));
 
+            getEventCategories(vgiSystem.getAddress());
+
             SystemTile systemTile = new SystemTile(vgiSystem);
 
             this.menuTiles.add(0,systemTile);
@@ -71,6 +73,10 @@ public final class SingletonFacadeController {
         }
 
         c.close();
+    }
+
+    private void getEventCategories(String address) {
+
     }
 
     public List<SystemTile> getMenuTiles() {
@@ -432,10 +438,13 @@ public final class SingletonFacadeController {
 
     }
 
+    //TODO: VERIFICAR SE A DELEÇÃO DA TABELA PODE CAUSAR PROBLEMAS PARA COLABORAÇÕES PENDENTES
     //Função que registra Categorias e Tipos de Eventos
     public void registerCategory(VGISystem vgiSystem) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
+
+        db.delete("EventCategory","");
 
         for (EventCategory category:vgiSystem.getCategory()) {
 

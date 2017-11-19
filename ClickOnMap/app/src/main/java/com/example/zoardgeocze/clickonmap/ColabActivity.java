@@ -148,7 +148,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
         Log.i("ON_ITEM_SELECTED: ", String.valueOf(position) + " " + this.choosedCategory);
 
-        this.subcategories = this.generalController.getTypesFromSystem(position);
+        this.subcategories = this.generalController.getTypesFromSystem(this.choosedCategoryId);
 
         this.subcategorySpinner = (Spinner) findViewById(R.id.colab_subcategory);
 

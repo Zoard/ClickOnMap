@@ -6,6 +6,7 @@ import com.example.zoardgeocze.clickonmap.Model.EventCategory;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.observer.VGISystemNotifier;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -27,6 +28,8 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
 
     private SingletonFacadeController generalController;
 
+    private VGISystemNotifier vgiSystemNotifier;
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // TODO: Handle fcm messages here. Fazer com que o sistema mude de endereço no banco local.
@@ -36,6 +39,7 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
         Log.i(TAG, "From: " + remoteMessage.getFrom());
 
         generalController = SingletonFacadeController.getInstance();
+        vgiSystemNotifier = VGISystemNotifier.getInstance();
 
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
@@ -61,9 +65,9 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
 
                 } else if(msg.equals("delete_system")) {
 
-                    deleteSystem(oldAddress);
+                    deleteSystem(msg,oldAddress);
 
-                } else if (msg.equals("category_change")) {
+                } else if (msg.equals("category_change") || msg.equals("type_change")) {
                     changeCategory(oldAddress);
                 }
 
@@ -76,14 +80,17 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
         Log.i(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
     }
 
-    private void changeSystemAdress(String message,String oldAddress, String newAddress) {
+    //Todos os métodos abaixo fazem alterações locais e avisam as activities que VGISystem foi alterado
+    private void changeSystemAdress(String message, String oldAddress, String newAddress) {
         this.generalController = SingletonFacadeController.getInstance();
         this.generalController.updateVGISystemAddress(oldAddress,newAddress);
+        this.vgiSystemNotifier.setVGIsystemNotifier(message,oldAddress,newAddress);
     }
 
-    private void deleteSystem(String address) {
+    private void deleteSystem(String message, String oldAddress) {
         this.generalController = SingletonFacadeController.getInstance();
-        this.generalController.deleteVGISystem(address);
+        this.generalController.deleteVGISystem(oldAddress);
+        this.vgiSystemNotifier.setVGIsystemNotifier(message,oldAddress,"");
     }
 
     //TODO: O método para tratar categorias deverá ser diferenciado.

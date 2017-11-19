@@ -23,18 +23,23 @@ import com.example.zoardgeocze.clickonmap.Model.Tile;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.observer.VGISystemNotifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 
 /**
  * Created by ZoardGeocze on 03/05/2017.
  */
 
-public class MenuActivity extends AppCompatActivity implements CallbackItemTouch{
+public class MenuActivity extends AppCompatActivity implements CallbackItemTouch,Observer{
 
     private SingletonFacadeController generalController;
+
+    private Observable vgiSystemObservable;
 
     private List<Tile> menuTiles = new ArrayList<>();
 
@@ -117,6 +122,9 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(this.menuRecycler);
 
+        this.vgiSystemObservable = VGISystemNotifier.getInstance();
+        this.vgiSystemObservable.addObserver(this);
+
     }
 
     private void getSystemsFromDataBase() {
@@ -168,6 +176,7 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
         super.onDestroy();
         Log.d("Teste", "Matei");
         this.generalController.closeSingleton();
+        this.vgiSystemObservable.deleteObserver(this);
     }
 
     @Override
@@ -182,4 +191,39 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
         this.menuTiles.remove(position);
         this.menuRecycler.getAdapter().notifyDataSetChanged();
     }
+
+    //Realiza a atualização dos objetos VGISystem locais, caso alguma alteração seja feita na parte Web
+    //Implementação do Padrão de Projeto Observer
+    @Override
+    public void update(Observable observable, Object arg) {
+
+        if(observable instanceof VGISystemNotifier) {
+            VGISystemNotifier vgiSystemNotifier = (VGISystemNotifier) observable;
+
+            if(vgiSystemNotifier.getMessage().equals("change_adress")) {
+                for(int i=0; i < this.menuTiles.size(); i++) {
+                    if(this.menuTiles.get(i) instanceof SystemTile) {
+                        if(((SystemTile) this.menuTiles.get(i))
+                                .getSystem().getAddress().equals(vgiSystemNotifier.getOldAddress())) {
+                            ((SystemTile) this.menuTiles.get(i)).getSystem().setAddress(vgiSystemNotifier.getNewAddress());
+                        }
+                    }
+                }
+            }
+
+            else if(vgiSystemNotifier.getMessage().equals("delete_system")) {
+                for(int i=0; i < this.menuTiles.size(); i++) {
+                    if(this.menuTiles.get(i) instanceof SystemTile) {
+                        if(((SystemTile) this.menuTiles.get(i))
+                                .getSystem().getAddress().equals(vgiSystemNotifier.getOldAddress())) {
+                            this.menuTiles.remove(i);
+                            this.menuRecycler.getAdapter().notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
 }
