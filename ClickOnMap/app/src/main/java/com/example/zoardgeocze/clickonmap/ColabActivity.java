@@ -10,6 +10,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,7 +37,7 @@ import java.util.Locale;
  * Created by ZoardGeocze on 08/10/17.
  */
 
-public class ColabActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class ColabActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,SurfaceHolder.Callback{
 
     public static final int REQUEST_TAKE_PHOTO = 100;
     public static final int REQUEST_VIDEO_CAPTURE = 101;
@@ -169,7 +170,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     //Tira a foto pedindo uma resposta da câmera
     public void takePicture(View view) {
 
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        /*Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
@@ -191,7 +192,10 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
                 takePictureIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 320);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
-        }
+        }*/
+
+        Intent takePictureIntent = new Intent(this,CameraActivity.class);
+        startActivity(takePictureIntent);
 
     }
 
@@ -326,6 +330,20 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+
+    }
 }
 
 
