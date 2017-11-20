@@ -37,7 +37,7 @@ import java.util.Locale;
  * Created by ZoardGeocze on 08/10/17.
  */
 
-public class ColabActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,SurfaceHolder.Callback{
+public class ColabActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     public static final int REQUEST_TAKE_PHOTO = 100;
     public static final int REQUEST_VIDEO_CAPTURE = 101;
@@ -170,7 +170,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     //Tira a foto pedindo uma resposta da câmera
     public void takePicture(View view) {
 
-        /*Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
@@ -192,10 +192,10 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
                 takePictureIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 320);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
-        }*/
+        }
 
-        Intent takePictureIntent = new Intent(this,CameraActivity.class);
-        startActivity(takePictureIntent);
+        /*Intent takePictureIntent = new Intent(this,CameraActivity.class);
+        startActivity(takePictureIntent);*/
 
     }
 
@@ -261,8 +261,8 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US).format(new Date());
         //String imageFileName = "IMG_"+ this.vgiSystem.getAdress() + "_" + timeStamp;
-        String systemAdress = this.vgiSystem.getAddress();
-        String imageFileName = "IMG_" + timeStamp;
+        String systemAdress = this.vgiSystem.getName();
+        String imageFileName = "IMG_" + timeStamp + "_" + systemAdress;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         //File image = File.createTempFile(
@@ -285,7 +285,8 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     private File createVideoFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US).format(new Date());
-        String videoFileName = "VID_" + timeStamp;
+        String systemAdress = this.vgiSystem.getName();
+        String videoFileName = "VID_" + timeStamp + "_" + systemAdress;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
 
         File video = new File(storageDir,videoFileName.concat(".mp4"));
@@ -330,20 +331,6 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-
-    }
 }
 
 

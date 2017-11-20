@@ -91,6 +91,7 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
     }
+
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
@@ -109,6 +110,7 @@ public class CameraActivity extends AppCompatActivity {
         public void onSurfaceTextureUpdated(SurfaceTexture surface) {
         }
     };
+
     private final CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice camera) {
@@ -127,6 +129,7 @@ public class CameraActivity extends AppCompatActivity {
             cameraDevice = null;
         }
     };
+
     final CameraCaptureSession.CaptureCallback captureCallbackListener = new CameraCaptureSession.CaptureCallback() {
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
@@ -135,11 +138,13 @@ public class CameraActivity extends AppCompatActivity {
             createCameraPreview();
         }
     };
+
     protected void startBackgroundThread() {
         mBackgroundThread = new HandlerThread("Camera Background");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
+
     protected void stopBackgroundThread() {
         mBackgroundThread.quitSafely();
         try {
@@ -150,6 +155,7 @@ public class CameraActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     protected void takePicture() {
         if(null == cameraDevice) {
             Log.e(TAG, "cameraDevice is null");
@@ -178,7 +184,9 @@ public class CameraActivity extends AppCompatActivity {
             // Orientation
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+
             final File file = new File(Environment.getExternalStorageDirectory()+"/pic.jpg");
+
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
@@ -211,6 +219,8 @@ public class CameraActivity extends AppCompatActivity {
                     }
                 }
             };
+
+            //Aqui fica o tratamento de imagem
             reader.setOnImageAvailableListener(readerListener, mBackgroundHandler);
             final CameraCaptureSession.CaptureCallback captureListener = new CameraCaptureSession.CaptureCallback() {
                 @Override
@@ -220,6 +230,7 @@ public class CameraActivity extends AppCompatActivity {
                     createCameraPreview();
                 }
             };
+
             cameraDevice.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() {
                 @Override
                 public void onConfigured(CameraCaptureSession session) {
@@ -237,6 +248,7 @@ public class CameraActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     protected void createCameraPreview() {
         try {
             SurfaceTexture texture = textureView.getSurfaceTexture();
@@ -265,6 +277,7 @@ public class CameraActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     private void openCamera() {
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         Log.e(TAG, "is camera open");
@@ -285,6 +298,7 @@ public class CameraActivity extends AppCompatActivity {
         }
         Log.e(TAG, "openCamera X");
     }
+
     protected void updatePreview() {
         if(null == cameraDevice) {
             Log.e(TAG, "updatePreview error, return");
@@ -296,6 +310,7 @@ public class CameraActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     private void closeCamera() {
         if (null != cameraDevice) {
             cameraDevice.close();
@@ -306,6 +321,7 @@ public class CameraActivity extends AppCompatActivity {
             imageReader = null;
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
@@ -316,6 +332,7 @@ public class CameraActivity extends AppCompatActivity {
             }
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -327,6 +344,7 @@ public class CameraActivity extends AppCompatActivity {
             textureView.setSurfaceTextureListener(textureListener);
         }
     }
+
     @Override
     protected void onPause() {
         Log.e(TAG, "onPause");

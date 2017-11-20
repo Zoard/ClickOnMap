@@ -156,6 +156,7 @@ public class SingletonDataBase {
 
     public void open(Context ctx) {
         this.db = ctx.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null);
+        this.db.setForeignKeyConstraintsEnabled(true);
         Log.i("BANCO_DADOS", "Abriu conexão com o banco.");
     }
 

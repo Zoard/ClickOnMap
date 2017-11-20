@@ -336,7 +336,7 @@ public final class SingletonFacadeController {
         }
 
         c.close();
-
+        Log.i("getUser: ",user.getName() + " - " + user.getId());
         return user;
 
     }
@@ -351,7 +351,10 @@ public final class SingletonFacadeController {
 
         while(c.moveToNext()) {
             userId = c.getString(c.getColumnIndex("userId"));
+            Log.i("getUserId: ",userId);
         }
+
+        c.close();
 
         return userId;
     }
@@ -367,6 +370,8 @@ public final class SingletonFacadeController {
         while(c.moveToNext()) {
             userName = c.getString(c.getColumnIndex("name"));
         }
+
+        c.close();
 
         return userName;
     }
@@ -433,6 +438,8 @@ public final class SingletonFacadeController {
             collaborationList.add(collaboration);
 
         }
+
+        c.close();
 
         return collaborationList;
 
@@ -529,6 +536,8 @@ public final class SingletonFacadeController {
             categories.add(categoryName);
         }
 
+        c.close();
+
         return categories;
 
     }
@@ -552,6 +561,8 @@ public final class SingletonFacadeController {
 
         }
 
+        c.close();
+
         return subcategories;
 
     }
@@ -572,6 +583,8 @@ public final class SingletonFacadeController {
             lastColab = c.getString(c.getColumnIndex("collaborationDate"));
         }
 
+        c.close();
+
         return lastColab;
 
     }
@@ -591,6 +604,8 @@ public final class SingletonFacadeController {
 
             mostColab = getUserName(c.getString(c.getColumnIndex("user_userId")));
         }
+
+        c.close();
 
         return mostColab;
     }
