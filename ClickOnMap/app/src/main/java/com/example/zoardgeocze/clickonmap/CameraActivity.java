@@ -1,7 +1,10 @@
 package com.example.zoardgeocze.clickonmap;
 
+import android.content.Intent;
 import android.graphics.Camera;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 
 import android.Manifest;
@@ -34,15 +37,21 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.zoardgeocze.clickonmap.Model.VGISystem;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by ZoardGeocze on 20/11/17.
@@ -75,21 +84,40 @@ public class CameraActivity extends AppCompatActivity {
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
 
+    private String currentPhotoPath = "";
+    private Intent intent;
+    private Bundle bundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+        this.intent = getIntent();
+        this.bundle = intent.getExtras();
+
         textureView = (TextureView) findViewById(R.id.texture);
         assert textureView != null;
+
         textureView.setSurfaceTextureListener(textureListener);
         takePictureButton = (Button) findViewById(R.id.btn_takepicture);
+
         assert takePictureButton != null;
+
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePicture();
             }
         });
+
+        //TODO: Implementar talvez o uso do vídeo aqui nessa classe também
+        /*takePictureButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });*/
     }
 
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
@@ -157,23 +185,30 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     protected void takePicture() {
+
         if(null == cameraDevice) {
             Log.e(TAG, "cameraDevice is null");
             return;
         }
+
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
+
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
             Size[] jpegSizes = null;
+
             if (characteristics != null) {
                 jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
             }
+
             int width = 640;
             int height = 480;
+
             if (jpegSizes != null && 0 < jpegSizes.length) {
                 width = jpegSizes[0].getWidth();
                 height = jpegSizes[0].getHeight();
             }
+
             ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             List<Surface> outputSurfaces = new ArrayList<Surface>(2);
             outputSurfaces.add(reader.getSurface());
@@ -185,7 +220,14 @@ public class CameraActivity extends AppCompatActivity {
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
 
-            final File file = new File(Environment.getExternalStorageDirectory()+"/pic.jpg");
+            //Cria arquivo para ser salvo no diretório do aplicativo
+            //final File file = new File(Environment.getExternalStorageDirectory()+"/pic.jpg");
+            try {
+                file = createImageFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
 
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
@@ -207,6 +249,7 @@ public class CameraActivity extends AppCompatActivity {
                         }
                     }
                 }
+
                 private void save(byte[] bytes) throws IOException {
                     OutputStream output = null;
                     try {
@@ -220,14 +263,21 @@ public class CameraActivity extends AppCompatActivity {
                 }
             };
 
-            //Aqui fica o tratamento de imagem
+            //TODO: Implementar a opção do usuário descartar ou salvar a imagem
             reader.setOnImageAvailableListener(readerListener, mBackgroundHandler);
             final CameraCaptureSession.CaptureCallback captureListener = new CameraCaptureSession.CaptureCallback() {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
-                    super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(CameraActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
-                    createCameraPreview();
+                    if(file != null) {
+                        bundle.putSerializable("photoPath",currentPhotoPath);
+                        intent.putExtras(bundle);
+                        setResult(RESULT_OK,intent);
+                        //Toast.makeText(CameraActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
+                        //createCameraPreview();
+                        closeCamera();
+                        finish();
+                    }
+
                 }
             };
 
@@ -240,6 +290,7 @@ public class CameraActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+
                 @Override
                 public void onConfigureFailed(CameraCaptureSession session) {
                 }
@@ -320,6 +371,32 @@ public class CameraActivity extends AppCompatActivity {
             imageReader.close();
             imageReader = null;
         }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US).format(new Date());
+        VGISystem vgiSystem = (VGISystem) this.bundle.getSerializable("vgiSystem");
+        String systemName = vgiSystem.getName();
+        String imageFileName = "IMG_" + systemName + "_" + timeStamp;
+
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        //File image = File.createTempFile(
+        //        imageFileName,  /* prefix */
+        //        ".jpg",         /* suffix */
+        //        storageDir      /* directory */
+        //);
+        //File image = File.createTempFile(imageFileName,".jpg",storageDir);
+
+        File image = new File(storageDir,imageFileName.concat(".jpg"));
+
+        // Save a file: path for use with ACTION_VIEW intents
+        this.currentPhotoPath = image.getAbsolutePath();
+
+        Log.i("CURRENT_PHOTO_PATH", this.currentPhotoPath);
+
+        return image;
     }
 
     @Override

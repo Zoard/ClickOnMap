@@ -170,7 +170,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     //Tira a foto pedindo uma resposta da câmera
     public void takePicture(View view) {
 
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        /*Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
@@ -192,10 +192,11 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
                 takePictureIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 320);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
-        }
+        }*/
 
-        /*Intent takePictureIntent = new Intent(this,CameraActivity.class);
-        startActivity(takePictureIntent);*/
+        Intent takePictureIntent = new Intent(this,CameraActivity.class);
+        takePictureIntent.putExtras(bundle);
+        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
 
     }
 
@@ -261,8 +262,8 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US).format(new Date());
         //String imageFileName = "IMG_"+ this.vgiSystem.getAdress() + "_" + timeStamp;
-        String systemAdress = this.vgiSystem.getName();
-        String imageFileName = "IMG_" + timeStamp + "_" + systemAdress;
+        String systemName = this.vgiSystem.getName();
+        String imageFileName = "IMG_" + systemName + "_" + timeStamp;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         //File image = File.createTempFile(
@@ -285,8 +286,8 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     private File createVideoFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US).format(new Date());
-        String systemAdress = this.vgiSystem.getName();
-        String videoFileName = "VID_" + timeStamp + "_" + systemAdress;
+        String systemName = this.vgiSystem.getName();
+        String videoFileName = "VID_" + systemName + "_" + timeStamp;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
 
         File video = new File(storageDir,videoFileName.concat(".mp4"));
