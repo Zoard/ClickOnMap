@@ -231,7 +231,6 @@
                 android:layout_height="60dp"
                 android:layout_below="@+id/colab_video_btn"
                 android:background="@drawable/colaborate_btn"
-                android:onClick="sendColaboration"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="30dp"/>
 

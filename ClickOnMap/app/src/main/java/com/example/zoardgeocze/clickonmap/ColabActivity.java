@@ -1,5 +1,6 @@
 package com.example.zoardgeocze.clickonmap;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -24,6 +26,7 @@ import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.EventCategory;
 import com.example.zoardgeocze.clickonmap.Model.EventType;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
+import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 
 import java.io.File;
@@ -32,6 +35,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.adapter.rxjava.Result;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by ZoardGeocze on 08/10/17.
@@ -74,6 +89,8 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     private ImageButton photoBtn;
     private ImageButton videoBtn;
     private ImageButton audioBtn;
+
+    private Button collaborate;
 
     private Uri myPhoto;
     private String currentPhotoPath = "";
@@ -126,6 +143,40 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
         this.videoBtn = (ImageButton) findViewById(R.id.colab_video_btn);
         this.audioBtn = (ImageButton) findViewById(R.id.colab_audio_btn);
 
+        this.collaborate = (Button) findViewById(R.id.colab_btn);
+        this.collaborate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!title.getText().toString().equals("") &&
+                        !choosedCategory.getDescription().equals("") &&
+                        !choosedType.getDescription().equals("")) {
+
+                    String titleText = title.getText().toString();
+                    String descriptionText = description.getText().toString();
+                    String timeStamp = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.US).format(new Date());
+                    String userId = generalController.getUserId(vgiSystem.getAddress());
+
+                    collaboration = new Collaboration(userId,titleText,descriptionText, timeStamp, choosedCategory.getId(),
+                            choosedCategory.getDescription(), choosedType.getId(),
+                            choosedType.getDescription(),
+                            currentPhotoPath, currentVideoPath,currentAudioPath,
+                            latitude, longitude);
+
+                    String base_url = vgiSystem.getAddress() + "/";
+                    sendCollaborationToServer(collaboration);
+
+                    //generalController.registerPendingCollaborations(collaboration,vgiSystem.getAddress());
+
+                    Toast.makeText(getBaseContext(),"Colaboração feita com sucesso ;)", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(getBaseContext(),"Os campos com * são obrigatórios", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
     }
 
     //Colaboração é anulada
@@ -169,30 +220,6 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
     //Tira a foto pedindo uma resposta da câmera
     public void takePicture(View view) {
-
-        /*Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                Log.i("CAMERA_COLAB", "EXCEPTION");
-                ex.printStackTrace();
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        BuildConfig.APPLICATION_ID,
-                        photoFile);
-                Log.i("FILE_PROVIDER", photoURI.toString());
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                takePictureIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 320);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
-        }*/
 
         Intent takePictureIntent = new Intent(this,CameraActivity.class);
         takePictureIntent.putExtras(bundle);
@@ -241,6 +268,8 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
             if (resultCode == RESULT_OK) {
                 Toast.makeText(this,"Imagem armazenada com sucesso ;)",Toast.LENGTH_SHORT).show();
                 this.photoBtn.setBackground(getDrawable(R.drawable.photo_on));
+                Bundle bundle = data.getExtras();
+                this.currentPhotoPath = (String) bundle.getSerializable("photoPath");
             }
             else if (resultCode == RESULT_CANCELED){
                 Toast.makeText(this,"Tirar foto cancelado",Toast.LENGTH_SHORT).show();
@@ -304,30 +333,86 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     //TODO: Aqui a colaboração deverá ser enviada para o Servidor do Sistema, caso contrário, colaboração é salva localmente
     public void sendColaboration(View view) {
 
-        if(!this.title.getText().toString().equals("") &&
-                !this.choosedCategory.getDescription().equals("") &&
-                !this.choosedType.getDescription().equals("")) {
 
-            String titleText = this.title.getText().toString();
-            String descriptionText = this.description.getText().toString();
-            String timeStamp = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.US).format(new Date());
-            String userId = this.generalController.getUserId(this.vgiSystem.getAddress());
 
-            this.collaboration = new Collaboration(userId,titleText,descriptionText, timeStamp, this.choosedCategory.getId(),
-                                                    this.choosedCategory.getDescription(), this.choosedType.getId(),
-                                                    this.choosedType.getDescription(),
-                                                    this.currentPhotoPath, this.currentVideoPath,this.currentAudioPath,
-                                                    this.latitude, this.longitude);
+    }
 
-            this.generalController.registerPendingCollaborations(this.collaboration,this.vgiSystem.getAddress());
+    private void sendCollaborationToServer(final Collaboration collaboration) {
 
-            Toast.makeText(this,"Colaboração feita com sucesso ;)", Toast.LENGTH_LONG).show();
+        final String base_url = this.vgiSystem.getAddress() + "/";
 
-            finish();
+        new RetrofitClientInitializer(base_url)
+                .getCollaborationService()
+                .sendCollaborationToServer("collaboration",
+                        collaboration.getUserId(), collaboration.getTitle(), collaboration.getDescription(),
+                        collaboration.getCategoryId(), collaboration.getSubcategoryId(), collaboration.getLatitude(),
+                        collaboration.getLongitude(), collaboration.getCollaborationDate())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i("onNext_COLLABORATION: ", currentPhotoPath);
+                    }
 
-        } else {
-            Toast.makeText(this,"Os campos com * são obrigatórios", Toast.LENGTH_SHORT).show();
-        }
+                    @Override
+                    public void onError(Throwable e) {
+                        //TODO: Persistir no Banco Local
+                        finish();
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        if (!currentPhotoPath.equals("")) {
+                            sendCollaborationImage(base_url,s,collaboration);
+                        } else {
+                            finish();
+                        }
+                        Log.i("COLLABORATION: ", s);
+                    }
+                });
+    }
+
+    public void sendCollaborationImage(String base_url, String collaborationId, Collaboration collaboration) {
+
+        File imageFile = new File(currentPhotoPath);
+        Log.i("sendCollaborationImage",imageFile.getAbsolutePath());
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("image_file", imageFile.getName(), requestFile);
+        RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "collaborationImage");
+        RequestBody userId = RequestBody.create(MediaType.parse("text/plain"),collaboration.getUserId());
+        RequestBody collabId = RequestBody.create(MediaType.parse("text/plain"),collaborationId);
+        RequestBody collabTitle = RequestBody.create(MediaType.parse("text/plain"),collaboration.getTitle());
+        RequestBody collabDescript = RequestBody.create(MediaType.parse("text/plain"),collaboration.getDescription());
+
+        final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Enviando Imagem...");
+        mProgressDialog.show();
+
+        Call<String> call = new RetrofitClientInitializer(base_url)
+                .getCollaborationService()
+                .sendCollaborationImageToServer(tag,userId,collabId,collabTitle,collabDescript,body);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (mProgressDialog.isShowing()){
+                    mProgressDialog.dismiss();
+                }
+                finish();
+                Log.i("onResponse_IMAGE: ",response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                if (mProgressDialog.isShowing()){
+                    mProgressDialog.dismiss();
+                }
+                finish();
+                Log.i("onResponse_IMAGE: ",t.getMessage());
+            }
+        });
 
     }
 
