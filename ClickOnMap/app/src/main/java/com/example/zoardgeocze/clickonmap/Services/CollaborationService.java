@@ -18,6 +18,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -73,5 +74,10 @@ public interface CollaborationService {
 
     @GET("mobile")
     Observable<List<Collaboration>> getCollaborationsFromServer(@Query("tag") String tag);
+
+    @GET
+    Observable<ResponseBody> getMidia(@Url String url);
+
+
 
 }

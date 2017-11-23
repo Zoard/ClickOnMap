@@ -111,6 +111,7 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
         Intent intent = new Intent(this.getContext(), ContentActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("colab",this.collaboration);
+        bundle.putSerializable("vgiSystem",this.vgiSystem);
         intent.putExtras(bundle);
         startActivity(intent);
     }
