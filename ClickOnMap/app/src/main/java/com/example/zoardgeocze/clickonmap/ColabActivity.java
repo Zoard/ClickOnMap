@@ -69,16 +69,11 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
     private Double latitude;
     private Double longitude;
 
-    //private ArrayList<String> categories = new ArrayList<>();
-    //private ArrayList<String> subcategories = new ArrayList<>();
-
     private EventCategory choosedCategory;
     private EventType choosedType;
 
     private Intent intent;
     private Bundle bundle;
-
-    private TextView systemName;
 
     private EditText title;
     private EditText description;
@@ -135,9 +130,6 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
         this.latitude = intent.getDoubleExtra("latitude",0);
         this.longitude = intent.getDoubleExtra("longitude",0);
-
-        this.systemName = (TextView) findViewById(R.id.colab_system_name);
-        this.systemName.setText(this.vgiSystem.getName());
 
         this.photoBtn = (ImageButton) findViewById(R.id.colab_photo_btn);
         this.videoBtn = (ImageButton) findViewById(R.id.colab_video_btn);
@@ -287,6 +279,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
             }
             else if (resultCode == RESULT_CANCELED){
                 Toast.makeText(this,"Filmagem cancelada",Toast.LENGTH_SHORT).show();
+                this.currentVideoPath = "";
             }
         }
     }
@@ -346,7 +339,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
         final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Enviando Imagem...");
+        mProgressDialog.setMessage("Enviando Colaboração...");
         mProgressDialog.show();
 
         new RetrofitClientInitializer(base_url)
@@ -415,7 +408,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
             final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
             mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Enviando Imagem...");
+            mProgressDialog.setMessage("Enviando Colaboração...");
             mProgressDialog.show();
 
             Call<String> call = new RetrofitClientInitializer(base_url)
@@ -456,7 +449,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
             final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
             mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Enviando Imagem...");
+            mProgressDialog.setMessage("Enviando Colaboração...");
             mProgressDialog.show();
 
             Call<String> call = new RetrofitClientInitializer(base_url)
@@ -524,10 +517,6 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
                 }
             });
         }
-
-    }
-
-    private void sendCollaborationVideo(String base_url, String collaborationId, Collaboration collaboration) {
 
     }
 
