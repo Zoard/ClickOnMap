@@ -46,8 +46,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button loginButton;
 
-    private User systemUser;
-
     private String firebaseKey;
 
     @Override
