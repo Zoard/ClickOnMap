@@ -24,24 +24,46 @@ public interface CollaborationService {
     @FormUrlEncoded
     @POST("mobile/")
     Observable<String> sendCollaborationToServer(@Field("tag") String tag,
-                                                         @Field("userId") String userId,
-                                                         @Field("title") String title,
-                                                         @Field("description") String description,
-                                                         @Field("idCategory") int idCategory,
-                                                         @Field("idType") int idType,
-                                                         @Field("latitude") double latitude,
-                                                         @Field("longitude") double longitude,
-                                                         @Field("date") String date);
+                                                 @Field("tagImage") String tagImage,
+                                                 @Field("tagVideo") String tagVideo,
+                                                 @Field("userId") String userId,
+                                                 @Field("title") String title,
+                                                 @Field("description") String description,
+                                                 @Field("idCategory") int idCategory,
+                                                 @Field("idType") int idType,
+                                                 @Field("latitude") double latitude,
+                                                 @Field("longitude") double longitude,
+                                                 @Field("date") String date);
 
     @Multipart
     @POST("mobile/")
-    Call<String> sendCollaborationImageToServer(@Part("tag") RequestBody tag,
-                                        @Part("userId") RequestBody userId,
-                                        @Part("collaborationId") RequestBody collaborationId,
-                                        @Part("collaborationTitle") RequestBody collaborationTitle,
-                                        @Part("collaborationDescription") RequestBody collaborationDescription,
-                                        @Part MultipartBody.Part file);
+    Call<String> sendSingleMidiaCollaborationToServer(@Part("tag") RequestBody tag,
+                                                @Part("tagImage") RequestBody tagImage,
+                                                @Part("tagVideo") RequestBody tagVideo,
+                                                @Part("userId") RequestBody userId,
+                                                @Part("title") RequestBody title,
+                                                @Part("description") RequestBody description,
+                                                @Part("idCategory") RequestBody idCategory,
+                                                @Part("idType") RequestBody idType,
+                                                @Part("latitude") RequestBody latitude,
+                                                @Part("longitude") RequestBody longitude,
+                                                @Part("date") RequestBody date,
+                                                @Part MultipartBody.Part file);
 
-
+    @Multipart
+    @POST("mobile/")
+    Call<String> sendFullCollaborationToServer(@Part("tag") RequestBody tag,
+                                               @Part("tagImage") RequestBody tagImage,
+                                               @Part("tagVideo") RequestBody tagVideo,
+                                               @Part("userId") RequestBody userId,
+                                               @Part("title") RequestBody title,
+                                               @Part("description") RequestBody description,
+                                               @Part("idCategory") RequestBody idCategory,
+                                               @Part("idType") RequestBody idType,
+                                               @Part("latitude") RequestBody latitude,
+                                               @Part("longitude") RequestBody longitude,
+                                               @Part("date") RequestBody date,
+                                               @Part MultipartBody.Part imageFile,
+                                               @Part MultipartBody.Part videoFile);
 
 }

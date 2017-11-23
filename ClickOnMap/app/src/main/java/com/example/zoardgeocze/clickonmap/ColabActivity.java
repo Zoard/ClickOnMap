@@ -163,7 +163,12 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
                             latitude, longitude);
 
                     String base_url = vgiSystem.getAddress() + "/";
-                    sendCollaborationToServer(collaboration);
+                    if(currentPhotoPath.equals("") && currentVideoPath.equals("")) {
+                        sendCollaborationToServer(base_url,collaboration);
+                    } else {
+                        sendMidiaCollaboration(base_url,collaboration);
+                    }
+
 
                     //generalController.registerPendingCollaborations(collaboration,vgiSystem.getAddress());
 
@@ -337,13 +342,16 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
-    private void sendCollaborationToServer(final Collaboration collaboration) {
+    private void sendCollaborationToServer(String base_url,final Collaboration collaboration) {
 
-        final String base_url = this.vgiSystem.getAddress() + "/";
+        final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Enviando Imagem...");
+        mProgressDialog.show();
 
         new RetrofitClientInitializer(base_url)
                 .getCollaborationService()
-                .sendCollaborationToServer("collaboration",
+                .sendCollaborationToServer("collaboration","N","N",
                         collaboration.getUserId(), collaboration.getTitle(), collaboration.getDescription(),
                         collaboration.getCategoryId(), collaboration.getSubcategoryId(), collaboration.getLatitude(),
                         collaboration.getLongitude(), collaboration.getCollaborationDate())
@@ -357,62 +365,169 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
                     @Override
                     public void onError(Throwable e) {
+                        if (mProgressDialog.isShowing()){
+                            mProgressDialog.dismiss();
+                        }
                         //TODO: Persistir no Banco Local
                         finish();
                     }
 
                     @Override
                     public void onNext(String s) {
-                        if (!currentPhotoPath.equals("")) {
-                            sendCollaborationImage(base_url,s,collaboration);
-                        } else {
-                            finish();
+                        if (mProgressDialog.isShowing()){
+                            mProgressDialog.dismiss();
                         }
-                        Log.i("COLLABORATION: ", s);
+                        finish();
                     }
                 });
     }
 
-    public void sendCollaborationImage(String base_url, String collaborationId, Collaboration collaboration) {
+    private void sendMidiaCollaboration(String base_url, Collaboration collaboration) {
 
-        File imageFile = new File(currentPhotoPath);
-        Log.i("sendCollaborationImage",imageFile.getAbsolutePath());
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
-        MultipartBody.Part body =
-                MultipartBody.Part.createFormData("image_file", imageFile.getName(), requestFile);
-        RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "collaborationImage");
+        RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "collaboration");
         RequestBody userId = RequestBody.create(MediaType.parse("text/plain"),collaboration.getUserId());
-        RequestBody collabId = RequestBody.create(MediaType.parse("text/plain"),collaborationId);
         RequestBody collabTitle = RequestBody.create(MediaType.parse("text/plain"),collaboration.getTitle());
         RequestBody collabDescript = RequestBody.create(MediaType.parse("text/plain"),collaboration.getDescription());
+        RequestBody categoryId = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(collaboration.getCategoryId()));
+        RequestBody typeId = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(collaboration.getSubcategoryId()));
+        RequestBody latitude = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(collaboration.getLatitude()));
+        RequestBody longitude = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(collaboration.getLongitude()));
+        RequestBody date = RequestBody.create(MediaType.parse("text/plain"),collaboration.getCollaborationDate());
 
-        final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Enviando Imagem...");
-        mProgressDialog.show();
+        if(!currentPhotoPath.equals("") && !currentVideoPath.equals("")) {
 
-        Call<String> call = new RetrofitClientInitializer(base_url)
-                .getCollaborationService()
-                .sendCollaborationImageToServer(tag,userId,collabId,collabTitle,collabDescript,body);
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (mProgressDialog.isShowing()){
-                    mProgressDialog.dismiss();
+            //Imagem
+            File imageFile = new File(currentPhotoPath);
+            Log.i("sendCollaborationImage",imageFile.getAbsolutePath());
+            RequestBody requestImageFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
+            MultipartBody.Part imageBody =
+                    MultipartBody.Part.createFormData("image_file", imageFile.getName(), requestImageFile);
+
+            //Video
+            File videoFile = new File(currentVideoPath);
+            Log.i("sendCollaborationVideo",videoFile.getAbsolutePath());
+            RequestBody requestVideoFile = RequestBody.create(MediaType.parse("video/*"), videoFile);
+            MultipartBody.Part videoBody =
+                    MultipartBody.Part.createFormData("video_file", videoFile.getName(), requestVideoFile);
+
+            RequestBody tagImage = RequestBody.create(MediaType.parse("text/plain"), "Y");
+            RequestBody tagVideo = RequestBody.create(MediaType.parse("text/plain"), "Y");
+
+            final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Enviando Imagem...");
+            mProgressDialog.show();
+
+            Call<String> call = new RetrofitClientInitializer(base_url)
+                    .getCollaborationService()
+                    .sendFullCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
+                            collabDescript,categoryId,typeId,latitude,longitude,date,imageBody,videoBody);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if (mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
+                    finish();
+                    Log.i("onResponse_IMAGE: ",response.body());
                 }
-                finish();
-                Log.i("onResponse_IMAGE: ",response.body());
-            }
 
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                if (mProgressDialog.isShowing()){
-                    mProgressDialog.dismiss();
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
+                    finish();
+                    Log.i("onResponse_IMAGE: ",t.getMessage());
                 }
-                finish();
-                Log.i("onResponse_IMAGE: ",t.getMessage());
-            }
-        });
+            });
+
+        }
+
+        else if(!currentPhotoPath.equals("")) {
+            //Imagem
+            File imageFile = new File(currentPhotoPath);
+            Log.i("sendCollaborationImage",imageFile.getAbsolutePath());
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
+            MultipartBody.Part body =
+                    MultipartBody.Part.createFormData("image_file", imageFile.getName(), requestFile);
+            RequestBody tagImage = RequestBody.create(MediaType.parse("text/plain"), "Y");
+            RequestBody tagVideo = RequestBody.create(MediaType.parse("text/plain"), "N");
+
+            final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Enviando Imagem...");
+            mProgressDialog.show();
+
+            Call<String> call = new RetrofitClientInitializer(base_url)
+                    .getCollaborationService()
+                    .sendSingleMidiaCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
+                            collabDescript,categoryId,typeId,latitude,longitude,date,body);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if (mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
+                    finish();
+                    Log.i("onResponse_IMAGE: ",response.body());
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
+                    finish();
+                    Log.i("onResponse_IMAGE: ",t.getMessage());
+                }
+            });
+        }
+
+        else {
+
+            //Video
+            File videoFile = new File(currentVideoPath);
+            Log.i("sendCollaborationVideo",videoFile.getAbsolutePath());
+            RequestBody requestFile = RequestBody.create(MediaType.parse("video/*"), videoFile);
+            MultipartBody.Part body =
+                    MultipartBody.Part.createFormData("video_file", videoFile.getName(), requestFile);
+            RequestBody tagImage = RequestBody.create(MediaType.parse("text/plain"), "N");
+            RequestBody tagVideo = RequestBody.create(MediaType.parse("text/plain"), "Y");
+
+            final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Enviando Colaboração...");
+            mProgressDialog.show();
+
+            Call<String> call = new RetrofitClientInitializer(base_url)
+                    .getCollaborationService()
+                    .sendSingleMidiaCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
+                            collabDescript,categoryId,typeId,latitude,longitude,date,body);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    if (mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
+                    finish();
+                    Log.i("onResponse_IMAGE: ",response.body());
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (mProgressDialog.isShowing()){
+                        mProgressDialog.dismiss();
+                    }
+                    finish();
+                    Log.i("onResponse_IMAGE: ",t.getMessage());
+                }
+            });
+        }
+
+    }
+
+    private void sendCollaborationVideo(String base_url, String collaborationId, Collaboration collaboration) {
 
     }
 
