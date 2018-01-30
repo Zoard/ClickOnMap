@@ -15,7 +15,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class RetrofitInitializer {
 
-    private static final String BASE_URL = "http://ufvmaps.fornut.com.br/clickonmap/";
+    private static final String BASE_URL = "http://www.ide.ufv.br/clickonmapserver/";
     private final Retrofit retrofit;
 
     public RetrofitInitializer() {

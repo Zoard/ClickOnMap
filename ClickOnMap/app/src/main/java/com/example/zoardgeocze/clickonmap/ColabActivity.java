@@ -145,7 +145,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
                     String titleText = title.getText().toString();
                     String descriptionText = description.getText().toString();
-                    String timeStamp = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.US).format(new Date());
+                    String timeStamp = new SimpleDateFormat("yyyy/MM/dd - HH:mm:ss", Locale.US).format(new Date());
                     String userId = generalController.getUserId(vgiSystem.getAddress());
 
                     collaboration = new Collaboration(userId,titleText,descriptionText, timeStamp, choosedCategory.getId(),
