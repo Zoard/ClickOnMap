@@ -37,7 +37,7 @@
         android:required="true" />
     <uses-feature
         android:name="android.hardware.camera2.full"
-        android:required="true"/>
+        android:required="true" />
 
     <application
         android:name=".Util.MyApp"
@@ -60,7 +60,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".SplashScreenActivity"
+        <activity
+            android:name=".SplashScreenActivity"
             android:theme="@style/AppCompat.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -68,12 +69,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MenuActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar">
             <intent-filter>
                 <action android:name="OPEN_ACTIVITY_DATA" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -130,6 +131,10 @@
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".PendingCollabActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

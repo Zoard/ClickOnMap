@@ -197,6 +197,10 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
             // Handle the camera action
         } else if (id == R.id.nav_pending_collab) {
 
+            Intent pendingCollabIntent = new Intent(this,PendingCollabActivity.class);
+            pendingCollabIntent.putExtras(this.bundle);
+            startActivity(pendingCollabIntent);
+
         } else if (id == R.id.nav_configurations) {
 
         } else if (id == R.id.nav_logout) {

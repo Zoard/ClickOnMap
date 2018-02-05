@@ -401,8 +401,7 @@ public final class SingletonFacadeController {
         return true;
     }
 
-    //TODO:FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
-    public List<Collaboration> getCollaborations(String systemAddress) {
+    public List<Collaboration> getPendingCollaborations(String systemAddress, String user_Id) {
 
         List<Collaboration> collaborationList = new ArrayList<>();
 
@@ -412,7 +411,7 @@ public final class SingletonFacadeController {
                 new String[] {"eventCategory_categoryId", "eventCategory_categoryName", "eventType_typeId",
                               "eventType_typeName","user_userId", "title","description","collaborationDate",
                               "picture","video","latitude","longitude"},
-                "user_systemAddress = '" + systemAddress + "'","");
+                "user_systemAddress = '" + systemAddress + "' AND user_userId = '" + user_Id + "'","");
 
         Collaboration collaboration;
 
