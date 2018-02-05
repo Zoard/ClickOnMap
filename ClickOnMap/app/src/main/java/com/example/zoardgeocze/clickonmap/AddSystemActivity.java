@@ -103,66 +103,6 @@ public class AddSystemActivity extends AppCompatActivity {
 
     }
 
-    /*private void getSystemsFromServer(boolean showProgDialog) {
-
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-
-        if(showProgDialog) {
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Carregando Sistemas VGI...");
-            mProgressDialog.show();
-        }
-
-
-        Call<VGISystemSync> call = new RetrofitInitializer().getSystemService().getVGISystemList("getVGISystem");
-        call.enqueue(new Callback<VGISystemSync>() {
-            @Override
-            public void onResponse(Call<VGISystemSync> call, Response<VGISystemSync> response) {
-
-                VGISystemSync vgiSystemSync = response.body();
-
-                if(vgiSystemSync != null) {
-                    for (VGISystem vs : vgiSystemSync.getVgiSystems()) {
-                        if(generalController.searchVGISystem(vs)) {
-                            vgiSystems.add(vs);
-                        }
-                    }
-                }
-
-
-                Log.i("onResponse_VGISYSTEM: ", String.valueOf(vgiSystems.size()));
-
-                if(!vgiSystems.isEmpty()) {
-                    loadAvailableVGISystems();
-                } else {
-                    Toast.makeText(getBaseContext(),"Nenhum sistema VGI disponível",Toast.LENGTH_SHORT).show();
-                }
-
-                if (mProgressDialog.isShowing()){
-                    mProgressDialog.dismiss();
-                } else {
-                    swipeSystemList.setRefreshing(false);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<VGISystemSync> call, Throwable t) {
-                Log.i("onFailure_VGISYSTEM: ", t.getMessage());
-
-                Toast.makeText(getBaseContext(),"Sem conexão",Toast.LENGTH_SHORT).show();
-
-                if (mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
-                } else {
-                    swipeSystemList.setRefreshing(false);
-                }
-
-            }
-        });
-
-    }*/
-
 
     private void loadAvailableVGISystems(List<VGISystem> availableVgiSystems) {
 

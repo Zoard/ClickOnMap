@@ -376,7 +376,6 @@ public final class SingletonFacadeController {
         return userName;
     }
 
-    //TODO:FUNÇÃO TEMPORÁRIA - CRIADA PARA Demo DO GEOINFO
     public boolean registerPendingCollaborations(Collaboration collaboration, String systemAddress) {
 
         SingletonDataBase db = SingletonDataBase.getInstance();
@@ -608,6 +607,21 @@ public final class SingletonFacadeController {
         c.close();
 
         return mostColab;
+    }
+
+    public int getPendingCollaborationsCounter(String systemAddress, String userId) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        Cursor c = db.search("PendingCollaborations",new String[] {"collaborationsId"},
+                "user_systemAddress = '" + systemAddress + "' AND user_userId = '" + userId + "'","");
+
+        int counter = c.getCount();
+
+        c.close();
+
+        return counter;
+
     }
 
 

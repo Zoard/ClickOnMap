@@ -8,7 +8,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context="com.example.zoardgeocze.clickonmap.ColabActivity"
+        tools:context="com.example.zoardgeocze.clickonmap.CollabActivity"
         android:focusable="true"
         android:focusableInTouchMode="true">
 

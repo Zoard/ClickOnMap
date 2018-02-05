@@ -93,8 +93,9 @@ public class SingletonDataBase {
                     "video TEXT," +
                     "latitude REAL NOT NULL," +
                     "longitude REAL NOT NULL," +
-                    "CONSTRAINT eventCategory_categoryId FOREIGN KEY (eventCategory_categoryId) REFERENCES EventCategory (categoryId) ON DELETE NO ACTION ON UPDATE NO ACTION," +
-                    "CONSTRAINT eventType_typeId FOREIGN KEY (eventType_typeId) REFERENCES EventType (typeId) ON DELETE NO ACTION ON UPDATE NO ACTION," +
+                    //TODO: Resolver situação de Deleção e Atualização em Cascata de Categoria e Tipo, do jeito que está pode dar erro
+                    //"CONSTRAINT eventCategory_categoryId FOREIGN KEY (eventCategory_categoryId) REFERENCES EventCategory (categoryId) ON DELETE NO ACTION ON UPDATE NO ACTION," +
+                    //"CONSTRAINT eventType_typeId FOREIGN KEY (eventType_typeId) REFERENCES EventType (typeId) ON DELETE NO ACTION ON UPDATE NO ACTION," +
                     "CONSTRAINT user_userId_systemAddress FOREIGN KEY (user_userId, user_systemAddress) REFERENCES User (userId, systemAddress) ON DELETE CASCADE ON UPDATE CASCADE" +
                     ");" // FIM CREATE TABLE*/
 

@@ -3,7 +3,6 @@ package com.example.zoardgeocze.clickonmap;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -11,7 +10,6 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
@@ -32,18 +29,15 @@ import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.adapter.rxjava.Result;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -52,7 +46,7 @@ import rx.schedulers.Schedulers;
  * Created by ZoardGeocze on 08/10/17.
  */
 
-public class ColabActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class CollabActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     public static final int REQUEST_TAKE_PHOTO = 100;
     public static final int REQUEST_VIDEO_CAPTURE = 101;
@@ -164,7 +158,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
 
                     //generalController.registerPendingCollaborations(collaboration,vgiSystem.getAddress());
 
-                    Toast.makeText(getBaseContext(),"Colaboração feita com sucesso ;)", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getBaseContext(),"Colaboração feita com sucesso ;)", Toast.LENGTH_LONG).show();
 
                 } else {
                     Toast.makeText(getBaseContext(),"Os campos com * são obrigatórios", Toast.LENGTH_SHORT).show();
@@ -327,17 +321,9 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
         return video;
     }
 
-    //Na Versão DEMO para o GEOINFO, irei salvar as colaborações localmente apenas
-    //TODO: Aqui a colaboração deverá ser enviada para o Servidor do Sistema, caso contrário, colaboração é salva localmente
-    public void sendColaboration(View view) {
+    private void sendCollaborationToServer(final String base_url, final Collaboration collaboration) {
 
-
-
-    }
-
-    private void sendCollaborationToServer(String base_url,final Collaboration collaboration) {
-
-        final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
+        final ProgressDialog mProgressDialog = new ProgressDialog(CollabActivity.this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Enviando Colaboração...");
         mProgressDialog.show();
@@ -361,8 +347,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
                         if (mProgressDialog.isShowing()){
                             mProgressDialog.dismiss();
                         }
-                        //TODO: Persistir no Banco Local
-                        finish();
+                        pendingCollaboration(collaboration);
                     }
 
                     @Override
@@ -375,7 +360,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
                 });
     }
 
-    private void sendMidiaCollaboration(String base_url, Collaboration collaboration) {
+    private void sendMidiaCollaboration(final String base_url, final Collaboration collaboration) {
 
         RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "collaboration");
         RequestBody userId = RequestBody.create(MediaType.parse("text/plain"),collaboration.getUserId());
@@ -406,7 +391,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
             RequestBody tagImage = RequestBody.create(MediaType.parse("text/plain"), "Y");
             RequestBody tagVideo = RequestBody.create(MediaType.parse("text/plain"), "Y");
 
-            final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
+            final ProgressDialog mProgressDialog = new ProgressDialog(CollabActivity.this);
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Enviando Colaboração...");
             mProgressDialog.show();
@@ -430,7 +415,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
-                    finish();
+                    pendingCollaboration(collaboration);
                     Log.i("onResponse_IMAGE: ",t.getMessage());
                 }
             });
@@ -447,7 +432,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
             RequestBody tagImage = RequestBody.create(MediaType.parse("text/plain"), "Y");
             RequestBody tagVideo = RequestBody.create(MediaType.parse("text/plain"), "N");
 
-            final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
+            final ProgressDialog mProgressDialog = new ProgressDialog(CollabActivity.this);
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Enviando Colaboração...");
             mProgressDialog.show();
@@ -471,7 +456,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
-                    finish();
+                    pendingCollaboration(collaboration);
                     Log.i("onResponse_IMAGE: ",t.getMessage());
                 }
             });
@@ -488,7 +473,7 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
             RequestBody tagImage = RequestBody.create(MediaType.parse("text/plain"), "N");
             RequestBody tagVideo = RequestBody.create(MediaType.parse("text/plain"), "Y");
 
-            final ProgressDialog mProgressDialog = new ProgressDialog(ColabActivity.this);
+            final ProgressDialog mProgressDialog = new ProgressDialog(CollabActivity.this);
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Enviando Colaboração...");
             mProgressDialog.show();
@@ -512,11 +497,21 @@ public class ColabActivity extends AppCompatActivity implements AdapterView.OnIt
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
-                    finish();
+                    pendingCollaboration(collaboration);
                     Log.i("onResponse_IMAGE: ",t.getMessage());
                 }
             });
         }
+
+    }
+
+    private void pendingCollaboration(Collaboration collaboration) {
+
+        this.generalController.registerPendingCollaborations(collaboration,this.vgiSystem.getAddress());
+        Toast.makeText(this,
+                       "Não foi possível obter uma conexão com o servidor. Sua Colaboração está pendente.",
+                       Toast.LENGTH_LONG).show();
+        finish();
 
     }
 

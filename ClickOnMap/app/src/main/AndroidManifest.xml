@@ -94,7 +94,7 @@
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
         <activity
-            android:name=".ColabActivity"
+            android:name=".CollabActivity"
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
 

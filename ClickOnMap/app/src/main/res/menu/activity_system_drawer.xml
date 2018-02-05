@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
@@ -10,8 +11,9 @@
             android:icon="@drawable/ic_person_black_48dp"/>
         <item
             android:id="@+id/nav_pending_collab"
+            android:icon="@drawable/ic_backup_black_48dp"
             android:title="Colaborações Pendentes"
-            android:icon="@drawable/ic_backup_black_48dp"/>
+            app:actionLayout="@layout/menu_counter" />
         <item
             android:id="@+id/nav_configurations"
             android:title="Configurações"

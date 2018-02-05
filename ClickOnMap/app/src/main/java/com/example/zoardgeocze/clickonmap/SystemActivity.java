@@ -2,11 +2,13 @@ package com.example.zoardgeocze.clickonmap;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -47,6 +49,8 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
     private TextView longitudeValue;
     private TextView lastCollaboration;
     private TextView mostCollaborations;
+
+    private NavigationView navigationView;
 
 
     @Override
@@ -98,8 +102,8 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
             }
         });
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        this.navigationView = (NavigationView) findViewById(R.id.nav_view);
+        this.navigationView.setNavigationItemSelectedListener(this);
 
         this.vgiSystemObservable = VGISystemNotifier.getInstance();
         this.vgiSystemObservable.addObserver(this);
@@ -130,6 +134,16 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
         this.mostCollaborations = (TextView) findViewById(R.id.system_most_colab);
         this.mostCollaborations.setText(mostColab);
 
+        int pendingCollabCounter = this.generalController.getPendingCollaborationsCounter(this.vgiSystem.getAddress(),this.user.getId());
+
+        setPendingCollaborationCounter(R.id.nav_pending_collab,pendingCollabCounter);
+
+    }
+
+    private void setPendingCollaborationCounter(@IdRes int itemId, int count) {
+        TextView view = (TextView) this.navigationView.getMenu().findItem(itemId).getActionView();
+        view.setText(count > 0 ? String.valueOf(count) : null);
+        Log.i("CollaborationCounter: ",String.valueOf(count));
     }
 
 
@@ -152,7 +166,7 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
 
         if(!latText.equals("") && !lngText.equals("")) {
 
-            Intent colabIntent = new Intent(this, ColabActivity.class);
+            Intent colabIntent = new Intent(this, CollabActivity.class);
 
             Double lat = Double.valueOf(latText);
             Double lng = Double.valueOf(lngText);

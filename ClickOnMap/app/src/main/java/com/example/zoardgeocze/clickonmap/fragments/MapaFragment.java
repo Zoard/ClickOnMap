@@ -1,20 +1,15 @@
 package com.example.zoardgeocze.clickonmap.fragments;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.View;
 
-import com.example.zoardgeocze.clickonmap.ColabActivity;
 import com.example.zoardgeocze.clickonmap.ContentActivity;
-import com.example.zoardgeocze.clickonmap.MapaActivity;
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
-import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
