@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.example.zoardgeocze.clickonmap.Adapter.PendingCollabAdapter;
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
@@ -53,5 +54,9 @@ public class PendingCollabActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         this.pendingCollabRecycler.setLayoutManager(layoutManager);
 
+    }
+
+    public void closePendingCollab(View view) {
+        finish();
     }
 }

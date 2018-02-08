@@ -5,20 +5,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.zoardgeocze.clickonmap.PendingCollabActivity">
+    tools:context="com.example.zoardgeocze.clickonmap.PendingCollabActivity"
+    android:background="#fff"
+    android:layout_margin="20dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#fff">
+
+        <ImageButton
+            android:id="@+id/close_pending_collab_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/close"
+            android:clickable="true"
+            android:onClick="closePendingCollab" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/pending_collab_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/menu_image"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/close_pending_collab_btn"
             android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"/>
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="#fff"/>
 
     </RelativeLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>
