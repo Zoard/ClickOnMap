@@ -29,7 +29,7 @@ public interface CollaborationService {
 
     @FormUrlEncoded
     @POST("mobile/")
-    Observable<String> sendCollaborationToServer(@Field("tag") String tag,
+    Observable<Void> sendCollaborationToServer(@Field("tag") String tag,
                                                  @Field("tagImage") String tagImage,
                                                  @Field("tagVideo") String tagVideo,
                                                  @Field("userId") String userId,
@@ -43,7 +43,7 @@ public interface CollaborationService {
 
     @Multipart
     @POST("mobile/")
-    Call<String> sendSingleMidiaCollaborationToServer(@Part("tag") RequestBody tag,
+    Call<Void> sendSingleMidiaCollaborationToServer(@Part("tag") RequestBody tag,
                                                 @Part("tagImage") RequestBody tagImage,
                                                 @Part("tagVideo") RequestBody tagVideo,
                                                 @Part("userId") RequestBody userId,
@@ -58,7 +58,7 @@ public interface CollaborationService {
 
     @Multipart
     @POST("mobile/")
-    Call<String> sendFullCollaborationToServer(@Part("tag") RequestBody tag,
+    Call<Void> sendFullCollaborationToServer(@Part("tag") RequestBody tag,
                                                @Part("tagImage") RequestBody tagImage,
                                                @Part("tagVideo") RequestBody tagVideo,
                                                @Part("userId") RequestBody userId,

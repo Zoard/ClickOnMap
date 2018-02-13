@@ -42,8 +42,10 @@ public class PendingCollabAdapter extends RecyclerView.Adapter {
         PendingCollabViewHolder viewHolder = (PendingCollabViewHolder) holder;
 
         viewHolder.pendingCollabTitle.setText(this.pendingCollabs.get(position).getTitle());
+        viewHolder.pendingCollabDate.setText(this.pendingCollabs.get(position).getCollaborationDate());
 
     }
+
 
     @Override
     public int getItemCount() {

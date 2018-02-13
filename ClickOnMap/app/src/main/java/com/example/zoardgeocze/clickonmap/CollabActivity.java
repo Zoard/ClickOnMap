@@ -336,10 +336,10 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
                         collaboration.getLongitude(), collaboration.getCollaborationDate())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
+                .subscribe(new Subscriber<Void>() {
                     @Override
                     public void onCompleted() {
-                        Log.i("onNext_COLLABORATION: ", currentPhotoPath);
+                        //Log.i("onNext_COLLABORATION: ", currentPhotoPath);
                     }
 
                     @Override
@@ -347,14 +347,16 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
                         if (mProgressDialog.isShowing()){
                             mProgressDialog.dismiss();
                         }
+                        Log.i("onError_COLLABORATION: ", e.getMessage());
                         pendingCollaboration(collaboration);
                     }
 
                     @Override
-                    public void onNext(String s) {
+                    public void onNext(Void aVoid) {
                         if (mProgressDialog.isShowing()){
                             mProgressDialog.dismiss();
                         }
+                        Toast.makeText(getBaseContext(),"Colaboração feita com sucesso!",Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });
@@ -396,22 +398,22 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
             mProgressDialog.setMessage("Enviando Colaboração...");
             mProgressDialog.show();
 
-            Call<String> call = new RetrofitClientInitializer(base_url)
+            Call<Void> call = new RetrofitClientInitializer(base_url)
                     .getCollaborationService()
                     .sendFullCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
                             collabDescript,categoryId,typeId,latitude,longitude,date,imageBody,videoBody);
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
+                public void onResponse(Call<Void> call, Response<Void> response) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
+                    Toast.makeText(getBaseContext(),"Colaboração feita com sucesso!",Toast.LENGTH_SHORT).show();
                     finish();
-                    Log.i("onResponse_IMAGE: ",response.body());
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<Void> call, Throwable t) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
@@ -437,22 +439,22 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
             mProgressDialog.setMessage("Enviando Colaboração...");
             mProgressDialog.show();
 
-            Call<String> call = new RetrofitClientInitializer(base_url)
+            Call<Void> call = new RetrofitClientInitializer(base_url)
                     .getCollaborationService()
                     .sendSingleMidiaCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
                             collabDescript,categoryId,typeId,latitude,longitude,date,body);
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
+                public void onResponse(Call<Void> call, Response<Void> response) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
+                    Toast.makeText(getBaseContext(),"Colaboração feita com sucesso!",Toast.LENGTH_SHORT).show();
                     finish();
-                    Log.i("onResponse_IMAGE: ",response.body());
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<Void> call, Throwable t) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
@@ -478,22 +480,22 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
             mProgressDialog.setMessage("Enviando Colaboração...");
             mProgressDialog.show();
 
-            Call<String> call = new RetrofitClientInitializer(base_url)
+            Call<Void> call = new RetrofitClientInitializer(base_url)
                     .getCollaborationService()
                     .sendSingleMidiaCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
                             collabDescript,categoryId,typeId,latitude,longitude,date,body);
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<Void>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
+                public void onResponse(Call<Void> call, Response<Void> response) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
+                    Toast.makeText(getBaseContext(),"Colaboração feita com sucesso!",Toast.LENGTH_SHORT).show();
                     finish();
-                    Log.i("onResponse_IMAGE: ",response.body());
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<Void> call, Throwable t) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }

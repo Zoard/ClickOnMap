@@ -42,7 +42,6 @@ public class PendingCollabActivity extends AppCompatActivity {
         this.intent = getIntent();
         this.bundle = this.intent.getExtras();
 
-
         this.vgiSystem = (VGISystem) this.bundle.getSerializable("vgiSystem");
         this.user = this.generalController.getUser(this.vgiSystem);
 
