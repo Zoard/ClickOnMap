@@ -46,9 +46,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     private Tile tile;
     private boolean addTile;
 
-    public void setTile(Tile tile) {
-        this.tile = tile;
-    }
+    public void setTile(Tile tile) { this.tile = tile;}
 
     public void setAddTile(boolean addTile) {
         this.addTile = addTile;
@@ -98,7 +96,10 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                 bundle.putSerializable("vgiSystem",systemTile.getSystem());
 
                 if(systemTile.isAvailable()) {
+
+                    //Toast Implementado para Debug; Retirar posteriormente.
                     Toast.makeText(this.context,"Endereço do Tile é: " + systemTile.getSystem().getAddress(),Toast.LENGTH_SHORT).show();
+
                     if(hasSession.equals("Y")) {
                         Intent intent = new Intent(this.context, SystemActivity.class);
 

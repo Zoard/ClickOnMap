@@ -66,6 +66,25 @@ public class Collaboration implements Serializable,Parcelable {
         this.longitude = longitude;
     }
 
+    public Collaboration(int collaborationId, String userId, String title, String description, String collaborationDate, int categoryId, String categoryName,
+                         int subcategoryId, String subcategoryName, String photo, String video, String audio,
+                         Double latitude, Double longitude) {
+        this.collaborationId = collaborationId;
+        this.userId = userId;
+        this.title = title;
+        this.description = description;
+        this.collaborationDate = collaborationDate;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.subcategoryId = subcategoryId;
+        this.subcategoryName = subcategoryName;
+        this.photo = photo;
+        this.video = video;
+        this.audio = audio;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public Collaboration(int collaborationId, String userId, String userName, String title,
                          String description, String collaborationDate, int categoryId, String categoryName,
                          int subcategoryId, String subcategoryName, String photo, String video, String audio,

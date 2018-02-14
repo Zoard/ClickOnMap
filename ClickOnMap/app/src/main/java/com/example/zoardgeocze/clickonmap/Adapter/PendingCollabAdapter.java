@@ -2,6 +2,7 @@ package com.example.zoardgeocze.clickonmap.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import java.util.List;
  * Created by ZoardGeocze on 05/02/2018.
  */
 
-public class PendingCollabAdapter extends RecyclerView.Adapter {
+public class PendingCollabAdapter extends RecyclerView.Adapter  {
 
     private List<Collaboration> pendingCollabs;
     private Context context;
@@ -32,7 +33,7 @@ public class PendingCollabAdapter extends RecyclerView.Adapter {
 
         View view = LayoutInflater.from(context).inflate(R.layout.item_pending_collab,parent,false);
 
-        PendingCollabViewHolder holder = new PendingCollabViewHolder(view,context);
+        PendingCollabViewHolder holder = new PendingCollabViewHolder(view);
 
         return holder;
     }
@@ -40,6 +41,8 @@ public class PendingCollabAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         PendingCollabViewHolder viewHolder = (PendingCollabViewHolder) holder;
+
+        viewHolder.setItemPosition(position);
 
         viewHolder.pendingCollabTitle.setText(this.pendingCollabs.get(position).getTitle());
         viewHolder.pendingCollabDate.setText(this.pendingCollabs.get(position).getCollaborationDate());

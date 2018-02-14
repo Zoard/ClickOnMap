@@ -4,12 +4,15 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.R;
 
 /**
@@ -17,20 +20,22 @@ import com.example.zoardgeocze.clickonmap.R;
  */
 
 public class PendingCollabViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
-        View.OnLongClickListener {
+        View.OnLongClickListener, View.OnCreateContextMenuListener {
 
-    private Context context;
+    private static final int SEND_ID = 1;
+    private static final int EDIT_ID = 2;
+    private static final int DELETE_ID = 3;
+
+    private int itemPosition;
 
     final TextView pendingCollabTitle;
     final TextView pendingCollabDate;
 
     final RelativeLayout pendingCollabLayout;
 
-    public PendingCollabViewHolder(View itemView, Context context) {
+    public PendingCollabViewHolder(View itemView) {
 
         super(itemView);
-
-        this.context = context;
 
         this.pendingCollabTitle = (TextView) itemView.findViewById(R.id.pending_collab_title);
         this.pendingCollabDate = (TextView) itemView.findViewById(R.id.pending_collab_date);
@@ -38,6 +43,13 @@ public class PendingCollabViewHolder extends RecyclerView.ViewHolder implements 
         this.pendingCollabLayout = (RelativeLayout) itemView.findViewById(R.id.pending_collab_main);
         this.pendingCollabLayout.setOnClickListener(this);
         this.pendingCollabLayout.setOnLongClickListener(this);
+        this.pendingCollabLayout.setOnCreateContextMenuListener(this);
+
+    }
+
+
+    public void setItemPosition(int itemPosition) {
+        this.itemPosition = itemPosition;
     }
 
     @Override
@@ -48,22 +60,18 @@ public class PendingCollabViewHolder extends RecyclerView.ViewHolder implements 
     @Override
     public boolean onLongClick(View view) {
 
-        Log.i("onLongClick_Pending: ","Clique Longo");
-
-        view.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                menu.add(Menu.NONE, 1, Menu.NONE, "Deletar");
-                menu.add(Menu.NONE, 2, Menu.NONE,"Enviar");
-            }
-
-        });
-
-
         return false;
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
+        menu.setHeaderTitle("Opções");
+        menu.add(this.itemPosition, SEND_ID, Menu.NONE,"Enviar");
+        menu.add(this.itemPosition, EDIT_ID, Menu.NONE, "Editar");
+        menu.add(this.itemPosition, DELETE_ID, Menu.NONE, "Deletar");
+
+    }
 
 
 }

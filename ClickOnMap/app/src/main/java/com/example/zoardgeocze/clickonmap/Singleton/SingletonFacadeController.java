@@ -408,7 +408,7 @@ public final class SingletonFacadeController {
         SingletonDataBase db = SingletonDataBase.getInstance();
 
         Cursor c = db.search("PendingCollaborations",
-                new String[] {"eventCategory_categoryId", "eventCategory_categoryName", "eventType_typeId",
+                new String[] {"collaborationsId","eventCategory_categoryId", "eventCategory_categoryName", "eventType_typeId",
                               "eventType_typeName","user_userId", "title","description","collaborationDate",
                               "picture","video","latitude","longitude"},
                 "user_systemAddress = '" + systemAddress + "' AND user_userId = '" + user_Id + "'","");
@@ -417,6 +417,7 @@ public final class SingletonFacadeController {
 
         while(c.moveToNext()) {
 
+            int collaborationId = c.getInt(c.getColumnIndex("collaborationsId"));
             int categoryId = c.getInt(c.getColumnIndex("eventCategory_categoryId"));
             String categoryName = c.getString(c.getColumnIndex("eventCategory_categoryName"));
             int subcategoryId = c.getInt(c.getColumnIndex("eventType_typeId"));
@@ -430,7 +431,7 @@ public final class SingletonFacadeController {
             Double lat = c.getDouble(c.getColumnIndex("latitude"));
             Double lng = c.getDouble(c.getColumnIndex("longitude"));
 
-            collaboration = new Collaboration(userId,title,description,date,categoryId,
+            collaboration = new Collaboration(collaborationId,userId,title,description,date,categoryId,
                             categoryName,subcategoryId,subcategoryName,photoPath,videoPath,"",lat,lng);
 
             collaborationList.add(collaboration);
@@ -440,6 +441,14 @@ public final class SingletonFacadeController {
         c.close();
 
         return collaborationList;
+
+    }
+
+    public void deletePendingCollaboration(int collaborationId) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        db.delete("PendingCollaborations","collaborationsId = '" + collaborationId + "'");
 
     }
 

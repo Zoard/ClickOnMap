@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Adapter.PendingCollabAdapter;
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
@@ -20,6 +22,10 @@ import java.util.List;
 public class PendingCollabActivity extends AppCompatActivity {
 
     private SingletonFacadeController generalController;
+
+    private static final int SEND_ID = 1;
+    private static final int EDIT_ID = 2;
+    private static final int DELETE_ID = 3;
 
     private Intent intent;
     private Bundle bundle;
@@ -57,5 +63,59 @@ public class PendingCollabActivity extends AppCompatActivity {
 
     public void closePendingCollab(View view) {
         finish();
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        if(item != null) {
+
+            int position = item.getGroupId();
+
+            Log.i("ItemSelected_Title: ", String.valueOf(item.getTitle()));
+            Log.i("ItemSelected_ID: ", String.valueOf(item.getItemId()));
+            Log.i("ItemSelected_Position: ", String.valueOf(position));
+            Log.i("ItemSelected_Collab: ", this.pendingCollabs.get(position).getTitle());
+
+            switch (item.getItemId()) {
+
+                case SEND_ID:
+
+                    Collaboration collaboration = this.pendingCollabs.get(position);
+
+                    sendPendingCollaboration(position);
+                    Toast.makeText(this,"Colaboração Enviada Com Sucesso.",Toast.LENGTH_SHORT).show();
+                    break;
+
+                case EDIT_ID:
+
+                    break;
+
+                case DELETE_ID:
+                    deletePendingCollaboration(position);
+                    break;
+
+            }
+
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void sendPendingCollaboration(int position) {
+
+
+
+    }
+
+    private void deletePendingCollaboration(int position) {
+        //Deleção no Banco de Dados
+        this.generalController.deletePendingCollaboration(this.pendingCollabs.get(position).getCollaborationId());
+
+        //Deleção Local
+        this.pendingCollabs.remove(position);
+        this.pendingCollabRecycler.getAdapter().notifyDataSetChanged();
+
+        Toast.makeText(this,"Colaboração Deletada",Toast.LENGTH_SHORT).show();
     }
 }
