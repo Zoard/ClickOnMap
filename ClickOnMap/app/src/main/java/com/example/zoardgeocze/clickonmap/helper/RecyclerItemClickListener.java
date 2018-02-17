@@ -1,4 +1,4 @@
-package com.example.zoardgeocze.clickonmap.Helper;
+package com.example.zoardgeocze.clickonmap.helper;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

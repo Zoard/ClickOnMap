@@ -1,4 +1,4 @@
-package com.example.zoardgeocze.clickonmap.Helper;
+package com.example.zoardgeocze.clickonmap.helper;
 
 /**
  * Created by ZoardGeocze on 10/08/2017.

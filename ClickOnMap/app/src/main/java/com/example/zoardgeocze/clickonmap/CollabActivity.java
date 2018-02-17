@@ -25,6 +25,7 @@ import com.example.zoardgeocze.clickonmap.Model.EventType;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.helper.CollaborationSender;
 
 import java.io.File;
 import java.io.IOException;
@@ -148,17 +149,14 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
                             currentPhotoPath, currentVideoPath,currentAudioPath,
                             latitude, longitude);
 
-                    String base_url = vgiSystem.getAddress() + "/";
-                    if(currentPhotoPath.equals("") && currentVideoPath.equals("")) {
-                        sendCollaborationToServer(base_url,collaboration);
+                    CollaborationSender collaborationSender = new CollaborationSender(collaboration,vgiSystem.getAddress(),
+                                                                                    CollabActivity.this,false);
+
+                    if(collaboration.getPhoto().equals("") && collaboration.getVideo().equals("")) {
+                        collaborationSender.sendCollaborationToServer();
                     } else {
-                        sendMidiaCollaboration(base_url,collaboration);
+                        collaborationSender.sendMidiaCollaboration();
                     }
-
-
-                    //generalController.registerPendingCollaborations(collaboration,vgiSystem.getAddress());
-
-                    //Toast.makeText(getBaseContext(),"Colaboração feita com sucesso ;)", Toast.LENGTH_LONG).show();
 
                 } else {
                     Toast.makeText(getBaseContext(),"Os campos com * são obrigatórios", Toast.LENGTH_SHORT).show();
@@ -207,7 +205,6 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
     //Tira a foto pedindo uma resposta da câmera
     public void takePicture(View view) {
@@ -320,203 +317,6 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
 
         return video;
     }
-
-    private void sendCollaborationToServer(final String base_url, final Collaboration collaboration) {
-
-        final ProgressDialog mProgressDialog = new ProgressDialog(CollabActivity.this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Enviando Colaboração...");
-        mProgressDialog.show();
-
-        new RetrofitClientInitializer(base_url)
-                .getCollaborationService()
-                .sendCollaborationToServer("collaboration","N","N",
-                        collaboration.getUserId(), collaboration.getTitle(), collaboration.getDescription(),
-                        collaboration.getCategoryId(), collaboration.getSubcategoryId(), collaboration.getLatitude(),
-                        collaboration.getLongitude(), collaboration.getCollaborationDate())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Void>() {
-                    @Override
-                    public void onCompleted() {
-                        //Log.i("onNext_COLLABORATION: ", currentPhotoPath);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (mProgressDialog.isShowing()){
-                            mProgressDialog.dismiss();
-                        }
-                        Log.i("onError_COLLABORATION: ", e.getMessage());
-                        pendingCollaboration(collaboration);
-                    }
-
-                    @Override
-                    public void onNext(Void aVoid) {
-                        if (mProgressDialog.isShowing()){
-                            mProgressDialog.dismiss();
-                        }
-                        Toast.makeText(getBaseContext(),"Colaboração feita com sucesso!",Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                });
-    }
-
-    private void sendMidiaCollaboration(final String base_url, final Collaboration collaboration) {
-
-        RequestBody tag = RequestBody.create(MediaType.parse("text/plain"), "collaboration");
-        RequestBody userId = RequestBody.create(MediaType.parse("text/plain"),collaboration.getUserId());
-        RequestBody collabTitle = RequestBody.create(MediaType.parse("text/plain"),collaboration.getTitle());
-        RequestBody collabDescript = RequestBody.create(MediaType.parse("text/plain"),collaboration.getDescription());
-        RequestBody categoryId = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(collaboration.getCategoryId()));
-        RequestBody typeId = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(collaboration.getSubcategoryId()));
-        RequestBody latitude = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(collaboration.getLatitude()));
-        RequestBody longitude = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(collaboration.getLongitude()));
-        RequestBody date = RequestBody.create(MediaType.parse("text/plain"),collaboration.getCollaborationDate());
-
-        if(!currentPhotoPath.equals("") && !currentVideoPath.equals("")) {
-
-            //Imagem
-            File imageFile = new File(currentPhotoPath);
-            Log.i("sendCollaborationImage",imageFile.getAbsolutePath());
-            RequestBody requestImageFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
-            MultipartBody.Part imageBody =
-                    MultipartBody.Part.createFormData("image_file", imageFile.getName(), requestImageFile);
-
-            //Video
-            File videoFile = new File(currentVideoPath);
-            Log.i("sendCollaborationVideo",videoFile.getAbsolutePath());
-            RequestBody requestVideoFile = RequestBody.create(MediaType.parse("video/*"), videoFile);
-            MultipartBody.Part videoBody =
-                    MultipartBody.Part.createFormData("video_file", videoFile.getName(), requestVideoFile);
-
-            RequestBody tagImage = RequestBody.create(MediaType.parse("text/plain"), "Y");
-            RequestBody tagVideo = RequestBody.create(MediaType.parse("text/plain"), "Y");
-
-            final ProgressDialog mProgressDialog = new ProgressDialog(CollabActivity.this);
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Enviando Colaboração...");
-            mProgressDialog.show();
-
-            Call<Void> call = new RetrofitClientInitializer(base_url)
-                    .getCollaborationService()
-                    .sendFullCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
-                            collabDescript,categoryId,typeId,latitude,longitude,date,imageBody,videoBody);
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (mProgressDialog.isShowing()){
-                        mProgressDialog.dismiss();
-                    }
-                    Toast.makeText(getBaseContext(),"Colaboração feita com sucesso!",Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    if (mProgressDialog.isShowing()){
-                        mProgressDialog.dismiss();
-                    }
-                    pendingCollaboration(collaboration);
-                    Log.i("onResponse_IMAGE: ",t.getMessage());
-                }
-            });
-
-        }
-
-        else if(!currentPhotoPath.equals("")) {
-            //Imagem
-            File imageFile = new File(currentPhotoPath);
-            Log.i("sendCollaborationImage",imageFile.getAbsolutePath());
-            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
-            MultipartBody.Part body =
-                    MultipartBody.Part.createFormData("image_file", imageFile.getName(), requestFile);
-            RequestBody tagImage = RequestBody.create(MediaType.parse("text/plain"), "Y");
-            RequestBody tagVideo = RequestBody.create(MediaType.parse("text/plain"), "N");
-
-            final ProgressDialog mProgressDialog = new ProgressDialog(CollabActivity.this);
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Enviando Colaboração...");
-            mProgressDialog.show();
-
-            Call<Void> call = new RetrofitClientInitializer(base_url)
-                    .getCollaborationService()
-                    .sendSingleMidiaCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
-                            collabDescript,categoryId,typeId,latitude,longitude,date,body);
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (mProgressDialog.isShowing()){
-                        mProgressDialog.dismiss();
-                    }
-                    Toast.makeText(getBaseContext(),"Colaboração feita com sucesso!",Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    if (mProgressDialog.isShowing()){
-                        mProgressDialog.dismiss();
-                    }
-                    pendingCollaboration(collaboration);
-                    Log.i("onResponse_IMAGE: ",t.getMessage());
-                }
-            });
-        }
-
-        else {
-
-            //Video
-            File videoFile = new File(currentVideoPath);
-            Log.i("sendCollaborationVideo",videoFile.getAbsolutePath());
-            RequestBody requestFile = RequestBody.create(MediaType.parse("video/*"), videoFile);
-            MultipartBody.Part body =
-                    MultipartBody.Part.createFormData("video_file", videoFile.getName(), requestFile);
-            RequestBody tagImage = RequestBody.create(MediaType.parse("text/plain"), "N");
-            RequestBody tagVideo = RequestBody.create(MediaType.parse("text/plain"), "Y");
-
-            final ProgressDialog mProgressDialog = new ProgressDialog(CollabActivity.this);
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Enviando Colaboração...");
-            mProgressDialog.show();
-
-            Call<Void> call = new RetrofitClientInitializer(base_url)
-                    .getCollaborationService()
-                    .sendSingleMidiaCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
-                            collabDescript,categoryId,typeId,latitude,longitude,date,body);
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (mProgressDialog.isShowing()){
-                        mProgressDialog.dismiss();
-                    }
-                    Toast.makeText(getBaseContext(),"Colaboração feita com sucesso!",Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    if (mProgressDialog.isShowing()){
-                        mProgressDialog.dismiss();
-                    }
-                    pendingCollaboration(collaboration);
-                    Log.i("onResponse_IMAGE: ",t.getMessage());
-                }
-            });
-        }
-
-    }
-
-    private void pendingCollaboration(Collaboration collaboration) {
-
-        this.generalController.registerPendingCollaborations(collaboration,this.vgiSystem.getAddress());
-        Toast.makeText(this,
-                       "Não foi possível obter uma conexão com o servidor. Sua Colaboração está pendente.",
-                       Toast.LENGTH_LONG).show();
-        finish();
-
-    }
-
 
 }
 

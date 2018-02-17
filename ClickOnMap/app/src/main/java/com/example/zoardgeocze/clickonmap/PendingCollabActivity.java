@@ -15,6 +15,7 @@ import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.helper.CollaborationSender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,8 @@ public class PendingCollabActivity extends AppCompatActivity {
     private List<Collaboration> pendingCollabs = new ArrayList<>();
 
     private RecyclerView pendingCollabRecycler;
+
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,10 @@ public class PendingCollabActivity extends AppCompatActivity {
 
     }
 
+    public int getPosition() {
+        return this.position;
+    }
+
     public void closePendingCollab(View view) {
         finish();
     }
@@ -70,7 +77,7 @@ public class PendingCollabActivity extends AppCompatActivity {
 
         if(item != null) {
 
-            int position = item.getGroupId();
+            this.position = item.getGroupId();
 
             Log.i("ItemSelected_Title: ", String.valueOf(item.getTitle()));
             Log.i("ItemSelected_ID: ", String.valueOf(item.getItemId()));
@@ -83,16 +90,25 @@ public class PendingCollabActivity extends AppCompatActivity {
 
                     Collaboration collaboration = this.pendingCollabs.get(position);
 
-                    sendPendingCollaboration(position);
-                    Toast.makeText(this,"Colaboração Enviada Com Sucesso.",Toast.LENGTH_SHORT).show();
+                    CollaborationSender collaborationSender = new CollaborationSender(collaboration,this.vgiSystem.getAddress(),
+                                                                            PendingCollabActivity.this,true);
+
+                    if(collaboration.getPhoto().equals("") && collaboration.getVideo().equals("")) {
+                        collaborationSender.sendCollaborationToServer();
+                    } else {
+                        collaborationSender.sendMidiaCollaboration();
+                    }
+
                     break;
 
                 case EDIT_ID:
-
+                    //TODO: Implementar a Edição da Colaboração
                     break;
 
                 case DELETE_ID:
                     deletePendingCollaboration(position);
+                    Toast.makeText(this,"Colaboração Deletada",Toast.LENGTH_SHORT).show();
+
                     break;
 
             }
@@ -102,20 +118,13 @@ public class PendingCollabActivity extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
-    private void sendPendingCollaboration(int position) {
 
-
-
-    }
-
-    private void deletePendingCollaboration(int position) {
+    public void deletePendingCollaboration(int position) {
         //Deleção no Banco de Dados
         this.generalController.deletePendingCollaboration(this.pendingCollabs.get(position).getCollaborationId());
 
         //Deleção Local
         this.pendingCollabs.remove(position);
         this.pendingCollabRecycler.getAdapter().notifyDataSetChanged();
-
-        Toast.makeText(this,"Colaboração Deletada",Toast.LENGTH_SHORT).show();
     }
 }

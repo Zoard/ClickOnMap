@@ -1,4 +1,4 @@
-package com.example.zoardgeocze.clickonmap.Helper;
+package com.example.zoardgeocze.clickonmap.helper;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.GridLayoutManager;

@@ -30,16 +30,16 @@ public interface CollaborationService {
     @FormUrlEncoded
     @POST("mobile/")
     Observable<Void> sendCollaborationToServer(@Field("tag") String tag,
-                                                 @Field("tagImage") String tagImage,
-                                                 @Field("tagVideo") String tagVideo,
-                                                 @Field("userId") String userId,
-                                                 @Field("title") String title,
-                                                 @Field("description") String description,
-                                                 @Field("idCategory") int idCategory,
-                                                 @Field("idType") int idType,
-                                                 @Field("latitude") double latitude,
-                                                 @Field("longitude") double longitude,
-                                                 @Field("date") String date);
+                                                  @Field("tagImage") String tagImage,
+                                                  @Field("tagVideo") String tagVideo,
+                                                  @Field("userId") String userId,
+                                                  @Field("title") String title,
+                                                  @Field("description") String description,
+                                                  @Field("idCategory") int idCategory,
+                                                  @Field("idType") int idType,
+                                                  @Field("latitude") double latitude,
+                                                  @Field("longitude") double longitude,
+                                                  @Field("date") String date);
 
     @Multipart
     @POST("mobile/")
