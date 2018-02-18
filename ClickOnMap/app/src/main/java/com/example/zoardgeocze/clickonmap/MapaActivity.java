@@ -27,6 +27,8 @@ import rx.schedulers.Schedulers;
 
 public class MapaActivity extends AppCompatActivity {
 
+    public static final String NAME = "MapaActivity";
+
     private MapaFragment mapaFragment;
     private Intent intent;
     private Bundle bundle;

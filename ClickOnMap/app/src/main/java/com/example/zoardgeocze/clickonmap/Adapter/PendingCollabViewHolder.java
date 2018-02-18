@@ -16,9 +16,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.zoardgeocze.clickonmap.CollabActivity;
 import com.example.zoardgeocze.clickonmap.ContentActivity;
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
+import com.example.zoardgeocze.clickonmap.PendingCollabActivity;
 import com.example.zoardgeocze.clickonmap.R;
 
 /**
@@ -33,7 +35,6 @@ public class PendingCollabViewHolder extends RecyclerView.ViewHolder implements 
     private static final int DELETE_ID = 3;
 
     private static final String ORIGIN = "origin";
-    private static final String ACTIVITY_NAME = "PendingCollabActivity";
 
     private int itemPosition;
     private Context context;
@@ -84,7 +85,7 @@ public class PendingCollabViewHolder extends RecyclerView.ViewHolder implements 
         bundle.putSerializable("vgiSystem",this.vgiSystem);
 
         intent.putExtras(bundle);
-        intent.putExtra(ORIGIN,ACTIVITY_NAME);
+        intent.putExtra(ORIGIN,PendingCollabActivity.NAME);
 
         ((Activity)this.context).startActivity(intent);
 

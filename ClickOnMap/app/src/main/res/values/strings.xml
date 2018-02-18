@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ClickOnMap</string>
+    <string name="origin">origin</string>
 </resources>

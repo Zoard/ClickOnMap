@@ -35,6 +35,9 @@ import java.util.Observer;
 public class SystemActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
                                                                  Observer{
 
+    private static final String ORIGIN = "origin";
+    public static final String NAME = "SystemActivity";
+
     private SingletonFacadeController generalController;
 
     private Observable vgiSystemObservable;
@@ -172,16 +175,18 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
 
         if(!latText.equals("") && !lngText.equals("")) {
 
-            Intent colabIntent = new Intent(this, CollabActivity.class);
+            Intent collabIntent = new Intent(this, CollabActivity.class);
 
             Double lat = Double.valueOf(latText);
             Double lng = Double.valueOf(lngText);
 
-            colabIntent.putExtra("latitude",lat);
-            colabIntent.putExtra("longitude",lng);
-            colabIntent.putExtras(this.bundle);
+            collabIntent.putExtra("latitude",lat);
+            collabIntent.putExtra("longitude",lng);
+            collabIntent.putExtras(this.bundle);
 
-            startActivity(colabIntent);
+            collabIntent.putExtra(ORIGIN,NAME);
+
+            startActivity(collabIntent);
         } else {
             Toast.makeText(this,"Coordenadas não encontradas.\nAguardando localização do aparelho.", Toast.LENGTH_SHORT).show();
         }

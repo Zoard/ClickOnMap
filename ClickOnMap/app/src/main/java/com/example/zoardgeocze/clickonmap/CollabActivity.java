@@ -47,7 +47,9 @@ import rx.schedulers.Schedulers;
  * Created by ZoardGeocze on 08/10/17.
  */
 
-public class CollabActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class CollabActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    private static final String ORIGIN = "origin";
 
     public static final int REQUEST_TAKE_PHOTO = 100;
     public static final int REQUEST_VIDEO_CAPTURE = 101;
@@ -60,6 +62,8 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
     private Collaboration collaboration;
 
     private VGISystem vgiSystem;
+
+    private String origin;
 
     private Double latitude;
     private Double longitude;
@@ -104,9 +108,10 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
 
         this.generalController = SingletonFacadeController.getInstance();
 
-
         this.intent = getIntent();
         this.bundle = intent.getExtras();
+
+        this.origin = this.intent.getStringExtra(ORIGIN);
 
         this.vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
 

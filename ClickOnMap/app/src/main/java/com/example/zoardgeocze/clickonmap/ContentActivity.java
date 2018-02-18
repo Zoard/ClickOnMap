@@ -40,8 +40,6 @@ public class ContentActivity extends AppCompatActivity {
     private static final String VIDEO_PATH = "arquivos/";
 
     private static final String ORIGIN = "origin";
-    private static final String PendingCollabActivity = "PendingCollabActivity";
-    private static final String MapaActivity = "MapaActivity";
 
     private Collaboration collab;
     private VGISystem vgiSystem;
@@ -130,14 +128,14 @@ public class ContentActivity extends AppCompatActivity {
             File file = null;
 
             switch (originActivity) {
-                case MapaActivity:
+                case MapaActivity.NAME:
 
                     File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                     file = new File(storageDir,this.collab.getPhoto());
 
                     break;
 
-                case PendingCollabActivity:
+                case PendingCollabActivity.NAME:
 
                     file = new File(this.collab.getPhoto());
 
@@ -279,14 +277,14 @@ public class ContentActivity extends AppCompatActivity {
 
             switch (originActivity) {
 
-                case MapaActivity:
+                case MapaActivity.NAME:
 
                     File storageDir = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
                     file = new File(storageDir,this.collab.getVideo());
 
                     break;
 
-                case PendingCollabActivity:
+                case PendingCollabActivity.NAME:
 
                     file = new File(this.collab.getVideo());
 

@@ -22,6 +22,8 @@ import java.util.List;
 
 public class PendingCollabActivity extends AppCompatActivity {
 
+    public static final String NAME = "PendingCollabActivity";
+
     private SingletonFacadeController generalController;
 
     private static final int SEND_ID = 1;

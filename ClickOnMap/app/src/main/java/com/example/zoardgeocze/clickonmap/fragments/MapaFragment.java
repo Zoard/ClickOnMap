@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
 import com.example.zoardgeocze.clickonmap.ContentActivity;
+import com.example.zoardgeocze.clickonmap.MapaActivity;
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
@@ -30,7 +31,6 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
         GoogleMap.OnInfoWindowClickListener, GoogleMap.InfoWindowAdapter, GoogleMap.OnMarkerClickListener {
 
     private static final String ORIGIN = "origin";
-    private static final String ACTIVITY_NAME = "MapaActivity";
 
     private SingletonFacadeController generalController;
 
@@ -111,7 +111,7 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
         bundle.putSerializable("collab",this.collaboration);
         bundle.putSerializable("vgiSystem",this.vgiSystem);
         intent.putExtras(bundle);
-        intent.putExtra(ORIGIN,ACTIVITY_NAME);
+        intent.putExtra(ORIGIN, MapaActivity.NAME);
         startActivity(intent);
     }
 
