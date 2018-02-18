@@ -29,6 +29,9 @@ import java.util.List;
 public class MapaFragment extends SupportMapFragment implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener, GoogleMap.InfoWindowAdapter, GoogleMap.OnMarkerClickListener {
 
+    private static final String ORIGIN = "origin";
+    private static final String ACTIVITY_NAME = "MapaActivity";
+
     private SingletonFacadeController generalController;
 
     private GoogleMap map;
@@ -105,9 +108,10 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
 
         Intent intent = new Intent(this.getContext(), ContentActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("colab",this.collaboration);
+        bundle.putSerializable("collab",this.collaboration);
         bundle.putSerializable("vgiSystem",this.vgiSystem);
         intent.putExtras(bundle);
+        intent.putExtra(ORIGIN,ACTIVITY_NAME);
         startActivity(intent);
     }
 

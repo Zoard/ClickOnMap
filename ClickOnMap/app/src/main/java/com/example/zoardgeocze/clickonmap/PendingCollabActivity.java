@@ -56,9 +56,7 @@ public class PendingCollabActivity extends AppCompatActivity {
 
         this.pendingCollabs = this.generalController.getPendingCollaborations(this.vgiSystem.getAddress(),this.user.getId());
 
-        Log.i("onCreatePending: ",String.valueOf(this.pendingCollabs.get(0).getTitle()));
-
-        this.pendingCollabRecycler.setAdapter(new PendingCollabAdapter(this.pendingCollabs,this));
+        this.pendingCollabRecycler.setAdapter(new PendingCollabAdapter(this.pendingCollabs,this, this.vgiSystem));
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         this.pendingCollabRecycler.setLayoutManager(layoutManager);
 

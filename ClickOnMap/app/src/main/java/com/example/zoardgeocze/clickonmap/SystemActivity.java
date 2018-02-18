@@ -1,6 +1,9 @@
 package com.example.zoardgeocze.clickonmap;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.Shape;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -142,7 +145,10 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
 
     private void setPendingCollaborationCounter(@IdRes int itemId, int count) {
         TextView view = (TextView) this.navigationView.getMenu().findItem(itemId).getActionView();
-        view.setText(count > 0 ? String.valueOf(count) : null);
+        //ShapeDrawable shape = (ShapeDrawable) view.getBackground();
+        view.setBackgroundColor(count > 0 ? getResources().getColor(R.color.comapRed) :
+                                            getResources().getColor(R.color.comapGrey));
+        view.setText(count > 0 ? String.valueOf(count) : "0");
         Log.i("CollaborationCounter: ",String.valueOf(count));
     }
 

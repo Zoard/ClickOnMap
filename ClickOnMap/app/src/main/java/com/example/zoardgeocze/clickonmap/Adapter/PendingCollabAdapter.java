@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
+import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.R;
 
 import java.util.List;
@@ -20,11 +21,13 @@ public class PendingCollabAdapter extends RecyclerView.Adapter  {
 
     private List<Collaboration> pendingCollabs;
     private Context context;
+    private VGISystem vgiSystem;
 
-    public PendingCollabAdapter(List<Collaboration> pendingCollabs, Context context) {
+    public PendingCollabAdapter(List<Collaboration> pendingCollabs, Context context, VGISystem vgiSystem) {
 
         this.pendingCollabs = pendingCollabs;
         this.context = context;
+        this.vgiSystem = vgiSystem;
 
     }
 
@@ -33,7 +36,7 @@ public class PendingCollabAdapter extends RecyclerView.Adapter  {
 
         View view = LayoutInflater.from(context).inflate(R.layout.item_pending_collab,parent,false);
 
-        PendingCollabViewHolder holder = new PendingCollabViewHolder(view);
+        PendingCollabViewHolder holder = new PendingCollabViewHolder(view,this.context,this.vgiSystem);
 
         return holder;
     }
@@ -44,8 +47,20 @@ public class PendingCollabAdapter extends RecyclerView.Adapter  {
 
         viewHolder.setItemPosition(position);
 
-        viewHolder.pendingCollabTitle.setText(this.pendingCollabs.get(position).getTitle());
-        viewHolder.pendingCollabDate.setText(this.pendingCollabs.get(position).getCollaborationDate());
+        Collaboration pendingCollab = pendingCollabs.get(position);
+
+        viewHolder.setPendingCollaboration(pendingCollab);
+
+        viewHolder.pendingCollabTitle.setText(pendingCollab.getTitle());
+        viewHolder.pendingCollabDate.setText(pendingCollab.getCollaborationDate());
+
+        if(!pendingCollab.getPhoto().equals("")) {
+            viewHolder.pendingCollabPhoto.setBackground(this.context.getDrawable(R.drawable.photo_on));
+        }
+
+        if(!pendingCollab.getVideo().equals("")) {
+            viewHolder.pendingCollabVideo.setBackground(this.context.getDrawable(R.drawable.video_on));
+        }
 
     }
 
