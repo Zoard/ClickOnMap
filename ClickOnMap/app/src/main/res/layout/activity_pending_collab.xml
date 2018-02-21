@@ -12,20 +12,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/close_pending_collab_btn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/close"
-            android:clickable="true"
-            android:onClick="closePendingCollab" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/pending_collab_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/clickonmap"
+            app:popupTheme="@style/clickonmap">
+
+            <ImageButton
+                android:id="@+id/close_pending_collab_btn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/close"
+                android:clickable="true"
+                android:onClick="closePendingCollab" />
+
+            <com.example.zoardgeocze.clickonmap.Design.AvenirLightTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/collab_bar_title"
+                android:text="Colaborações Pendentes"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:textStyle="bold"/>
+
+
+        </android.support.v7.widget.Toolbar>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/pending_collab_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/close_pending_collab_btn"
+            android:layout_below="@+id/pending_collab_toolbar"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground" />
 

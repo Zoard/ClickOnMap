@@ -1,5 +1,6 @@
 package com.example.zoardgeocze.clickonmap;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -103,6 +105,10 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colab);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.collab_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         this.title = (EditText) findViewById(R.id.colab_title);
         this.description = (EditText) findViewById(R.id.colab_description);
 
@@ -134,6 +140,11 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
         this.photoBtn = (ImageButton) findViewById(R.id.colab_photo_btn);
         this.videoBtn = (ImageButton) findViewById(R.id.colab_video_btn);
         this.audioBtn = (ImageButton) findViewById(R.id.colab_audio_btn);
+
+        //this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_btn);
+        //this.getSupportActionBar().setTitle("Colaborar");
+        //this.getSupportActionBar().getTitle().
+        //this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.collaborate = (Button) findViewById(R.id.colab_btn);
         this.collaborate.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +182,12 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
 
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return false;
     }
 
     //Colaboração é anulada

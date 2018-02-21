@@ -452,6 +452,12 @@ public final class SingletonFacadeController {
 
     }
 
+    public void deleteAllPendingCollaborations(String id, String address) {
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        db.delete("PendingCollaborations","user_userId = '" + id + "' AND user_systemAddress = '" + address + "'");
+    }
+
     //TODO: VERIFICAR SE A DELEÇÃO DA TABELA PODE CAUSAR PROBLEMAS PARA COLABORAÇÕES PENDENTES
     //Função que registra Categorias e Tipos de Eventos
     public void registerCategory(VGISystem vgiSystem) {
@@ -639,6 +645,7 @@ public final class SingletonFacadeController {
         INSTANCE = null;
         Log.d("Teste", "Matei singleton");
     }
+
 
 
 }

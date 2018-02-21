@@ -3,6 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="textColorPrimary">#8e8e92</color>
     <color name="comapRed">#F00</color>
-    <color name="comapGrey">#8E8E92</color>
+    <color name="comapGrey">#8e8e92</color>
+    <color name="comapDarkGrey">#757575</color>
+    <color name="comapPink">#fb1353</color>
 </resources>

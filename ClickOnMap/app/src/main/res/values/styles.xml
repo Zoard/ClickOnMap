@@ -14,4 +14,13 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="clickonmap" parent="Theme.AppCompat.Light" >
+        <item name="colorAccent">@color/comapPink</item>
+        <item name="android:textColorPrimary">@color/comapGrey</item>
+        <item name="android:statusBarColor">@color/comapDarkGrey</item>
+        <item name="android:navigationBarColor">@color/comapDarkGrey</item>
+        <item name="android:colorForeground">@android:color/white</item>
+    </style>
+
+
 </resources>

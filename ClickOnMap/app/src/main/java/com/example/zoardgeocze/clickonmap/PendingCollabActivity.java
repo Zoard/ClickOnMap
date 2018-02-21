@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.zoardgeocze.clickonmap.Adapter.PendingCollabAdapter;
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
@@ -45,6 +48,11 @@ public class PendingCollabActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending_collab);
+
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.pending_collab_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         this.generalController = SingletonFacadeController.getInstance();
 
@@ -118,6 +126,37 @@ public class PendingCollabActivity extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_pending_collab_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            /*case R.id.send_pending_collab:
+                Toast.makeText(this,"Envia todos",Toast.LENGTH_SHORT).show();
+                break;*/
+            case R.id.delete_pending_collab:
+                deleteAllPendingCollaborations();
+
+                break;
+        }
+
+        return false;
+    }
+
+    private void deleteAllPendingCollaborations() {
+
+        this.generalController.deleteAllPendingCollaborations(this.user.getId(),this.vgiSystem.getAddress());
+        this.pendingCollabs.clear();
+        this.pendingCollabRecycler.getAdapter().notifyDataSetChanged();
+        
+    }
 
     public void deletePendingCollaboration(int position) {
         //Deleção no Banco de Dados
