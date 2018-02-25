@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
@@ -78,6 +79,8 @@ public class MapaActivity extends AppCompatActivity {
                         if (mProgressDialog.isShowing()){
                             mProgressDialog.dismiss();
                         }
+                        Toast.makeText(getBaseContext(),"Nenhuma conexão encontrada no momento.", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
 
                     @Override
@@ -92,13 +95,25 @@ public class MapaActivity extends AppCompatActivity {
 
     private void createMapFragment(List<Collaboration> collaborations) {
         this.collaborations = collaborations;
-        this.bundle.putParcelableArrayList("collaborations", (ArrayList<? extends Parcelable>) this.collaborations);
-        this.mapaFragment = new MapaFragment();
-        this.mapaFragment.setArguments(this.bundle);
 
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction tx = manager.beginTransaction();
-        tx.replace(R.id.map, this.mapaFragment);
-        tx.commit();
+        if(!collaborations.isEmpty()) {
+
+            this.bundle.putParcelableArrayList("collaborations", (ArrayList<? extends Parcelable>) this.collaborations);
+            this.mapaFragment = new MapaFragment();
+            this.mapaFragment.setArguments(this.bundle);
+
+            FragmentManager manager = getSupportFragmentManager();
+            FragmentTransaction tx = manager.beginTransaction();
+            tx.replace(R.id.map, this.mapaFragment);
+            tx.commit();
+
+        } else {
+
+            Toast.makeText(this,"Sistema não possui nenhuma colaboração no momento.", Toast.LENGTH_SHORT).show();
+            finish();
+
+        }
+
+
     }
 }

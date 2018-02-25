@@ -52,6 +52,7 @@ public class ContentActivity extends AppCompatActivity {
     private ImageButton photo;
     private ImageButton video;
     private ImageButton audio;
+    private TextView userName;
 
 
     @Override
@@ -63,6 +64,14 @@ public class ContentActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
         this.originActivity = intent.getStringExtra(ORIGIN);
+
+        switch (this.originActivity) {
+
+            case PendingCollabActivity.NAME:
+                //getActionBar().set
+                break;
+
+        }
 
         this.collab = (Collaboration) bundle.getSerializable("collab");
         this.vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
@@ -77,7 +86,7 @@ public class ContentActivity extends AppCompatActivity {
             if(textSize.length() <= 20) {
                 this.title.setText(collab.getTitle());
             } else {
-                this.title.setTextSize(24);
+                this.title.setTextSize(18);
                 this.title.setText(collab.getTitle());
             }
 
@@ -110,6 +119,9 @@ public class ContentActivity extends AppCompatActivity {
             } else {
                 this.audio.setBackground(getDrawable(R.drawable.speaker_on));
             }
+
+            this.userName = (TextView) findViewById(R.id.content_collaborator_name);
+            this.userName.setText(collab.getUserId());
 
         }
 
