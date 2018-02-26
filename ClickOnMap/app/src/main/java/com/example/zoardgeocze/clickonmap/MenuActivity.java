@@ -199,12 +199,12 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
         this.menuRecycler.getAdapter().notifyItemMoved(oldPosition,newPosition);
     }
 
-    @Override
+    /*@Override
     public void onItemDismiss(int position) {
         //TODO:Implementar talvez um Modal aqui confirmando a exclusão
         this.menuTiles.remove(position);
         this.menuRecycler.getAdapter().notifyDataSetChanged();
-    }
+    }*/
 
     //Realiza a atualização dos objetos VGISystem locais, caso alguma alteração seja feita na parte Web
     //Implementação do Padrão de Projeto Observer

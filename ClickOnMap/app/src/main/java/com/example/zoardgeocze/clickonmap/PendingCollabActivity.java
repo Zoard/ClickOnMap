@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -18,12 +20,15 @@ import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.helper.CallbackItemSwipe;
+import com.example.zoardgeocze.clickonmap.helper.CallbackItemTouch;
 import com.example.zoardgeocze.clickonmap.helper.CollaborationSender;
+import com.example.zoardgeocze.clickonmap.helper.ItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PendingCollabActivity extends AppCompatActivity {
+public class PendingCollabActivity extends AppCompatActivity implements CallbackItemSwipe {
 
     public static final String NAME = "PendingCollabActivity";
 
@@ -70,6 +75,9 @@ public class PendingCollabActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         this.pendingCollabRecycler.setLayoutManager(layoutManager);
 
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(this);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(this.pendingCollabRecycler);
     }
 
     public int getPosition() {
@@ -165,5 +173,20 @@ public class PendingCollabActivity extends AppCompatActivity {
         //Deleção Local
         this.pendingCollabs.remove(position);
         this.pendingCollabRecycler.getAdapter().notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onItemDismiss(int position) {
+
+
+
+    }
+
+    @Override
+    public void onItemSend(int position) {
+
+
+
     }
 }
