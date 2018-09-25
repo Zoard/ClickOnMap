@@ -95,7 +95,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("vgiSystem",systemTile.getSystem());
 
-                if(systemTile.isAvailable()) {
+                if(systemTile.getSystem().getSync() == 0) {
 
                     //Toast Implementado para Debug; Retirar posteriormente.
                     Toast.makeText(this.context,"Endereço do Tile é: " + systemTile.getSystem().getAddress(),Toast.LENGTH_SHORT).show();
@@ -115,7 +115,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
                     }
                 } else {
-                    Toast.makeText(this.context,"Sistema indisponível para colaborações.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.context,"Faça uma atualização do sistema.",Toast.LENGTH_SHORT).show();
                 }
 
             }

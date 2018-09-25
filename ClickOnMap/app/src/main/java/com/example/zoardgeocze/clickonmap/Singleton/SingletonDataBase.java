@@ -37,6 +37,7 @@ public class SingletonDataBase {
                     "lngY REAL NOT NULL," +
                     "hasSession TEXT NOT NULL,"+
                     "systemDescription TEXT NOT NULL," +
+                    "sync INTEGER NOT NULL," +
                     "PRIMARY KEY (address)" +
                     ");", // FIM CREATE TABLE
 

@@ -48,7 +48,7 @@ public final class SingletonFacadeController {
         SingletonDataBase db = SingletonDataBase.getInstance();
 
         Cursor c = db.search("SystemVGI",new String[]{"address","name","color",
-                            "collaborations","systemDescription","latX","latY","lngX","lngY"},"","");
+                            "collaborations","systemDescription","latX","latY","lngX","lngY","sync"},"","");
         Log.d("Teste", "Cont tiles: " + c.getCount());
 
         while (c.moveToNext()) {
@@ -64,6 +64,7 @@ public final class SingletonFacadeController {
             vgiSystem.setLatY(c.getDouble(c.getColumnIndex("latY")));
             vgiSystem.setLngX(c.getDouble(c.getColumnIndex("lngX")));
             vgiSystem.setLngY(c.getDouble(c.getColumnIndex("lngY")));
+            vgiSystem.setSync(c.getInt(c.getColumnIndex("sync")));
 
             List<EventCategory> categories = getCategories(vgiSystem.getAddress());
             vgiSystem.setCategory(categories);
@@ -99,6 +100,7 @@ public final class SingletonFacadeController {
         newSystemVGI.put("lngY",vgiSystem.getLngY());
         newSystemVGI.put("hasSession","Y");
         newSystemVGI.put("systemDescription",vgiSystem.getDescription());
+        newSystemVGI.put("sync",vgiSystem.getSync());
 
         db.insert("SystemVGI",newSystemVGI);
 

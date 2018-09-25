@@ -99,6 +99,11 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
 
     }
 
+    @Override
+    public void onDeletedMessages() {
+        this.generalController = SingletonFacadeController.getInstance();
+    }
+
     //Todos os métodos abaixo fazem alterações locais e avisam as activities que VGISystem foi alterado
     private void changeSystemAdress(String message, String oldAddress, String newAddress) {
 

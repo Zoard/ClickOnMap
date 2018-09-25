@@ -28,6 +28,7 @@ public class VGISystem implements Serializable, Observer {
     private double latY;
     private double lngX;
     private double lngY;
+    private int sync;
 
     public VGISystem() {
         this.address = "";
@@ -39,6 +40,7 @@ public class VGISystem implements Serializable, Observer {
         this.latY = 0.0;
         this.lngX = 0.0;
         this.lngY = 0.0;
+        this.sync = 0;
     }
 
     public VGISystem(String address, String name, String description, String color, List<EventCategory> category, int collaborations) {
@@ -140,6 +142,14 @@ public class VGISystem implements Serializable, Observer {
 
     public void setLngY(double lngY) {
         this.lngY = lngY;
+    }
+
+    public int getSync() {
+        return sync;
+    }
+
+    public void setSync(int sync) {
+        this.sync = sync;
     }
 
     @Override
