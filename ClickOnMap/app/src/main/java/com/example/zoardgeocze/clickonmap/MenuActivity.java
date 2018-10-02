@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.zoardgeocze.clickonmap.Adapter.MenuAdapter;
+import com.example.zoardgeocze.clickonmap.helper.Alert;
 import com.example.zoardgeocze.clickonmap.helper.CallbackItemTouch;
 import com.example.zoardgeocze.clickonmap.helper.ItemTouchHelperCallback;
 import com.example.zoardgeocze.clickonmap.Model.AddTile;
@@ -223,6 +224,11 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
                         }
                     }
                 }
+
+                Alert dialog = new Alert(MenuActivity.this, "Atualização", "O endereço do Servidor foi atualizado",
+                        "Ok", "Cancelar");
+                dialog.show();
+
             }
 
             else if(vgiSystemNotifier.getMessage().equals("delete_system")) {
@@ -234,6 +240,10 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
                         }
                     }
                 }
+
+                Alert dialog = new Alert(MenuActivity.this, "Atualização", "O endereço do Servidor foi atualizado",
+                        "Ok", "Cancelar");
+                dialog.show();
             }
 
             else if(vgiSystemNotifier.getMessage().equals("category_change") ||
@@ -250,6 +260,10 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
                         }
                     }
                 }
+
+                Alert dialog = new Alert(MenuActivity.this, "Atualização", "O endereço do Servidor foi atualizado",
+                        "Ok", "Cancelar");
+                dialog.show();
             }
         }
 

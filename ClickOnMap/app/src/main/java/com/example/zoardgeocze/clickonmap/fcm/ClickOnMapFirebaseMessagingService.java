@@ -3,6 +3,7 @@ package com.example.zoardgeocze.clickonmap.fcm;
 import android.util.Log;
 
 import com.example.zoardgeocze.clickonmap.Model.EventCategory;
+import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
@@ -102,6 +103,13 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
     @Override
     public void onDeletedMessages() {
         this.generalController = SingletonFacadeController.getInstance();
+
+        List<SystemTile> systems = this.generalController.getMenuTiles();
+
+        for (SystemTile system: systems) {
+            this.generalController.updateSync(system.getSystem().getAddress(),1);
+        }
+
     }
 
     //Todos os métodos abaixo fazem alterações locais e avisam as activities que VGISystem foi alterado

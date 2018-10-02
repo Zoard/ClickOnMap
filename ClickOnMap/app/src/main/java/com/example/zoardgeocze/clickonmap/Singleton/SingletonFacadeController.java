@@ -176,6 +176,20 @@ public final class SingletonFacadeController {
         return true;
     }
 
+    public boolean updateSync(String address, int sync) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        ContentValues updateSystem = new ContentValues();
+
+        updateSystem.put("sync", sync);
+
+        db.update("SystemVGI", updateSystem, "address = '" + address + "'");
+
+        return true;
+
+    }
+
     //Registra a chave fcm quando o usuário instala o aplicativo
     //Register the fcm Key when the user installs the app
     public boolean registerFirebaseKey(Context context, String firebaseKey, String creationDate) {

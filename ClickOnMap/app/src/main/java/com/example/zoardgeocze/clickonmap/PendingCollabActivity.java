@@ -10,10 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.zoardgeocze.clickonmap.Adapter.PendingCollabAdapter;
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
@@ -21,7 +19,6 @@ import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import com.example.zoardgeocze.clickonmap.helper.CallbackItemSwipe;
-import com.example.zoardgeocze.clickonmap.helper.CallbackItemTouch;
 import com.example.zoardgeocze.clickonmap.helper.CollaborationSender;
 import com.example.zoardgeocze.clickonmap.helper.ItemTouchHelperCallback;
 

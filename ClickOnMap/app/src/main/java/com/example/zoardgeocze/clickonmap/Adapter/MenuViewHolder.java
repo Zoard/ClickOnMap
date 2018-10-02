@@ -2,6 +2,7 @@ package com.example.zoardgeocze.clickonmap.Adapter;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -115,12 +116,10 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
                     }
                 } else {
-                    Toast.makeText(this.context,"Faça uma atualização do sistema.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this.context,"Atualize o sistema.",Toast.LENGTH_SHORT).show();
                 }
 
             }
-
-            //TODO: Implementar login do usuário no sistema, verificando a sessão do sistema
 
         }
     }
