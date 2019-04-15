@@ -10,6 +10,7 @@ import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.PendingCollabActivity;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.responses.DefaultDataResponse;
 
 import java.io.File;
 
@@ -63,7 +64,7 @@ public class CollaborationSender {
                         collaboration.getLongitude(), collaboration.getCollaborationDate())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Void>() {
+                .subscribe(new Subscriber<DefaultDataResponse>() {
                     @Override
                     public void onCompleted() {
                         //Log.i("onNext_COLLABORATION: ", currentPhotoPath);
@@ -84,15 +85,15 @@ public class CollaborationSender {
                     }
 
                     @Override
-                    public void onNext(Void aVoid) {
-
+                    public void onNext(DefaultDataResponse response) {
+                        //TODO: Implement Alert Dialog
                         success();
 
                         if (mProgressDialog.isShowing()){
                             mProgressDialog.dismiss();
                         }
-
                     }
+
                 });
 
     }
@@ -135,13 +136,13 @@ public class CollaborationSender {
             mProgressDialog.setMessage("Enviando Colaboração...");
             mProgressDialog.show();
 
-            Call<Void> call = new RetrofitClientInitializer(base_url)
+            Call<DefaultDataResponse> call = new RetrofitClientInitializer(base_url)
                     .getCollaborationService()
                     .sendFullCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
                             collabDescript,categoryId,typeId,latitude,longitude,date,imageBody,videoBody);
-            call.enqueue(new Callback<Void>() {
+            call.enqueue(new Callback<DefaultDataResponse>() {
                 @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
+                public void onResponse(Call<DefaultDataResponse> call, Response<DefaultDataResponse> response) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
@@ -150,7 +151,7 @@ public class CollaborationSender {
                 }
 
                 @Override
-                public void onFailure(Call<Void> call, Throwable t) {
+                public void onFailure(Call<DefaultDataResponse> call, Throwable t) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
@@ -178,23 +179,22 @@ public class CollaborationSender {
             mProgressDialog.setMessage("Enviando Colaboração...");
             mProgressDialog.show();
 
-            Call<Void> call = new RetrofitClientInitializer(base_url)
+            Call<DefaultDataResponse> call = new RetrofitClientInitializer(base_url)
                     .getCollaborationService()
                     .sendSingleMidiaCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
                             collabDescript,categoryId,typeId,latitude,longitude,date,body);
-            call.enqueue(new Callback<Void>() {
+            call.enqueue(new Callback<DefaultDataResponse>() {
                 @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
+                public void onResponse(Call<DefaultDataResponse> call, Response<DefaultDataResponse> response) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
 
                     success();
-
                 }
 
                 @Override
-                public void onFailure(Call<Void> call, Throwable t) {
+                public void onFailure(Call<DefaultDataResponse> call, Throwable t) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
@@ -222,13 +222,13 @@ public class CollaborationSender {
             mProgressDialog.setMessage("Enviando Colaboração...");
             mProgressDialog.show();
 
-            Call<Void> call = new RetrofitClientInitializer(base_url)
+            Call<DefaultDataResponse> call = new RetrofitClientInitializer(base_url)
                     .getCollaborationService()
                     .sendSingleMidiaCollaborationToServer(tag,tagImage,tagVideo,userId,collabTitle,
                             collabDescript,categoryId,typeId,latitude,longitude,date,body);
-            call.enqueue(new Callback<Void>() {
+            call.enqueue(new Callback<DefaultDataResponse>() {
                 @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
+                public void onResponse(Call<DefaultDataResponse> call, Response<DefaultDataResponse> response) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }
@@ -238,7 +238,7 @@ public class CollaborationSender {
                 }
 
                 @Override
-                public void onFailure(Call<Void> call, Throwable t) {
+                public void onFailure(Call<DefaultDataResponse> call, Throwable t) {
                     if (mProgressDialog.isShowing()){
                         mProgressDialog.dismiss();
                     }

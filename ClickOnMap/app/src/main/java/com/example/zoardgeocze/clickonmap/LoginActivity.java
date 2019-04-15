@@ -18,6 +18,9 @@ import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.responses.DefaultDataResponse;
+import com.example.zoardgeocze.clickonmap.responses.EventCategoryDataResponse;
+import com.example.zoardgeocze.clickonmap.responses.UserDataResponse;
 
 import java.util.List;
 
@@ -111,18 +114,18 @@ public class LoginActivity extends AppCompatActivity {
 
                     final String base_url = vgiSystem.getAddress() + "/";
 
-                    Call<String> call = new RetrofitClientInitializer(base_url)
+                    Call<UserDataResponse> call = new RetrofitClientInitializer(base_url)
                                             .getUserService()
                                             .verifyUser("verifyUser",userEmail,userPassword,firebaseKey);
 
-                    call.enqueue(new Callback<String>() {
+                    call.enqueue(new Callback<UserDataResponse>() {
                         @Override
-                        public void onResponse(Call<String> call, Response<String> response) {
+                        public void onResponse(Call<UserDataResponse> call, Response<UserDataResponse> response) {
 
-                            Log.i("verify_user:", response.body());
+                            Log.i("verify_user:", response.body().tag);
 
-                            if(response.body().equals("true")) {
-                                getUserFromServer(base_url,userEmail);
+                            if(response.body().success == 1) {
+                                getUserFromServer(base_url,userEmail); //TODO: USUÁRIO jÁ VEM NA RESPOSTA VERIFICAR ISTO AQUI
                                 sendMobileSystemToServer(firebaseKey);
                             } else {
                                 Toast.makeText(getBaseContext(),"Usuário não existe ou senha incorreta.",Toast.LENGTH_SHORT).show();
@@ -135,10 +138,11 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<String> call, Throwable t) {
+                        public void onFailure(Call<UserDataResponse> call, Throwable t) {
 
                             Log.i("verify_user:", t.getMessage());
 
+                            //TODO: Implementar Alert Dialog
                             Toast.makeText(getBaseContext(),"Sem conexão de rede.",Toast.LENGTH_SHORT).show();
 
                             if (mProgressDialog.isShowing()){
@@ -163,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                 .getUserFromServer("getUser",userEmail)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<User>() {
+                .subscribe(new Subscriber<UserDataResponse>() {
 
                     @Override
                     public void onCompleted() {
@@ -176,9 +180,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(User user) {
-                        loginVGISystem(user);
+                    public void onNext(UserDataResponse response) {
+                        loginVGISystem(response.user);
                     }
+
                 });
 
     }
@@ -205,7 +210,7 @@ public class LoginActivity extends AppCompatActivity {
                 .getSystemCategories("getCategories")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<EventCategory>>() {
+                .subscribe(new Subscriber<EventCategoryDataResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -217,9 +222,11 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(List<EventCategory> eventCategories) {
-                        registerConfirmation(eventCategories,user);
+                    public void onNext(EventCategoryDataResponse response) {
+                        //TODO: Implementar Alert Dialog
+                        registerConfirmation(response.categories,user);
                     }
+
                 });
     }
 
@@ -232,7 +239,7 @@ public class LoginActivity extends AppCompatActivity {
                     .sendMobileSystemToServer("sendMobileSystem",this.vgiSystem.getAddress(),firebaseKey)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<String>() {
+                    .subscribe(new Subscriber<DefaultDataResponse>() {
                         @Override
                         public void onCompleted() {
 
@@ -244,9 +251,10 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onNext(String s) {
-
+                        public void onNext(DefaultDataResponse defaultDataResponse) {
+                            //TODO: Implementar Alert Dialog
                         }
+
                     });
         }
     }

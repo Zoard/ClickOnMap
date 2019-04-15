@@ -2,6 +2,8 @@ package com.example.zoardgeocze.clickonmap.Services;
 
 import com.example.zoardgeocze.clickonmap.DTO.UserSync;
 import com.example.zoardgeocze.clickonmap.Model.User;
+import com.example.zoardgeocze.clickonmap.responses.DefaultDataResponse;
+import com.example.zoardgeocze.clickonmap.responses.UserDataResponse;
 
 
 import retrofit2.Call;
@@ -20,21 +22,21 @@ public interface UserService {
 
     @FormUrlEncoded
     @POST("mobile/")
-    Call<String> sendUserToServer(@Field("tag") String tag,
-                                  @Field("email") String email,
-                                  @Field("name") String name,
-                                  @Field("password") String password,
-                                  @Field("type") char type,
-                                  @Field("registerDate") String registerDate,
-                                  @Field("firebaseKey") String firebaseKey);
+    Call<DefaultDataResponse> sendUserToServer(@Field("tag") String tag,
+                                               @Field("email") String email,
+                                               @Field("name") String name,
+                                               @Field("password") String password,
+                                               @Field("type") char type,
+                                               @Field("registerDate") String registerDate,
+                                               @Field("firebaseKey") String firebaseKey);
 
     @FormUrlEncoded
     @POST("mobile/")
-    Call<String> verifyUser(@Field("tag") String tag, @Field("email") String email, @Field("password") String password,
+    Call<UserDataResponse> verifyUser(@Field("tag") String tag, @Field("email") String email, @Field("password") String password,
                             @Field("firebaseKey") String firebaseKey);
 
     @FormUrlEncoded
     @POST("mobile/")
-    Observable<User> getUserFromServer(@Field("tag") String tag, @Field("email") String email);
+    Observable<UserDataResponse> getUserFromServer(@Field("tag") String tag, @Field("email") String email);
 
 }

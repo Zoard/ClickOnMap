@@ -12,6 +12,7 @@ import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
 import com.example.zoardgeocze.clickonmap.helper.Alert;
 import com.example.zoardgeocze.clickonmap.observer.VGISystemNotifier;
+import com.example.zoardgeocze.clickonmap.responses.EventCategoryDataResponse;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -150,7 +151,7 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
                 .getSystemCategories("getCategories")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<EventCategory>>() {
+                .subscribe(new Subscriber<EventCategoryDataResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -162,14 +163,16 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
                     }
 
                     @Override
-                    public void onNext(List<EventCategory> eventCategories) {
+                    public void onNext(EventCategoryDataResponse response) {
+                        //TODO: Implementar Alert Dialog
                         VGISystem vgiSystem = new VGISystem();
                         vgiSystem.setAddress(oldAddress);
-                        vgiSystem.setCategory(eventCategories);
+                        vgiSystem.setCategory(response.categories);
 
                         generalController.registerCategory(vgiSystem);
                         vgiSystemNotifier.setVGIsystemNotifier(message,oldAddress,"");
                     }
+
                 });
     }
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.responses.DefaultDataResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -56,17 +57,19 @@ public class FirebaseIDService extends FirebaseInstanceIdService {
     //Enviando pro SERVER através do Retrofit
     private void sendRegistrationToServer(String refreshedToken, String formattedDate) {
 
-        Call<String> call = new RetrofitInitializer().getFirebaseService().sendFirebaseKeyToServer("send", refreshedToken, formattedDate);
-        call.enqueue(new Callback<String>() {
+        Call<DefaultDataResponse> call = new RetrofitInitializer()
+                .getFirebaseService()
+                .sendFirebaseKeyToServer("send", refreshedToken, formattedDate);
+        call.enqueue(new Callback<DefaultDataResponse>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<DefaultDataResponse> call, Response<DefaultDataResponse> response) {
                 Log.i("onResponse: ", call.toString());
-                Log.i("onResponse: ", response.body());
+                Log.i("onResponse: ", response.body().tag);
                 Log.i("onResponse: ", response.message());
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<DefaultDataResponse> call, Throwable t) {
                 Log.i("onFailure: ", "DEU ERRADO!");
             }
         });

@@ -2,6 +2,8 @@ package com.example.zoardgeocze.clickonmap.Services;
 
 import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.User;
+import com.example.zoardgeocze.clickonmap.responses.CollaborationDataResponse;
+import com.example.zoardgeocze.clickonmap.responses.DefaultDataResponse;
 
 import java.util.List;
 
@@ -29,21 +31,21 @@ public interface CollaborationService {
 
     @FormUrlEncoded
     @POST("mobile/")
-    Observable<Void> sendCollaborationToServer(@Field("tag") String tag,
-                                                  @Field("tagImage") String tagImage,
-                                                  @Field("tagVideo") String tagVideo,
-                                                  @Field("userId") String userId,
-                                                  @Field("title") String title,
-                                                  @Field("description") String description,
-                                                  @Field("idCategory") int idCategory,
-                                                  @Field("idType") int idType,
-                                                  @Field("latitude") double latitude,
-                                                  @Field("longitude") double longitude,
-                                                  @Field("date") String date);
+    Observable<DefaultDataResponse> sendCollaborationToServer(@Field("tag") String tag,
+                                                              @Field("tagImage") String tagImage,
+                                                              @Field("tagVideo") String tagVideo,
+                                                              @Field("userId") String userId,
+                                                              @Field("title") String title,
+                                                              @Field("description") String description,
+                                                              @Field("idCategory") int idCategory,
+                                                              @Field("idType") int idType,
+                                                              @Field("latitude") double latitude,
+                                                              @Field("longitude") double longitude,
+                                                              @Field("date") String date);
 
     @Multipart
     @POST("mobile/")
-    Call<Void> sendSingleMidiaCollaborationToServer(@Part("tag") RequestBody tag,
+    Call<DefaultDataResponse> sendSingleMidiaCollaborationToServer(@Part("tag") RequestBody tag,
                                                 @Part("tagImage") RequestBody tagImage,
                                                 @Part("tagVideo") RequestBody tagVideo,
                                                 @Part("userId") RequestBody userId,
@@ -58,7 +60,7 @@ public interface CollaborationService {
 
     @Multipart
     @POST("mobile/")
-    Call<Void> sendFullCollaborationToServer(@Part("tag") RequestBody tag,
+    Call<DefaultDataResponse> sendFullCollaborationToServer(@Part("tag") RequestBody tag,
                                                @Part("tagImage") RequestBody tagImage,
                                                @Part("tagVideo") RequestBody tagVideo,
                                                @Part("userId") RequestBody userId,
@@ -73,7 +75,7 @@ public interface CollaborationService {
                                                @Part MultipartBody.Part videoFile);
 
     @GET("mobile")
-    Observable<List<Collaboration>> getCollaborationsFromServer(@Query("tag") String tag);
+    Observable<CollaborationDataResponse> getCollaborationsFromServer(@Query("tag") String tag);
 
     @GET
     Observable<ResponseBody> getMidia(@Url String url);

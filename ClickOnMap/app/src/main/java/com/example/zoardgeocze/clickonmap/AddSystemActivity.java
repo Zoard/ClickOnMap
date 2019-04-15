@@ -16,6 +16,7 @@ import com.example.zoardgeocze.clickonmap.DTO.VGISystemSync;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.responses.VGISystemDataResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,7 @@ public class AddSystemActivity extends AppCompatActivity {
                 .getVGISystemList("getVGISystem")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<VGISystem>>() {
+                .subscribe(new Subscriber<VGISystemDataResponse>() {
                     @Override
                     public void onCompleted() {
                         if (mProgressDialog.isShowing()){
@@ -96,8 +97,9 @@ public class AddSystemActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(List<VGISystem> vgiSystems) {
-                        loadAvailableVGISystems(vgiSystems);
+                    public void onNext(VGISystemDataResponse response) {
+                        //TODO: Colocar Alert Dialog aqui
+                        loadAvailableVGISystems(response.vgiSystems);
                     }
                 });
 

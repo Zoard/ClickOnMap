@@ -17,6 +17,8 @@ import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.responses.DefaultDataResponse;
+import com.example.zoardgeocze.clickonmap.responses.EventCategoryDataResponse;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -144,22 +146,22 @@ public class RegisterActivity extends AppCompatActivity {
         final String base_url = this.vgiSystem.getAddress() + "/";
         Log.i("sendUserToServer: ", base_url);
 
-        Call<String> call = new RetrofitClientInitializer(base_url)
+        Call<DefaultDataResponse> call = new RetrofitClientInitializer(base_url)
                 .getUserService()
                 .sendUserToServer("insertUser",
                 this.user.getEmail(),this.user.getName(),this.user.getPassword(),
                         this.user.getType(),this.user.getRegisterDate(),this.firebaseKey);
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<DefaultDataResponse>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                Log.i("Register_User_Server: ", response.body());
+            public void onResponse(Call<DefaultDataResponse> call, Response<DefaultDataResponse> response) {
+                Log.i("Register_User_Server: ", response.body().tag);
 
-                if(response.body().equals("true")) {
+                if(response.body().success == 1) {
                     sendMobileSystemToServer(firebaseKey);
                     getSystemCategories(base_url);
                 } else {
-                    Toast.makeText(getBaseContext(),"Email já cadastrado no sistema.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(),response.body().error_msg,Toast.LENGTH_SHORT).show();
                 }
 
                 if (mProgressDialog.isShowing()){
@@ -168,7 +170,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<DefaultDataResponse> call, Throwable t) {
                 Log.i("Register_User_Server:", t.getMessage());
 
                 Toast.makeText(getBaseContext(),"Sem conexão de rede.",Toast.LENGTH_SHORT).show();
@@ -189,7 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
                     .sendMobileSystemToServer("sendMobileSystem",this.vgiSystem.getAddress(),firebaseKey)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<String>() {
+                    .subscribe(new Subscriber<DefaultDataResponse>() {
                         @Override
                         public void onCompleted() {
 
@@ -201,9 +203,10 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onNext(String s) {
-
+                        public void onNext(DefaultDataResponse defaultDataResponse) {
+                            //TODO: Implement Alert Dialog
                         }
+
                     });
         }
     }
@@ -215,7 +218,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .getSystemCategories("getCategories")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<EventCategory>>() {
+                .subscribe(new Subscriber<EventCategoryDataResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -227,9 +230,11 @@ public class RegisterActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(List<EventCategory> eventCategories) {
-                        registerConfirmation(eventCategories);
+                    public void onNext(EventCategoryDataResponse response) {
+                        //TODO: Implementar Alert Dialog
+                        registerConfirmation(response.categories);
                     }
+
                 });
 
     }

@@ -1,5 +1,7 @@
 package com.example.zoardgeocze.clickonmap.Services;
 
+import com.example.zoardgeocze.clickonmap.responses.DefaultDataResponse;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -13,9 +15,9 @@ public interface FirebaseService {
 
     @FormUrlEncoded
     @POST("FCM/")
-    Call<String> sendFirebaseKeyToServer(@Field("tag") String tag,
-                                         @Field("firebaseKey") String firebaseKey,
-                                         @Field("creationDate") String creationDate);
+    Call<DefaultDataResponse> sendFirebaseKeyToServer(@Field("tag") String tag,
+                                                      @Field("firebaseKey") String firebaseKey,
+                                                      @Field("creationDate") String creationDate);
 
 
 }

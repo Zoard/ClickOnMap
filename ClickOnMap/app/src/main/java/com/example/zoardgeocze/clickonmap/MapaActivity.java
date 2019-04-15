@@ -14,6 +14,7 @@ import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.fragments.MapaFragment;
+import com.example.zoardgeocze.clickonmap.responses.CollaborationDataResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +69,7 @@ public class MapaActivity extends AppCompatActivity {
                 .getCollaborationsFromServer("getCollaborations")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Collaboration>>() {
+                .subscribe(new Subscriber<CollaborationDataResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -84,12 +85,13 @@ public class MapaActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(List<Collaboration> collaborations) {
-                        createMapFragment(collaborations);
+                    public void onNext(CollaborationDataResponse response) {
+                        createMapFragment(response.collaborations);
                         if (mProgressDialog.isShowing()){
                             mProgressDialog.dismiss();
                         }
                     }
+
                 });
     }
 

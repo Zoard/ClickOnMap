@@ -3,6 +3,9 @@ package com.example.zoardgeocze.clickonmap.Services;
 import com.example.zoardgeocze.clickonmap.DTO.VGISystemSync;
 import com.example.zoardgeocze.clickonmap.Model.EventCategory;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
+import com.example.zoardgeocze.clickonmap.responses.DefaultDataResponse;
+import com.example.zoardgeocze.clickonmap.responses.EventCategoryDataResponse;
+import com.example.zoardgeocze.clickonmap.responses.VGISystemDataResponse;
 
 import java.util.List;
 
@@ -23,12 +26,12 @@ public interface VGISystemService {
 
     @FormUrlEncoded
     @POST("VGISystem/")
-    Observable<String> sendMobileSystemToServer(@Field("tag") String tag, @Field("systemAddress") String systemAdress, @Field("firebaseKey") String firebaseKey);
+    Observable<DefaultDataResponse> sendMobileSystemToServer(@Field("tag") String tag, @Field("systemAddress") String systemAdress, @Field("firebaseKey") String firebaseKey);
 
     @GET("VGISystem")
-    Observable<List<VGISystem>> getVGISystemList(@Query("tag") String tag);
+    Observable<VGISystemDataResponse> getVGISystemList(@Query("tag") String tag);
 
     @GET("mobile")
-    Observable<List<EventCategory>> getSystemCategories(@Query("tag") String tag);
+    Observable<EventCategoryDataResponse> getSystemCategories(@Query("tag") String tag);
 
 }
