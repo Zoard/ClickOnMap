@@ -13,7 +13,9 @@ public interface FirebaseService {
 
     @FormUrlEncoded
     @POST("FCM/")
-    Call<String> sendFirebaseKeyToServer(@Field("tag") String tag, @Field("firebaseKey") String firebaseKey, @Field("creationDate") String creationDate);
+    Call<String> sendFirebaseKeyToServer(@Field("tag") String tag,
+                                         @Field("firebaseKey") String firebaseKey,
+                                         @Field("creationDate") String creationDate);
 
 
 }

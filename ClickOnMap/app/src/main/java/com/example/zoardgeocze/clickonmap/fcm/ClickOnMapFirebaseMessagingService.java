@@ -1,12 +1,16 @@
 package com.example.zoardgeocze.clickonmap.fcm;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.util.Log;
 
+import com.example.zoardgeocze.clickonmap.MenuActivity;
 import com.example.zoardgeocze.clickonmap.Model.EventCategory;
 import com.example.zoardgeocze.clickonmap.Model.SystemTile;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Retrofit.RetrofitClientInitializer;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.helper.Alert;
 import com.example.zoardgeocze.clickonmap.observer.VGISystemNotifier;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -81,19 +85,32 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
         Log.i(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
     }
 
-    public void onMessageReceivedSystemTray(String msg, String oldAddress, String newAddress) {
+    public void onMessageReceivedSystemTray(Context context, String msg, String oldAddress, String newAddress) {
         this.generalController = SingletonFacadeController.getInstance();
         this.vgiSystemNotifier = VGISystemNotifier.getInstance();
 
         if(msg.equals("change_adress")) {
 
+            Alert dialog = new Alert(context, "Atualização", "O endereço do sistema foi atualizado.",
+                    "Ok", "Cancelar");
+            dialog.show();
+
             changeSystemAdress(msg,oldAddress,newAddress);
 
         } else if(msg.equals("delete_system")) {
 
+            Alert dialog = new Alert(context, "Atualização", "O Sistema não está mais disponível para colaboração.",
+                    "Ok", "Cancelar");
+            dialog.show();
+
             deleteSystem(msg,oldAddress);
 
         } else if (msg.equals("category_change") || msg.equals("type_change")) {
+
+            Alert dialog = new Alert(context, "Atualização", "O Sistema possui novas categorias.",
+                    "Ok", "Cancelar");
+            dialog.show();
+
             changeCategory(msg,oldAddress);
         }
 

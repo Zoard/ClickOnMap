@@ -134,7 +134,7 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
             Log.i("HANDLE_DATA: ",oldAddress);
             Log.i("HANDLE_DATA: ",newAddress);
             ClickOnMapFirebaseMessagingService comapMsgService = new ClickOnMapFirebaseMessagingService();
-            comapMsgService.onMessageReceivedSystemTray(message,oldAddress,newAddress);
+            comapMsgService.onMessageReceivedSystemTray(MenuActivity.this,message,oldAddress,newAddress);
         }
     }
 
@@ -217,17 +217,13 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
 
             if(vgiSystemNotifier.getMessage().equals("change_adress")) {
                 for(int i=0; i < this.menuTiles.size(); i++) {
-                    if(this.menuTiles.get(i) instanceof SystemTile) {
-                        if(((SystemTile) this.menuTiles.get(i))
+                    if (this.menuTiles.get(i) instanceof SystemTile) {
+                        if (((SystemTile) this.menuTiles.get(i))
                                 .getSystem().getAddress().equals(vgiSystemNotifier.getOldAddress())) {
                             ((SystemTile) this.menuTiles.get(i)).getSystem().setAddress(vgiSystemNotifier.getNewAddress());
                         }
                     }
                 }
-
-                Alert dialog = new Alert(MenuActivity.this, "Atualização", "O endereço do Servidor foi atualizado",
-                        "Ok", "Cancelar");
-                dialog.show();
 
             }
 
@@ -241,9 +237,6 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
                     }
                 }
 
-                Alert dialog = new Alert(MenuActivity.this, "Atualização", "O endereço do Servidor foi atualizado",
-                        "Ok", "Cancelar");
-                dialog.show();
             }
 
             else if(vgiSystemNotifier.getMessage().equals("category_change") ||
@@ -261,9 +254,6 @@ public class MenuActivity extends AppCompatActivity implements CallbackItemTouch
                     }
                 }
 
-                Alert dialog = new Alert(MenuActivity.this, "Atualização", "O endereço do Servidor foi atualizado",
-                        "Ok", "Cancelar");
-                dialog.show();
             }
         }
 

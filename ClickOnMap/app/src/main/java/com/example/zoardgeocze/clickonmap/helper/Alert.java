@@ -11,7 +11,7 @@ import android.support.v7.app.AlertDialog;
 
 public class Alert {
 
-    private AlertDialog.Builder builder;
+    public AlertDialog.Builder builder;
     private String title;
     private String message;
     private String okButton;
@@ -38,12 +38,12 @@ public class Alert {
                 button[0] = true;
             }
         });
-        this.builder.setNegativeButton(this.cancelButton, new DialogInterface.OnClickListener() {
+        /*this.builder.setNegativeButton(this.cancelButton, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 button[0] = false;
             }
-        });
+        });*/
         this.builder.create();
         this.builder.show();
 
