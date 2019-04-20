@@ -1,11 +1,20 @@
 package com.example.zoardgeocze.clickonmap.helper;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.LayerDrawable;
+import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.example.zoardgeocze.clickonmap.R;
+import com.example.zoardgeocze.clickonmap.Util.MyApp;
 
 /**
  * Created by ZoardGeocze on 10/08/2017.
@@ -75,17 +84,78 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
+    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        final View foregroundView = viewHolder.itemView.findViewById(R.id.pending_collab_main);
+        getDefaultUIUtil().clearView(foregroundView);
+    }
+
+    @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        Log.d("ON_CHILD_DRAW", "SWIPE");
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             // Fade out the view as it is swiped out of the parent's bounds
-            viewHolder.itemView.setBackgroundResource(R.drawable.swipe_item_dismiss);
-            final float alpha = ALPHA_FULL - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
-            viewHolder.itemView.setAlpha(alpha);
+            final View foregroundView = viewHolder.itemView.findViewById(R.id.pending_collab_main);
+            getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
+                    actionState, isCurrentlyActive);
+            View backgroundViewDelete = viewHolder.itemView.findViewById(R.id.pending_collab_swipe_dismiss);
+            View backgroundViewSend = viewHolder.itemView.findViewById(R.id.pending_collab_swipe_send);
+            //viewHolder.itemView.addTouchables
+            //final float alpha = ALPHA_FULL - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
+            //viewHolder.itemView.setAlpha(alpha);
             viewHolder.itemView.setTranslationX(dX);
             y = (int) viewHolder.itemView.getY();
+
+            if (dX < 0) {
+                Log.d("ON_CHILD_DRAW_OVER", "SWIPE_LEFT");
+                backgroundViewDelete.setVisibility(View.VISIBLE);
+                backgroundViewSend.setVisibility(View.INVISIBLE);
+            }
+
+            if (dX > 0) {
+                Log.d("ON_CHILD_DRAW_OVER", "SWIPE_RIGHT");
+                backgroundViewDelete.setVisibility(View.INVISIBLE);
+                backgroundViewSend.setVisibility(View.VISIBLE);
+            }
+
+
         } else {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
 
+    }
+
+    @Override
+    public void onChildDrawOver(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        Log.d("ON_CHILD_DRAW_OVER", "SWIPE");
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+
+            // Fade out the view as it is swiped out of the parent's bounds
+            final View foregroundView = viewHolder.itemView.findViewById(R.id.pending_collab_main);
+            getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
+                    actionState, isCurrentlyActive);
+            View backgroundViewDelete = viewHolder.itemView.findViewById(R.id.pending_collab_swipe_dismiss);
+            View backgroundViewSend = viewHolder.itemView.findViewById(R.id.pending_collab_swipe_send);
+            //viewHolder.itemView.addTouchables
+            //final float alpha = ALPHA_FULL - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
+            //viewHolder.itemView.setAlpha(alpha);
+            viewHolder.itemView.setTranslationX(dX);
+            y = (int) viewHolder.itemView.getY();
+
+            if (dX < 0) {
+                Log.d("ON_CHILD_DRAW_OVER", "SWIPE_LEFT");
+                backgroundViewDelete.setVisibility(View.VISIBLE);
+                backgroundViewSend.setVisibility(View.INVISIBLE);
+            }
+
+            if (dX > 0) {
+                Log.d("ON_CHILD_DRAW_OVER", "SWIPE_RIGHT");
+                backgroundViewDelete.setVisibility(View.INVISIBLE);
+                backgroundViewSend.setVisibility(View.VISIBLE);
+            }
+
+
+        } else {
+            super.onChildDrawOver(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
     }
 }

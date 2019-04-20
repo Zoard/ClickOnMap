@@ -92,25 +92,25 @@ public class ClickOnMapFirebaseMessagingService extends FirebaseMessagingService
 
         if(msg.equals("change_adress")) {
 
-            Alert dialog = new Alert(context, "Atualização", "O endereço do sistema foi atualizado.",
+            /*Alert dialog = new Alert(context, "Atualização", "O endereço do sistema foi atualizado.",
                     "Ok", "Cancelar");
-            dialog.show();
+            dialog.show();*/
 
             changeSystemAdress(msg,oldAddress,newAddress);
 
         } else if(msg.equals("delete_system")) {
 
-            Alert dialog = new Alert(context, "Atualização", "O Sistema não está mais disponível para colaboração.",
+            /*Alert dialog = new Alert(context, "Atualização", "O Sistema não está mais disponível para colaboração.",
                     "Ok", "Cancelar");
-            dialog.show();
+            dialog.show();*/
 
             deleteSystem(msg,oldAddress);
 
         } else if (msg.equals("category_change") || msg.equals("type_change")) {
 
-            Alert dialog = new Alert(context, "Atualização", "O Sistema possui novas categorias.",
+            /*Alert dialog = new Alert(context, "Atualização", "O Sistema possui novas categorias.",
                     "Ok", "Cancelar");
-            dialog.show();
+            dialog.show();*/
 
             changeCategory(msg,oldAddress);
         }
