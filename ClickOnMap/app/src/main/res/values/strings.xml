@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ClickOnMap</string>
     <string name="origin">origin</string>
+    <string name="Deletar">Deletar</string>
 </resources>

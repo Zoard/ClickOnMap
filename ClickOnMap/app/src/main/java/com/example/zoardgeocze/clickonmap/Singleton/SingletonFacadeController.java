@@ -417,6 +417,26 @@ public final class SingletonFacadeController {
         return true;
     }
 
+    public boolean updatePendingCollaboration(Collaboration collaboration) {
+
+        SingletonDataBase db = SingletonDataBase.getInstance();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("title",collaboration.getTitle());
+        contentValues.put("description",collaboration.getDescription());
+        contentValues.put("eventCategory_categoryId",collaboration.getCategoryId());
+        contentValues.put("eventCategory_categoryName",collaboration.getCategoryName());
+        contentValues.put("eventType_typeId",collaboration.getSubcategoryId());
+        contentValues.put("eventType_typeName",collaboration.getSubcategoryName());
+        contentValues.put("picture",collaboration.getPhoto());
+        contentValues.put("video",collaboration.getVideo());
+
+        db.update("PendingCollaborations",contentValues,"collaborationsId = '" + collaboration.getCollaborationId() + "'");
+
+        return true;
+    }
+
     public List<Collaboration> getPendingCollaborations(String systemAddress, String user_Id) {
 
         List<Collaboration> collaborationList = new ArrayList<>();

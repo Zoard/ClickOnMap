@@ -1,6 +1,8 @@
 package com.example.zoardgeocze.clickonmap;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
@@ -24,6 +26,7 @@ import com.example.zoardgeocze.clickonmap.Model.EventCategory;
 import com.example.zoardgeocze.clickonmap.Model.EventType;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.helper.Alert;
 import com.example.zoardgeocze.clickonmap.helper.CollaborationSender;
 
 import java.io.File;
@@ -52,7 +55,7 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
 
     private VGISystem vgiSystem;
 
-    private String origin;
+    private String originActivity;
 
     private Double latitude;
     private Double longitude;
@@ -96,17 +99,15 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        this.title = (EditText) findViewById(R.id.colab_title);
-        this.description = (EditText) findViewById(R.id.colab_description);
-
         this.generalController = SingletonFacadeController.getInstance();
 
         this.intent = getIntent();
         this.bundle = intent.getExtras();
 
-        this.origin = this.intent.getStringExtra(ORIGIN);
-
         this.vgiSystem = (VGISystem) bundle.getSerializable("vgiSystem");
+
+        this.title = (EditText) findViewById(R.id.colab_title);
+        this.description = (EditText) findViewById(R.id.colab_description);
 
         this.categorySpinner = (Spinner) findViewById(R.id.colab_category);
         this.categorySpinner.setOnItemSelectedListener(this);
@@ -121,19 +122,38 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
         ID = this.vgiSystem.getAddress();
         myContext = this.getBaseContext();
 
-        this.latitude = intent.getDoubleExtra("latitude",0);
-        this.longitude = intent.getDoubleExtra("longitude",0);
-
         this.photoBtn = (ImageButton) findViewById(R.id.colab_photo_btn);
         this.videoBtn = (ImageButton) findViewById(R.id.colab_video_btn);
         this.audioBtn = (ImageButton) findViewById(R.id.colab_audio_btn);
+
+        this.collaborate = (Button) findViewById(R.id.colab_btn);
+
+        this.originActivity = this.intent.getStringExtra(ORIGIN);
+        switch (this.originActivity) {
+
+            case PendingCollabActivity.NAME:
+                //getActionBar().set
+                this.collaboration = (Collaboration) bundle.getSerializable("collab");
+                configureLayoutForPendingCollaboration();
+                break;
+            case SystemActivity.NAME:
+                configureLayoutForNewCollaboration();
+                break;
+
+        }
+
+
 
         //this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_btn);
         //this.getSupportActionBar().setTitle("Colaborar");
         //this.getSupportActionBar().getTitle().
         //this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-        this.collaborate = (Button) findViewById(R.id.colab_btn);
+    private void configureLayoutForNewCollaboration() {
+        this.latitude = intent.getDoubleExtra("latitude",0);
+        this.longitude = intent.getDoubleExtra("longitude",0);
+
         this.collaborate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +173,7 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
                             latitude, longitude);
 
                     CollaborationSender collaborationSender = new CollaborationSender(collaboration,vgiSystem.getAddress(),
-                                                                                    CollabActivity.this,false);
+                            CollabActivity.this,false);
 
                     if(collaboration.getPhoto().equals("") && collaboration.getVideo().equals("")) {
                         collaborationSender.sendCollaborationToServer();
@@ -166,8 +186,64 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
                 }
             }
         });
+    }
 
+    private void configureLayoutForPendingCollaboration() {
+        this.latitude = this.collaboration.getLatitude();
+        this.longitude = this.collaboration.getLongitude();
 
+        this.title.setText(this.collaboration.getTitle());
+        this.description.setText(this.collaboration.getDescription());
+
+        if(this.collaboration.getPhoto().equals("")) {
+            this.photoBtn.setBackground(getDrawable(R.drawable.photo_off));
+        } else {
+            this.photoBtn.setBackground(getDrawable(R.drawable.photo_on));
+        }
+
+        if(this.collaboration.getVideo().equals("")) {
+            this.videoBtn.setBackground(getDrawable(R.drawable.video_off));
+        } else {
+            this.videoBtn.setBackground(getDrawable(R.drawable.video_on));
+        }
+
+        this.collaborate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!title.getText().toString().equals("") &&
+                        !choosedCategory.getDescription().equals("") &&
+                        !choosedType.getDescription().equals("")) {
+
+                    String titleText = title.getText().toString();
+                    String descriptionText = description.getText().toString();
+                    collaboration.setTitle(titleText);
+                    collaboration.setDescription(descriptionText);
+                    collaboration.setCategoryId(choosedCategory.getId());
+                    collaboration.setCategoryName(choosedCategory.getDescription());
+                    collaboration.setSubcategoryId(choosedType.getId());
+                    collaboration.setSubcategoryName(choosedType.getDescription());
+
+                    Alert alert = new Alert(CollabActivity.this,"Salvar Edição","Você deseja salvar esta edição?");
+                    alert.setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            generalController.updatePendingCollaboration(collaboration);
+                            finish();
+                        }
+                    });
+
+                    alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            return;
+                        }
+                    });
+                    alert.showDialog();
+                } else {
+                    Toast.makeText(getBaseContext(),"Os campos com * são obrigatórios", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
@@ -212,20 +288,113 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     //Tira a foto pedindo uma resposta da câmera
     public void takePicture(View view) {
 
+        switch (this.originActivity) {
+
+            case PendingCollabActivity.NAME:
+                getPictureForPendingCollaboration();
+                break;
+            case SystemActivity.NAME:
+                getPictureForNewCollaboration();
+                break;
+
+        }
+
+
+
+    }
+
+    private void getPictureForPendingCollaboration() {
+        if(!this.collaboration.getPhoto().equals("")) {
+
+            Toast.makeText(this,collaboration.getPhoto(),Toast.LENGTH_SHORT).show();
+
+            File file = null;
+
+            file = new File(this.collaboration.getPhoto());
+
+            if (file != null && file.exists()) {
+                Uri path = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(path, "image/*");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                try {
+                    Log.i("START_ACTIVITY", this.collaboration.getPhoto());
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(this,"A foto não foi encontrada em seu dispositivo.",Toast.LENGTH_SHORT).show();
+                this.collaboration.setPhoto("");
+                this.photoBtn.setBackground(getDrawable(R.drawable.photo_off));
+            }
+        } else {
+            Toast.makeText(this,"Não é possível tirar uma nova foto para uma colaboração pendente.",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void getPictureForNewCollaboration() {
         Intent takePictureIntent = new Intent(this,CameraActivity.class);
         takePictureIntent.putExtras(bundle);
         startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-
     }
 
     //Filma uma cena pedindo resposta da câmera
     public void takeVideo(View view) {
+
+        switch (this.originActivity) {
+
+            case PendingCollabActivity.NAME:
+                getVideoForPendingCollaboration();
+                break;
+            case SystemActivity.NAME:
+                getVideoForNewCollaboration();
+                break;
+
+        }
+
+    }
+
+    private void getVideoForPendingCollaboration() {
+
+        if(!this.collaboration.getVideo().equals("")) {
+
+            Toast.makeText(this,this.collaboration.getVideo(),Toast.LENGTH_SHORT).show();
+
+            File file = null;
+            file = new File(this.collaboration.getVideo());
+
+            if (file != null && file.exists()) {
+                Uri path = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(path, "video/*");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(this,"O vídeo não foi encontrado em seu dispositivo.",Toast.LENGTH_SHORT).show();
+                this.collaboration.setVideo("");
+                this.videoBtn.setBackground(getDrawable(R.drawable.video_off));
+            }
+
+
+        } else {
+            Toast.makeText(this,"Nenhum vídeo disponível ;(",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void getVideoForNewCollaboration() {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
 
@@ -250,7 +419,6 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
                 takeVideoIntent.putExtra(MediaStore.EXTRA_FINISH_ON_COMPLETION, 0);
                 startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
             }
-
 
         }
     }

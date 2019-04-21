@@ -78,7 +78,7 @@ public class PendingCollabViewHolder extends RecyclerView.ViewHolder implements 
     @Override
     public void onClick(View view) {
 
-        Intent intent = new Intent(this.context, ContentActivity.class);
+        Intent intent = new Intent(this.context, CollabActivity.class);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("collab",this.pendingCollaboration);

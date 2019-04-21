@@ -47,7 +47,7 @@ public class PendingCollabAdapter extends RecyclerView.Adapter  {
 
         viewHolder.setItemPosition(position);
 
-        Collaboration pendingCollab = pendingCollabs.get(position);
+        Collaboration pendingCollab = this.pendingCollabs.get(position);
 
         viewHolder.setPendingCollaboration(pendingCollab);
 

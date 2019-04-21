@@ -1,6 +1,8 @@
 package com.example.zoardgeocze.clickonmap;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +20,7 @@ import com.example.zoardgeocze.clickonmap.Model.Collaboration;
 import com.example.zoardgeocze.clickonmap.Model.User;
 import com.example.zoardgeocze.clickonmap.Model.VGISystem;
 import com.example.zoardgeocze.clickonmap.Singleton.SingletonFacadeController;
+import com.example.zoardgeocze.clickonmap.helper.Alert;
 import com.example.zoardgeocze.clickonmap.helper.CallbackItemSwipe;
 import com.example.zoardgeocze.clickonmap.helper.CollaborationSender;
 import com.example.zoardgeocze.clickonmap.helper.ItemTouchHelperCallback;
@@ -55,7 +58,6 @@ public class PendingCollabActivity extends AppCompatActivity implements Callback
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
         this.generalController = SingletonFacadeController.getInstance();
 
         this.pendingCollabRecycler = (RecyclerView) findViewById(R.id.pending_collab_recycler);
@@ -66,6 +68,25 @@ public class PendingCollabActivity extends AppCompatActivity implements Callback
         this.vgiSystem = (VGISystem) this.bundle.getSerializable("vgiSystem");
         this.user = this.generalController.getUser(this.vgiSystem);
 
+        configureRecyclerView();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        this.configureRecyclerView();
+    }
+
+
+    public int getPosition() {
+        return this.position;
+    }
+
+    public void closePendingCollab(View view) {
+        finish();
+    }
+
+    private void configureRecyclerView() {
         this.pendingCollabs = this.generalController.getPendingCollaborations(this.vgiSystem.getAddress(),this.user.getId());
 
         this.pendingCollabRecycler.setAdapter(new PendingCollabAdapter(this.pendingCollabs,this, this.vgiSystem));
@@ -75,14 +96,6 @@ public class PendingCollabActivity extends AppCompatActivity implements Callback
         ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(this);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(this.pendingCollabRecycler);
-    }
-
-    public int getPosition() {
-        return this.position;
-    }
-
-    public void closePendingCollab(View view) {
-        finish();
     }
 
     @Override
@@ -100,17 +113,7 @@ public class PendingCollabActivity extends AppCompatActivity implements Callback
             switch (item.getItemId()) {
 
                 case SEND_ID:
-
-                    Collaboration collaboration = this.pendingCollabs.get(position);
-
-                    CollaborationSender collaborationSender = new CollaborationSender(collaboration,this.vgiSystem.getAddress(),
-                                                                            PendingCollabActivity.this,true);
-
-                    if(collaboration.getPhoto().equals("") && collaboration.getVideo().equals("")) {
-                        collaborationSender.sendCollaborationToServer();
-                    } else {
-                        collaborationSender.sendMidiaCollaboration();
-                    }
+                    sendPendingCollaboration(position);
 
                     break;
 
@@ -133,7 +136,6 @@ public class PendingCollabActivity extends AppCompatActivity implements Callback
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_pending_collab_menu, menu);
         return true;
@@ -172,18 +174,63 @@ public class PendingCollabActivity extends AppCompatActivity implements Callback
         this.pendingCollabRecycler.getAdapter().notifyDataSetChanged();
     }
 
+    public void sendPendingCollaboration(int position) {
+        Collaboration collaboration = this.pendingCollabs.get(position);
+
+        CollaborationSender collaborationSender = new CollaborationSender(collaboration,this.vgiSystem.getAddress(),
+                PendingCollabActivity.this,true);
+
+        if(collaboration.getPhoto().equals("") && collaboration.getVideo().equals("")) {
+            collaborationSender.sendCollaborationToServer();
+        } else {
+            collaborationSender.sendMidiaCollaboration();
+        }
+    }
+
 
     @Override
-    public void onItemDismiss(int position) {
+    public void onItemDismiss(final int position) {
 
-
+        Log.d("PENDING_COLLAB", "ON_ITEM_DISMISS");
+        Alert alert = new Alert(this,"Deletar Colaboração",
+                "Você quer realmente deletar esta colaboração?");
+        alert.setPositiveButton("Deletar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deletePendingCollaboration(position);
+            }
+        });
+        alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                recreate();
+                return;
+            }
+        });
+        alert.show();
 
     }
 
     @Override
-    public void onItemSend(int position) {
+    public void onItemSend(final int position) {
 
-
+        Log.d("PENDING_COLLAB", "ON_ITEM_SEND");
+        Alert alert = new Alert(this,"Enviar Colaboração",
+                "Deseja enviar esta colaboração?");
+        alert.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sendPendingCollaboration(position);
+            }
+        });
+        alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                recreate();
+                return;
+            }
+        });
+        alert.showDialog();
 
     }
 }
