@@ -92,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_btn"
-        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
         android:text="Não possui Cadastro?"
         android:textColor="#D8D8D8" />
@@ -102,15 +102,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/login_register_ask"
+        android:layout_alignBottom="@+id/login_register_ask"
         android:layout_below="@+id/login_btn"
         android:text="Cadastre-se"
+        android:textSize="15sp"
         android:textColor="#FFFFFF"
         android:layout_marginLeft="10dp"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground" />
 
 
-    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+    <!--<com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
         android:id="@+id/login_or_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,6 +130,6 @@
         android:backgroundTint="#FFFFFF"
         android:layout_marginLeft="10dp"
         android:layout_below="@id/login_btn"
-        android:layout_toRightOf="@+id/login_or_text"/>
+        android:layout_toRightOf="@+id/login_or_text"/>-->
 
 </RelativeLayout>

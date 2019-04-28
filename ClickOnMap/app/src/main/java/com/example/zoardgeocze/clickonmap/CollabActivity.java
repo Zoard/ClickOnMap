@@ -124,7 +124,7 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
 
         this.photoBtn = (ImageButton) findViewById(R.id.colab_photo_btn);
         this.videoBtn = (ImageButton) findViewById(R.id.colab_video_btn);
-        this.audioBtn = (ImageButton) findViewById(R.id.colab_audio_btn);
+        // this.audioBtn = (ImageButton) findViewById(R.id.colab_audio_btn);
 
         this.collaborate = (Button) findViewById(R.id.colab_btn);
 
@@ -158,8 +158,8 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View v) {
                 if(!title.getText().toString().equals("") &&
-                        !choosedCategory.getDescription().equals("") &&
-                        !choosedType.getDescription().equals("")) {
+                        !description.getText().toString().equals("") &&
+                        !choosedCategory.getDescription().equals("")) {
 
                     String titleText = title.getText().toString();
                     String descriptionText = description.getText().toString();
@@ -211,8 +211,8 @@ public class CollabActivity extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View v) {
                 if(!title.getText().toString().equals("") &&
-                        !choosedCategory.getDescription().equals("") &&
-                        !choosedType.getDescription().equals("")) {
+                        !description.getText().equals("") &&
+                        !choosedCategory.getDescription().equals("")) {
 
                     String titleText = title.getText().toString();
                     String descriptionText = description.getText().toString();

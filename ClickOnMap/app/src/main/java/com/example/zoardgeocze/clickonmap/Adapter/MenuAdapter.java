@@ -1,6 +1,7 @@
 package com.example.zoardgeocze.clickonmap.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,7 @@ public class MenuAdapter extends RecyclerView.Adapter {
             holder.setTile(tile);
             holder.setAddTile(true);
             holder.tileImg.setBackgroundResource(R.drawable.add_tile_img);
+            holder.tileColor.setImageAlpha(0);
 
         } else {
 
@@ -56,11 +58,12 @@ public class MenuAdapter extends RecyclerView.Adapter {
             holder.setTile(tile);
             holder.setAddTile(false);
             holder.tileName.setText(tile.getSystem().getName());
-            holder.tileContributions.setText(String.valueOf(tile.getSystem().getCollaborations()) + " Colaborações");
+            // holder.tileContributions.setText(String.valueOf(tile.getSystem().getCollaborations()) + " Colaborações");
 
             //Adicionar Algum Ícone Específico do Sistema VGI
             //Add Some Specified Icon from the VGI System
-            holder.tileImg.setBackgroundResource(0);
+            //holder.tileImg.setBackgroundResource(0);
+            holder.tileColor.setBackgroundColor(Color.GREEN);
 
         }
 

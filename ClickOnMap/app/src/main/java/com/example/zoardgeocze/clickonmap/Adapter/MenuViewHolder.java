@@ -41,7 +41,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     final TextView tileName;
     final RelativeLayout tileLayout;
     final ImageView tileImg;
-    final TextView tileContributions;
+    final ImageView tileColor;
 
     private Context context;
     private Tile tile;
@@ -62,7 +62,7 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         tileName = (TextView) itemView.findViewById(R.id.tile_name);
         tileLayout = (RelativeLayout) itemView.findViewById(R.id.tile_main);
         tileImg = (ImageView) itemView.findViewById(R.id.tile_img);
-        tileContributions = (TextView) itemView.findViewById(R.id.tile_contribution);
+        tileColor = (ImageView) itemView.findViewById(R.id.tile_color);
 
         this.context = context;
         this.addTile = false;

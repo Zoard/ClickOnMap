@@ -51,7 +51,7 @@ public class ContentActivity extends AppCompatActivity {
     private TextView subcategory;
     private ImageButton photo;
     private ImageButton video;
-    private ImageButton audio;
+    // private ImageButton audio;
     private TextView userName;
 
 
@@ -113,12 +113,12 @@ public class ContentActivity extends AppCompatActivity {
                 this.video.setBackground(getDrawable(R.drawable.video_on));
             }
 
-            this.audio = (ImageButton) findViewById(R.id.content_audio_btn);
+            /* this.audio = (ImageButton) findViewById(R.id.content_audio_btn);
             if(collab.getAudio().equals("")) {
                 this.audio.setBackground(getDrawable(R.drawable.speaker_off));
             } else {
                 this.audio.setBackground(getDrawable(R.drawable.speaker_on));
-            }
+            } */
 
             this.userName = (TextView) findViewById(R.id.content_collaborator_name);
             this.userName.setText(collab.getUserId());
@@ -426,7 +426,7 @@ public class ContentActivity extends AppCompatActivity {
         }
     }
 
-    public void getAudio(View view) {
+    /* public void getAudio(View view) {
         Toast.makeText(this,"Nenhum áudio disponível ;(",Toast.LENGTH_SHORT).show();
-    }
+    } */
 }

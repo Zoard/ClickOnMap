@@ -76,9 +76,10 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@+id/system_description"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/line" />
 
-    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+    <!--<com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
         android:id="@+id/notification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -96,13 +97,13 @@
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@+id/notification"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp"/>-->
 
     <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
         android:id="@+id/latitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/notification"
+        android:layout_below="@+id/divisor_1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="15dp"
@@ -189,7 +190,7 @@
         android:background="@drawable/line" />
 
     <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
-        android:id="@+id/system_last_colab_title"
+        android:id="@+id/system_pending_colab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/divisor_3"
@@ -197,15 +198,15 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="15dp"
-        android:text="Última Colaboração"
+        android:text="Colab. Pendentes"
         android:textSize="15sp"
         android:textColor="#8E8E92"/>
 
     <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
-        android:id="@+id/system_last_colab"
+        android:id="@+id/system_pending_colab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/system_last_colab_title"
+        android:layout_alignBottom="@+id/system_pending_colab_title"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp"
         android:textSize="15sp"
@@ -215,10 +216,10 @@
         android:id="@+id/divisor_4"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_below="@+id/system_last_colab_title"
+        android:layout_below="@+id/system_pending_colab_title"
         android:background="@drawable/line"/>
 
-    <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+    <!--<com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
         android:id="@+id/system_most_colab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -246,7 +247,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@+id/system_most_colab_title"
-        android:background="@drawable/line"/>
+        android:background="@drawable/line"/>-->
 
 
 </RelativeLayout>

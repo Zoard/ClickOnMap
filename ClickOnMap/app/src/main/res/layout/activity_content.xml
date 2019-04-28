@@ -177,9 +177,10 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_below="@+id/content_midia_title"
-        android:layout_marginStart="60dp"
         android:clickable="true"
         android:onClick="getPicture"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="110dp"
         android:contentDescription="Ver foto"/>
 
     <ImageButton
@@ -190,9 +191,11 @@
         android:clickable="true"
         android:onClick="getVideo"
         android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="110dp"
         android:contentDescription="Ver Vídeo"/>
 
-    <ImageButton
+    <!--<ImageButton
         android:id="@+id/content_audio_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -202,7 +205,7 @@
         android:layout_centerHorizontal="true"
         android:contentDescription="Escutar Áudio"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="60dp"/>
+        android:layout_marginEnd="60dp"/>-->
 
     <ImageView
         android:id="@+id/divisor_3"

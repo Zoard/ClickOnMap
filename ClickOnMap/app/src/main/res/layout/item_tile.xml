@@ -38,16 +38,26 @@
                     android:layout_height="60dp"
                     android:layout_marginBottom="20dp"
                     android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_centerHorizontal="true"
+                    />
 
-                <com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
+                <ImageView
+                    android:id="@+id/tile_color"
+                    android:layout_width="50dp"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"/>
+
+                <!--<com.example.zoardgeocze.clickonmap.Design.AvenirBookTextView
                     android:id="@+id/tile_contribution"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tile_img"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:textSize="14sp" />
+                    android:textSize="14sp" />-->
 
 
         </RelativeLayout>

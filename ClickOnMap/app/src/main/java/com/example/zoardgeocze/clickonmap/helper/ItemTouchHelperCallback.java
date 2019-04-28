@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.example.zoardgeocze.clickonmap.Adapter.PendingCollabViewHolder;
 import com.example.zoardgeocze.clickonmap.R;
 import com.example.zoardgeocze.clickonmap.Util.MyApp;
 
@@ -85,8 +86,10 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        final View foregroundView = viewHolder.itemView.findViewById(R.id.pending_collab_main);
-        getDefaultUIUtil().clearView(foregroundView);
+        if (viewHolder instanceof PendingCollabViewHolder) {
+            final View foregroundView = viewHolder.itemView.findViewById(R.id.pending_collab_main);
+            getDefaultUIUtil().clearView(foregroundView);
+        }
     }
 
     @Override

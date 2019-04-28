@@ -89,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/text_box_1"
-                        android:text="Descrição"
+                        android:text="Descrição*"
                         android:layout_marginTop="15dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginBottom="10dp"
@@ -198,9 +198,10 @@
                         android:layout_height="50dp"
                         android:background="@drawable/photo"
                         android:layout_below="@+id/colab_midia_title"
-                        android:layout_marginStart="60dp"
                         android:clickable="true"
                         android:onClick="takePicture"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="110dp"
                         android:contentDescription="Tirar Foto"/>
 
                     <ImageButton
@@ -210,11 +211,12 @@
                         android:background="@drawable/video"
                         android:layout_below="@+id/colab_midia_title"
                         android:clickable="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="110dp"
                         android:onClick="takeVideo"
-                        android:layout_centerHorizontal="true"
                         android:contentDescription="Fazer Vídeo"/>
 
-                    <ImageButton
+                    <!--<ImageButton
                         android:id="@+id/colab_audio_btn"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -225,7 +227,7 @@
                         android:layout_centerHorizontal="true"
                         android:contentDescription="Mandar Áudio"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="60dp"/>
+                        android:layout_marginEnd="60dp"/>-->
 
                     <Button
                         android:id="@+id/colab_btn"

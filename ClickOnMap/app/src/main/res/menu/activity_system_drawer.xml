@@ -14,10 +14,10 @@
             android:icon="@drawable/ic_backup_black_48dp"
             android:title="Colaborações Pendentes"
             app:actionLayout="@layout/menu_counter" />
-        <item
+        <!--<item
             android:id="@+id/nav_configurations"
             android:title="Configurações"
-            android:icon="@drawable/ic_settings_black_48dp"/>
+            android:icon="@drawable/ic_settings_black_48dp"/>-->
         <item
             android:id="@+id/nav_logout"
             android:title="Logout"

@@ -53,7 +53,7 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
     private TextView systemDescription;
     private TextView latitudeValue;
     private TextView longitudeValue;
-    private TextView lastCollaboration;
+    private TextView pendingCollaborationCounter;
     private TextView mostCollaborations;
 
     private NavigationView navigationView;
@@ -81,15 +81,15 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
         this.latitudeValue = (TextView) findViewById(R.id.latitude_value);
         this.longitudeValue = (TextView) findViewById(R.id.longitude_value);
 
-        String lastColab = this.generalController.getLastCollaboration(this.vgiSystem.getAddress());
+        //String lastColab = this.generalController.getLastCollaboration(this.vgiSystem.getAddress());
 
-        this.lastCollaboration = (TextView) findViewById(R.id.system_last_colab);
-        this.lastCollaboration.setText(lastColab);
+        //this.pendingCollaborationCounter = (TextView) findViewById(R.id.system_pending_colab);
+        //this.pendingCollaborationCounter.setText(lastColab);
 
-        String mostColab = this.generalController.getMostCollaborator(this.vgiSystem.getAddress());
+        //String mostColab = this.generalController.getMostCollaborator(this.vgiSystem.getAddress());
 
-        this.mostCollaborations = (TextView) findViewById(R.id.system_most_colab);
-        this.mostCollaborations.setText(mostColab);
+        //this.mostCollaborations = (TextView) findViewById(R.id.system_most_colab);
+        //this.mostCollaborations.setText(mostColab);
 
         this.location = new Locationer(this,this.latitudeValue,this.longitudeValue);
 
@@ -130,17 +130,18 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
     protected void onStart() {
         super.onStart();
 
-        String lastColab = this.generalController.getLastCollaboration(this.vgiSystem.getAddress());
-
-        this.lastCollaboration = (TextView) findViewById(R.id.system_last_colab);
-        this.lastCollaboration.setText(lastColab);
-
-        String mostColab = this.generalController.getMostCollaborator(this.vgiSystem.getAddress());
-
-        this.mostCollaborations = (TextView) findViewById(R.id.system_most_colab);
-        this.mostCollaborations.setText(mostColab);
+        // String lastColab = this.generalController.getLastCollaboration(this.vgiSystem.getAddress());
 
         int pendingCollabCounter = this.generalController.getPendingCollaborationsCounter(this.vgiSystem.getAddress(),this.user.getId());
+
+        this.pendingCollaborationCounter = (TextView) findViewById(R.id.system_pending_colab);
+        this.pendingCollaborationCounter.setText(String.valueOf(pendingCollabCounter));
+
+        // String mostColab = this.generalController.getMostCollaborator(this.vgiSystem.getAddress());
+
+        /*this.mostCollaborations = (TextView) findViewById(R.id.system_most_colab);
+        this.mostCollaborations.setText(mostColab);*/
+
 
         setPendingCollaborationCounter(R.id.nav_pending_collab,pendingCollabCounter);
 
@@ -212,9 +213,7 @@ public class SystemActivity extends AppCompatActivity implements NavigationView.
             pendingCollabIntent.putExtras(this.bundle);
             startActivity(pendingCollabIntent);
 
-        } else if (id == R.id.nav_configurations) {
-
-        } else if (id == R.id.nav_logout) {
+        }  else if (id == R.id.nav_logout) {
 
             this.generalController.vgiSystemLogout(this.vgiSystem.getAddress());
             finish();
